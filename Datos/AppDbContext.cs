@@ -98,7 +98,8 @@ namespace rknRallySlotApp.Datos
                       .IsRequired();
 
                 entity.Property(i => i.Categoria)
-                      .IsRequired();
+                      .IsRequired()
+                      .HasMaxLength(25);
 
                 // Índice compuesto: No puede haber dos dorsales iguales en la misma prueba
                 entity.HasIndex(i => new { i.IdPrueba, i.Dorsal }).IsUnique();
