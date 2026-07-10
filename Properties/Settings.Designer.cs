@@ -26,9 +26,9 @@ namespace rknRallySlotApp.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=rknRallySlotApp.db")]
-        public string CadenaConexion {
+        public string DbConexString {
             get {
-                return ((string)(this["CadenaConexion"]));
+                return ((string)(this["DbConexString"]));
             }
         }
     }

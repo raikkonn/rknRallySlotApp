@@ -28,12 +28,12 @@ public partial class Form1 : Form
                 using var db = new AppDbContext();
 
                 // 2. Controlamos si ya existe el campeonato de prueba para no duplicar (por el índice UNIQUE)
-                if (!db.Campeonatos.Any(c => c.Nombre == "Campeonato Invernal RkN 2026"))
+                if (!db.Campeonatos.Any(c => c.Nombre == "AVSLOT SUMMER 2026"))
                 {
                     // 3. Instanciamos un objeto de prueba
                     var nuevoCampeonato = new Campeonato
                     {
-                        Nombre = "Campeonato Invernal RkN 2026"
+                        Nombre = "AVSLOT SUMMER 2026"
                     };
 
                     // 4. Le decimos a EF Core que lo prepare para insertar
@@ -48,7 +48,7 @@ public partial class Form1 : Form
                 else
                 {
                     // 6. Si ya existía, lo leemos para verificar la lectura
-                    var campExistente = db.Campeonatos.First(c => c.Nombre == "Campeonato Invernal RkN 2026");
+                    var campExistente = db.Campeonatos.First(c => c.Nombre == "AVSLOT SUMMER 2026");
                     MessageBox.Show($"Conexión OK. Leído de la BD: {campExistente.Nombre} (ID: {campExistente.Id})",
                                     "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

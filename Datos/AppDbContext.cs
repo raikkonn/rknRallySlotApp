@@ -16,7 +16,7 @@ namespace rknRallySlotApp.Datos
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Configura el nombre del archivo de base de datos local
-            optionsBuilder.UseSqlite(Properties.Settings.Default.CadenaConexion);
+            optionsBuilder.UseSqlite(Properties.Settings.Default.DbConexString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -50,32 +50,61 @@ namespace rknRallySlotApp.Datos
                       .IsUnique();
             });
 
-            // REGLA 3: Prueba -> Todos obligatorios y Nombre único PARA ESE campeonato
+            // REGLA 3: Coche -> Modelo obligatorio
+            modelBuilder.Entity<Coche>(entity =>
+            {
+                entity.Property(c => c.Modelo)
+                      .IsRequired()
+                      .HasMaxLength(25); 
+                
+                entity.Property(c => c.Marca)
+                      .HasMaxLength(25);
+            });
+
+
+            // REGLA 4: Prueba -> Todos obligatorios y Nombre único PARA ESE campeonato
             modelBuilder.Entity<Prueba>(entity =>
             {
-                entity.Property(p => p.Nombre).IsRequired();
-                entity.Property(p => p.NumEtapas).IsRequired();
-                entity.Property(p => p.TramosPorEtapa).IsRequired();
-                entity.Property(p => p.TiempoMaximo).IsRequired();
-                entity.Property(p => p.IdCampeonato).IsRequired();
+                entity.Property(p => p.Nombre)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.NumEtapas)
+                      .IsRequired();
+
+                entity.Property(p => p.TramosPorEtapa)
+                      .IsRequired();
+
+                entity.Property(p => p.TiempoMaximo)
+                      .IsRequired();
+
+                entity.Property(p => p.IdCampeonato)
+                      .IsRequired();
 
                 // Índice compuesto: El nombre no se puede repetir dentro del mismo campeonato
                 entity.HasIndex(p => new { p.IdCampeonato, p.Nombre }).IsUnique();
             });
 
-            // REGLA 4: Inscripcion -> Atributos obligatorios y Dorsal único PARA ESA prueba
+            // REGLA 5: Inscripcion -> Atributos obligatorios y Dorsal único PARA ESA prueba
             modelBuilder.Entity<Inscripcion>(entity =>
             {
-                entity.Property(i => i.IdPrueba).IsRequired();
-                entity.Property(i => i.IdPiloto).IsRequired();
-                entity.Property(i => i.Dorsal).IsRequired();
-                entity.Property(i => i.Categoria).IsRequired();
+                entity.Property(i => i.IdPrueba)
+                      .IsRequired();
+
+                entity.Property(i => i.IdPiloto)
+                      .IsRequired();
+
+                entity.Property(i => i.Dorsal)
+                      .IsRequired();
+
+                entity.Property(i => i.Categoria)
+                      .IsRequired();
 
                 // Índice compuesto: No puede haber dos dorsales iguales en la misma prueba
                 entity.HasIndex(i => new { i.IdPrueba, i.Dorsal }).IsUnique();
             });
 
-            // REGLA 5: TiempoTramo -> Llave primaria compuesta por tres campos
+            // REGLA 6: TiempoTramo -> Llave primaria compuesta por tres campos
             modelBuilder.Entity<TiempoTramo>(entity =>
             {
                 entity.HasKey(t => new { t.IdInscripcion, t.Etapa, t.Tramo });
