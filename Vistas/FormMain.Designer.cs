@@ -28,10 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "FormMain";
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
+            SuspendLayout();
+            // 
+            // FormMain
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(44, 62, 80);
+            BackgroundImage = Properties.Resources.avslot_logo;
+            BackgroundImageLayout = ImageLayout.Zoom;
+            ClientSize = new Size(1008, 729);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "FormMain";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "rkN RallySlot principal";
+            Load += FormMain_Load;
+            ResumeLayout(false);
         }
 
         #endregion
