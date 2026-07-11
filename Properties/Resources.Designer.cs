@@ -65,7 +65,7 @@ namespace rknRallySlotApp.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap avslot_logo {
             get {
-                object obj = ResourceManager.GetObject("avslot_logo", resourceCulture);
+                object obj = ResourceManager.GetObject("avslot logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

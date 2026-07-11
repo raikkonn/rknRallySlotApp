@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using rknRallySlotApp.Datos;
 using rknRallySlotApp.Modelos;
+using rknRallySlotApp.Utilidades;
 
 namespace rknRallySlotApp.Vistas
 {
@@ -13,51 +14,69 @@ namespace rknRallySlotApp.Vistas
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            using (var context = new AppDbContext())
+
+            using (var db = new AppDbContext())
             {
                 // El método mágico: revisa los planos de tu código y, si el archivo .db 
                 // está vacío o no tiene las tablas, las crea todas al vuelo inmediatamente.
-                context.Database.Migrate();
-            }
+                db.Database.Migrate();
 
-            // Ejecutamos la prueba dentro de un bloque try/catch por si la BD falla
-            try
-            {
-                // 1. Instanciamos el contexto de datos (equivalente a abrir la conexión)
-                using var db = new AppDbContext();
-
-                // 2. Controlamos si ya existe el campeonato de prueba para no duplicar (por el índice UNIQUE)
-                if (!db.Campeonatos.Any(c => c.Nombre == "AVSLOT SUMMER 2026"))
-                {
-                    // 3. Instanciamos un objeto de prueba
-                    var nuevoCampeonato = new Campeonato
+                // Hacemos la consulta trayendo datos de ambas tablas gracias a la relación
+                var listadoGrid = db.Pruebas
+                    .Select(p => new
                     {
-                        Nombre = "AVSLOT SUMMER 2026"
-                    };
+                        Campeonato = p.Campeonato!.Nombre, // <-- Aquí EF Core hace el JOIN automáticamente
+                        IdPrueba = p.Id,
+                        NombrePrueba = p.Nombre,
+                        Etapas = p.NumEtapas,
+                        Tramos = p.TramosPorEtapa,
+                        Tmax = p.TiempoMaximo
+                    })
+                    .ToList();
 
-                    // 4. Le decimos a EF Core que lo prepare para insertar
-                    db.Campeonatos.Add(nuevoCampeonato);
+                // Vinculamos el resultado al DataGridView
+                dgvCtoPrueba.DataSource = listadoGrid;
 
-                    // 5. Se ejecutan los comandos SQL reales contra SQLite
-                    db.SaveChanges();
+                var listaCtos = db.Campeonatos
+                    .Select(c => new SelectorItem
+                    {
+                        Id = c.Id,
+                        Nombre = c.Nombre
+                    })
+                    .ToList();
 
-                    MessageBox.Show("¡Base de datos conectada! Se ha insertado el campeonato de prueba.",
-                                    "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    // 6. Si ya existía, lo leemos para verificar la lectura
-                    var campExistente = db.Campeonatos.First(c => c.Nombre == "AVSLOT SUMMER 2026");
-                    MessageBox.Show($"Conexión OK. Leído de la BD: {campExistente.Nombre} (ID: {campExistente.Id})",
-                                    "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                // Añadimos el elemento especial al final de la lista
+                listaCtos.Add(new SelectorItem { Id = -1, Nombre = "[ nuevo ]" });
+
+                cBoxCto.DataSource = listaCtos;
+                cBoxCto.DisplayMember = "Nombre"; // Lo que se muestra en pantalla
+                cBoxCto.ValueMember = "Id";       // El valor real detrás del texto
+
+                // INDEX -1 para limpiar la INTERFAZ
+                cBoxCto.SelectedIndex = -1;
             }
-            catch (Exception ex)
+        }
+
+        private void CBoxCto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Comprobamos si hay un elemento seleccionado y si es nuestro "comodín"
+            if ((cBoxCto.SelectedValue is int idSeleccionado) && (idSeleccionado == -1))
             {
-                // Si te equivocaste en la Fluent API, el nombre de una propiedad o falta la migración, saltará aquí
-                MessageBox.Show($"Error al conectar a la base de datos: {ex.Message}\n\nDetalle: {ex.InnerException?.Message}",
-                                "Error de Persistencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Abrimos el formulario de alta como Modal (ShowDialog)
+                using (var frmAlta = new FormCto())
+                {
+                    if (frmAlta.ShowDialog() == DialogResult.OK)
+                    {
+                        // Si el usuario guardó con éxito, refrescamos este combo
+                        // RecargarComboCampeonatos();
+                    }
+                    else
+                    {
+                        // Si canceló, volvemos a seleccionar el primer elemento para no dejar el "- Añadir nuevo -" marcado
+                        cBoxCto.SelectedIndex = 0;
+                    }
+                }
             }
-        }    
+        }
     }
 }
