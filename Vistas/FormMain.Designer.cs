@@ -39,24 +39,24 @@
             inscripcionesToolStripMenuItem = new ToolStripMenuItem();
             statusStripMain = new StatusStrip();
             lblStatusMain = new ToolStripStatusLabel();
-            cBoxCto = new ComboBox();
+            cboxCto = new ComboBox();
             lblCto = new Label();
             btnNewCto = new Button();
             label1 = new Label();
-            tBoxPuntua = new TextBox();
+            tboxPuntos = new TextBox();
             btnEditCto = new Button();
             btnDelCto = new Button();
-            boxPrueba = new ComboBox();
+            cboxPrueba = new ComboBox();
             label2 = new Label();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            btnNewPrueba = new Button();
+            btnEditPrueba = new Button();
+            btnDelPrueba = new Button();
             label3 = new Label();
-            tBoxEtapas = new TextBox();
+            tboxEtapas = new TextBox();
             label4 = new Label();
-            tBoxTramos = new TextBox();
+            tboxTramos = new TextBox();
             label5 = new Label();
-            tBoxTmax = new TextBox();
+            tboxTmax = new TextBox();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)dgvCtoPrueba).BeginInit();
@@ -152,17 +152,17 @@
             lblStatusMain.Size = new Size(79, 17);
             lblStatusMain.Text = "lblStatusMain";
             // 
-            // cBoxCto
+            // cboxCto
             // 
-            cBoxCto.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            cBoxCto.DropDownStyle = ComboBoxStyle.DropDownList;
-            cBoxCto.FormattingEnabled = true;
-            cBoxCto.Location = new Point(6, 51);
-            cBoxCto.MaxLength = 50;
-            cBoxCto.Name = "cBoxCto";
-            cBoxCto.Size = new Size(260, 23);
-            cBoxCto.TabIndex = 1;
-            cBoxCto.SelectedIndexChanged += CBoxCto_SelectedIndexChanged;
+            cboxCto.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            cboxCto.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboxCto.FormattingEnabled = true;
+            cboxCto.Location = new Point(6, 51);
+            cboxCto.MaxLength = 50;
+            cboxCto.Name = "cboxCto";
+            cboxCto.Size = new Size(260, 23);
+            cboxCto.TabIndex = 1;
+            cboxCto.SelectedIndexChanged += CBoxCto_SelectedIndexChanged;
             // 
             // lblCto
             // 
@@ -177,14 +177,18 @@
             // btnNewCto
             // 
             btnNewCto.BackColor = Color.FromArgb(52, 73, 94);
-            btnNewCto.BackgroundImage = Properties.Resources.new_w;
             btnNewCto.BackgroundImageLayout = ImageLayout.Zoom;
             btnNewCto.Cursor = Cursors.Hand;
+            btnNewCto.Enabled = false;
+            btnNewCto.FlatStyle = FlatStyle.Flat;
+            btnNewCto.ForeColor = Color.Transparent;
             btnNewCto.Location = new Point(549, 44);
             btnNewCto.Name = "btnNewCto";
             btnNewCto.Size = new Size(35, 35);
-            btnNewCto.TabIndex = 3;
+            btnNewCto.TabIndex = 0;
+            btnNewCto.TabStop = false;
             btnNewCto.UseVisualStyleBackColor = false;
+            btnNewCto.Click += btnNewCto_Click;
             // 
             // label1
             // 
@@ -192,58 +196,62 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(272, 33);
             label1.Name = "label1";
-            label1.Size = new Size(68, 15);
-            label1.TabIndex = 5;
-            label1.Text = "Puntuación";
+            label1.Size = new Size(247, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Puntuación: ptos1º, ptos2º, ptos3º,...[ptos PS]";
             // 
-            // tBoxPuntua
+            // tboxPuntos
             // 
-            tBoxPuntua.BackColor = Color.FromArgb(52, 73, 94);
-            tBoxPuntua.BorderStyle = BorderStyle.FixedSingle;
-            tBoxPuntua.ForeColor = Color.White;
-            tBoxPuntua.Location = new Point(272, 52);
-            tBoxPuntua.Name = "tBoxPuntua";
-            tBoxPuntua.ReadOnly = true;
-            tBoxPuntua.Size = new Size(260, 23);
-            tBoxPuntua.TabIndex = 6;
-            tBoxPuntua.TabStop = false;
-            tBoxPuntua.Text = "ptos1º, ptos2º, ptos3º,...[ptos PS]";
+            tboxPuntos.BackColor = Color.FromArgb(52, 73, 94);
+            tboxPuntos.BorderStyle = BorderStyle.FixedSingle;
+            tboxPuntos.ForeColor = Color.White;
+            tboxPuntos.Location = new Point(272, 52);
+            tboxPuntos.Name = "tboxPuntos";
+            tboxPuntos.ReadOnly = true;
+            tboxPuntos.Size = new Size(260, 23);
+            tboxPuntos.TabIndex = 0;
+            tboxPuntos.TabStop = false;
             // 
             // btnEditCto
             // 
             btnEditCto.BackColor = Color.FromArgb(52, 73, 94);
-            btnEditCto.BackgroundImage = Properties.Resources.pencil_w;
-            btnEditCto.BackgroundImageLayout = ImageLayout.Zoom;
+            btnEditCto.BackgroundImageLayout = ImageLayout.None;
             btnEditCto.Cursor = Cursors.Hand;
+            btnEditCto.Enabled = false;
+            btnEditCto.FlatStyle = FlatStyle.Flat;
+            btnEditCto.ForeColor = Color.Transparent;
             btnEditCto.Location = new Point(590, 44);
             btnEditCto.Name = "btnEditCto";
             btnEditCto.Size = new Size(35, 35);
-            btnEditCto.TabIndex = 3;
+            btnEditCto.TabIndex = 0;
+            btnEditCto.TabStop = false;
             btnEditCto.UseVisualStyleBackColor = false;
             // 
             // btnDelCto
             // 
             btnDelCto.BackColor = Color.FromArgb(52, 73, 94);
-            btnDelCto.BackgroundImage = Properties.Resources.del_r;
             btnDelCto.BackgroundImageLayout = ImageLayout.Zoom;
             btnDelCto.Cursor = Cursors.Hand;
+            btnDelCto.Enabled = false;
+            btnDelCto.FlatStyle = FlatStyle.Flat;
+            btnDelCto.ForeColor = Color.Transparent;
             btnDelCto.Location = new Point(631, 44);
             btnDelCto.Name = "btnDelCto";
             btnDelCto.Size = new Size(35, 35);
             btnDelCto.TabIndex = 3;
             btnDelCto.UseVisualStyleBackColor = false;
             // 
-            // boxPrueba
+            // cboxPrueba
             // 
-            boxPrueba.AutoCompleteMode = AutoCompleteMode.Suggest;
-            boxPrueba.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            boxPrueba.Enabled = false;
-            boxPrueba.FormattingEnabled = true;
-            boxPrueba.Location = new Point(6, 98);
-            boxPrueba.MaxLength = 50;
-            boxPrueba.Name = "boxPrueba";
-            boxPrueba.Size = new Size(260, 23);
-            boxPrueba.TabIndex = 1;
+            cboxPrueba.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            cboxPrueba.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboxPrueba.Enabled = false;
+            cboxPrueba.FormattingEnabled = true;
+            cboxPrueba.Location = new Point(6, 98);
+            cboxPrueba.MaxLength = 50;
+            cboxPrueba.Name = "cboxPrueba";
+            cboxPrueba.Size = new Size(260, 23);
+            cboxPrueba.TabIndex = 2;
             // 
             // label2
             // 
@@ -255,41 +263,47 @@
             label2.TabIndex = 0;
             label2.Text = "Prueba (Rally)";
             // 
-            // button1
+            // btnNewPrueba
             // 
-            button1.BackColor = Color.FromArgb(52, 73, 94);
-            button1.BackgroundImage = Properties.Resources.new_w;
-            button1.BackgroundImageLayout = ImageLayout.Zoom;
-            button1.Cursor = Cursors.Hand;
-            button1.Location = new Point(414, 91);
-            button1.Name = "button1";
-            button1.Size = new Size(35, 35);
-            button1.TabIndex = 3;
-            button1.UseVisualStyleBackColor = false;
+            btnNewPrueba.BackColor = Color.FromArgb(52, 73, 94);
+            btnNewPrueba.BackgroundImageLayout = ImageLayout.Zoom;
+            btnNewPrueba.Cursor = Cursors.Hand;
+            btnNewPrueba.Enabled = false;
+            btnNewPrueba.FlatStyle = FlatStyle.Flat;
+            btnNewPrueba.ForeColor = Color.Transparent;
+            btnNewPrueba.Location = new Point(414, 91);
+            btnNewPrueba.Name = "btnNewPrueba";
+            btnNewPrueba.Size = new Size(35, 35);
+            btnNewPrueba.TabIndex = 3;
+            btnNewPrueba.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btnEditPrueba
             // 
-            button2.BackColor = Color.FromArgb(52, 73, 94);
-            button2.BackgroundImage = Properties.Resources.pencil_w;
-            button2.BackgroundImageLayout = ImageLayout.Zoom;
-            button2.Cursor = Cursors.Hand;
-            button2.Location = new Point(455, 91);
-            button2.Name = "button2";
-            button2.Size = new Size(35, 35);
-            button2.TabIndex = 3;
-            button2.UseVisualStyleBackColor = false;
+            btnEditPrueba.BackColor = Color.FromArgb(52, 73, 94);
+            btnEditPrueba.BackgroundImageLayout = ImageLayout.Zoom;
+            btnEditPrueba.Cursor = Cursors.Hand;
+            btnEditPrueba.Enabled = false;
+            btnEditPrueba.FlatStyle = FlatStyle.Flat;
+            btnEditPrueba.ForeColor = Color.Transparent;
+            btnEditPrueba.Location = new Point(455, 91);
+            btnEditPrueba.Name = "btnEditPrueba";
+            btnEditPrueba.Size = new Size(35, 35);
+            btnEditPrueba.TabIndex = 3;
+            btnEditPrueba.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnDelPrueba
             // 
-            button3.BackColor = Color.FromArgb(52, 73, 94);
-            button3.BackgroundImage = Properties.Resources.del_r;
-            button3.BackgroundImageLayout = ImageLayout.Zoom;
-            button3.Cursor = Cursors.Hand;
-            button3.Location = new Point(496, 91);
-            button3.Name = "button3";
-            button3.Size = new Size(35, 35);
-            button3.TabIndex = 3;
-            button3.UseVisualStyleBackColor = false;
+            btnDelPrueba.BackColor = Color.FromArgb(52, 73, 94);
+            btnDelPrueba.BackgroundImageLayout = ImageLayout.Zoom;
+            btnDelPrueba.Cursor = Cursors.Hand;
+            btnDelPrueba.Enabled = false;
+            btnDelPrueba.FlatStyle = FlatStyle.Flat;
+            btnDelPrueba.ForeColor = Color.Transparent;
+            btnDelPrueba.Location = new Point(496, 91);
+            btnDelPrueba.Name = "btnDelPrueba";
+            btnDelPrueba.Size = new Size(35, 35);
+            btnDelPrueba.TabIndex = 3;
+            btnDelPrueba.UseVisualStyleBackColor = false;
             // 
             // label3
             // 
@@ -298,20 +312,20 @@
             label3.Location = new Point(272, 80);
             label3.Name = "label3";
             label3.Size = new Size(41, 15);
-            label3.TabIndex = 5;
+            label3.TabIndex = 0;
             label3.Text = "Etapas";
             // 
-            // tBoxEtapas
+            // tboxEtapas
             // 
-            tBoxEtapas.BackColor = Color.FromArgb(52, 73, 94);
-            tBoxEtapas.BorderStyle = BorderStyle.FixedSingle;
-            tBoxEtapas.ForeColor = Color.White;
-            tBoxEtapas.Location = new Point(272, 99);
-            tBoxEtapas.Name = "tBoxEtapas";
-            tBoxEtapas.ReadOnly = true;
-            tBoxEtapas.Size = new Size(40, 23);
-            tBoxEtapas.TabIndex = 6;
-            tBoxEtapas.TabStop = false;
+            tboxEtapas.BackColor = Color.FromArgb(52, 73, 94);
+            tboxEtapas.BorderStyle = BorderStyle.FixedSingle;
+            tboxEtapas.ForeColor = Color.White;
+            tboxEtapas.Location = new Point(272, 99);
+            tboxEtapas.Name = "tboxEtapas";
+            tboxEtapas.ReadOnly = true;
+            tboxEtapas.Size = new Size(40, 23);
+            tboxEtapas.TabIndex = 0;
+            tboxEtapas.TabStop = false;
             // 
             // label4
             // 
@@ -320,20 +334,20 @@
             label4.Location = new Point(316, 80);
             label4.Name = "label4";
             label4.Size = new Size(46, 15);
-            label4.TabIndex = 5;
+            label4.TabIndex = 0;
             label4.Text = "Tramos";
             // 
-            // tBoxTramos
+            // tboxTramos
             // 
-            tBoxTramos.BackColor = Color.FromArgb(52, 73, 94);
-            tBoxTramos.BorderStyle = BorderStyle.FixedSingle;
-            tBoxTramos.ForeColor = Color.White;
-            tBoxTramos.Location = new Point(318, 99);
-            tBoxTramos.Name = "tBoxTramos";
-            tBoxTramos.ReadOnly = true;
-            tBoxTramos.Size = new Size(40, 23);
-            tBoxTramos.TabIndex = 6;
-            tBoxTramos.TabStop = false;
+            tboxTramos.BackColor = Color.FromArgb(52, 73, 94);
+            tboxTramos.BorderStyle = BorderStyle.FixedSingle;
+            tboxTramos.ForeColor = Color.White;
+            tboxTramos.Location = new Point(318, 99);
+            tboxTramos.Name = "tboxTramos";
+            tboxTramos.ReadOnly = true;
+            tboxTramos.Size = new Size(40, 23);
+            tboxTramos.TabIndex = 0;
+            tboxTramos.TabStop = false;
             // 
             // label5
             // 
@@ -342,20 +356,20 @@
             label5.Location = new Point(364, 80);
             label5.Name = "label5";
             label5.Size = new Size(44, 15);
-            label5.TabIndex = 5;
+            label5.TabIndex = 0;
             label5.Text = "tº max.";
             // 
-            // tBoxTmax
+            // tboxTmax
             // 
-            tBoxTmax.BackColor = Color.FromArgb(52, 73, 94);
-            tBoxTmax.BorderStyle = BorderStyle.FixedSingle;
-            tBoxTmax.ForeColor = Color.White;
-            tBoxTmax.Location = new Point(364, 99);
-            tBoxTmax.Name = "tBoxTmax";
-            tBoxTmax.ReadOnly = true;
-            tBoxTmax.Size = new Size(40, 23);
-            tBoxTmax.TabIndex = 6;
-            tBoxTmax.TabStop = false;
+            tboxTmax.BackColor = Color.FromArgb(52, 73, 94);
+            tboxTmax.BorderStyle = BorderStyle.FixedSingle;
+            tboxTmax.ForeColor = Color.White;
+            tboxTmax.Location = new Point(364, 99);
+            tboxTmax.Name = "tboxTmax";
+            tboxTmax.ReadOnly = true;
+            tboxTmax.Size = new Size(40, 23);
+            tboxTmax.TabIndex = 0;
+            tboxTmax.TabStop = false;
             // 
             // pictureBox1
             // 
@@ -387,24 +401,24 @@
             ClientSize = new Size(1264, 681);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
-            Controls.Add(tBoxTmax);
-            Controls.Add(tBoxTramos);
+            Controls.Add(tboxTmax);
+            Controls.Add(tboxTramos);
             Controls.Add(label5);
-            Controls.Add(tBoxEtapas);
+            Controls.Add(tboxEtapas);
             Controls.Add(label4);
-            Controls.Add(tBoxPuntua);
+            Controls.Add(tboxPuntos);
             Controls.Add(label3);
             Controls.Add(label1);
-            Controls.Add(button3);
+            Controls.Add(btnDelPrueba);
             Controls.Add(btnDelCto);
-            Controls.Add(button2);
+            Controls.Add(btnEditPrueba);
             Controls.Add(btnEditCto);
-            Controls.Add(button1);
+            Controls.Add(btnNewPrueba);
             Controls.Add(btnNewCto);
             Controls.Add(label2);
             Controls.Add(lblCto);
-            Controls.Add(boxPrueba);
-            Controls.Add(cBoxCto);
+            Controls.Add(cboxPrueba);
+            Controls.Add(cboxCto);
             Controls.Add(statusStripMain);
             Controls.Add(dgvCtoPrueba);
             Controls.Add(menuMain);
@@ -437,24 +451,24 @@
         private ToolStripMenuItem inscripcionesToolStripMenuItem;
         private StatusStrip statusStripMain;
         private ToolStripStatusLabel lblStatusMain;
-        private ComboBox cBoxCto;
+        private ComboBox cboxCto;
         private Label lblCto;
         private Button btnNewCto;
         private Label label1;
-        private TextBox tBoxPuntua;
+        private TextBox tboxPuntos;
         private Button btnEditCto;
         private Button btnDelCto;
-        private ComboBox boxPrueba;
+        private ComboBox cboxPrueba;
         private Label label2;
-        private Button button1;
-        private Button button2;
-        private Button button3;
+        private Button btnNewPrueba;
+        private Button btnEditPrueba;
+        private Button btnDelPrueba;
         private Label label3;
-        private TextBox tBoxEtapas;
+        private TextBox tboxEtapas;
         private Label label4;
-        private TextBox tBoxTramos;
+        private TextBox tboxTramos;
         private Label label5;
-        private TextBox tBoxTmax;
+        private TextBox tboxTmax;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
     }

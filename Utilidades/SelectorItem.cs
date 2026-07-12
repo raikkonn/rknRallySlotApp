@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace rknRallySlotApp.Utilidades
+﻿namespace rknRallySlotApp.Utilidades
 {
     public class SelectorItem
     {
