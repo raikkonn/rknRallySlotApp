@@ -162,7 +162,7 @@
             cboxCto.Name = "cboxCto";
             cboxCto.Size = new Size(260, 23);
             cboxCto.TabIndex = 1;
-            cboxCto.SelectedIndexChanged += CBoxCto_SelectedIndexChanged;
+            cboxCto.SelectedIndexChanged += CboxCto_SelectedIndexChanged;
             // 
             // lblCto
             // 
@@ -188,7 +188,7 @@
             btnNewCto.TabIndex = 0;
             btnNewCto.TabStop = false;
             btnNewCto.UseVisualStyleBackColor = false;
-            btnNewCto.Click += btnNewCto_Click;
+            btnNewCto.Click += BtnNewCto_Click;
             // 
             // label1
             // 

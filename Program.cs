@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using rknRallySlotApp.Datos;
 using rknRallySlotApp.Vistas;
 
 namespace rknRallySlotApp
@@ -13,7 +15,9 @@ namespace rknRallySlotApp
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+
             Application.Run(new FormMain());
+
         }
     }
 }
