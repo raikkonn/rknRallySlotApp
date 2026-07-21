@@ -55,6 +55,7 @@ public partial class FormMain : Form
     private void ComboCampeonatosInit()
     {
         using var db = new AppDbContext();
+
         // Obtenemos la lista de campeonatos desde la base de datos
         var listaCampeonatos = db.Campeonatos
             .Select(c => new { c.Id, c.Nombre })
@@ -65,8 +66,16 @@ public partial class FormMain : Form
         cboxCto.DataSource = listaCampeonatos;
         cboxCto.DisplayMember = "Nombre";
         cboxCto.ValueMember = "Id";
+
         // Dejar Selección Vacia
         cboxCto.SelectedIndex = -1;
+
+        btnEditCto.Enabled = false;
+        btnDelCto.Enabled = false;
+
+        cboxPrueba.Enabled = false;
+        btnNewPrueba.Enabled = false;
+
     }
 
     private void ComboPruebasInit(int idCtoSeleccionado)
@@ -126,6 +135,7 @@ public partial class FormMain : Form
                 ConsultaCampeonato(idCtoSeleccionado);
                 btnEditCto.Enabled = true;
                 btnDelCto.Enabled = true;
+
                 ComboPruebasInit(idCtoSeleccionado);
                 cboxPrueba.Enabled = true;
                 btnNewPrueba.Enabled = true;    
@@ -156,18 +166,18 @@ public partial class FormMain : Form
         if (frmAlta.ShowDialog() == DialogResult.OK)
         {
             // Si el usuario guardó con éxito, refrescamos este combo
-            // RecargarComboCampeonatos();
+            ComboCampeonatosInit();
         }
         else
         {
-            // Si canceló, volvemos a seleccionar el primer elemento para no dejar el "- Añadir nuevo -" marcado
+            // Si canceló, vaciamos el combo
             cboxCto.SelectedIndex = -1;
         }
     }
 
     private void BtnNewCto_Click(object sender, EventArgs e)
     {
-        // Abrimos el formulario de alta como Modal (ShowDialog)
+        // Abrimos el formulario de alta 
         AltaCampeonato();
     }
 

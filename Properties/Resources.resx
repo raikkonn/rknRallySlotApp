@@ -121,6 +121,15 @@
   <data name="avslot logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\avslot logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="cancel_b" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cancel_b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cancel_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cancel_r.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cancel_w" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cancel_w.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="car_b" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\car_b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
