@@ -2,8 +2,6 @@
 using rknRallySlotApp.Datos;
 using rknRallySlotApp.Modelos;
 using rknRallySlotApp.Utilidades;
-using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace rknRallySlotApp.Vistas;
 
@@ -97,4 +95,20 @@ public partial class FormCto : Form
     {
         btnSave.Enabled = !string.IsNullOrWhiteSpace(tboxCto.Text);
     }
+
+    private void TboxCto_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Enter)
+        {
+            // Evita el sonido 'beep' por defecto de Windows
+            e.SuppressKeyPress = true;
+
+            // Ejecuta el click del botón si está habilitado
+            if (btnSave.Enabled)
+            {
+                btnSave.PerformClick();
+            }
+        }
+    }
 }
+

@@ -47,6 +47,7 @@
             tboxPuntos.Name = "tboxPuntos";
             tboxPuntos.Size = new Size(260, 23);
             tboxPuntos.TabIndex = 2;
+            tboxPuntos.KeyDown += TboxCto_KeyDown;
             // 
             // lblPtos1
             // 
@@ -121,6 +122,7 @@
             tboxCto.Size = new Size(260, 23);
             tboxCto.TabIndex = 1;
             tboxCto.TextChanged += TboxCto_TextChanged;
+            tboxCto.KeyDown += TboxCto_KeyDown;
             // 
             // lblPtos2
             // 

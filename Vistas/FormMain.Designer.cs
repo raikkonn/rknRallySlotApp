@@ -148,6 +148,7 @@
             // lblStatusMain
             // 
             lblStatusMain.BackColor = Color.Transparent;
+            lblStatusMain.DisplayStyle = ToolStripItemDisplayStyle.Text;
             lblStatusMain.Name = "lblStatusMain";
             lblStatusMain.Size = new Size(79, 17);
             lblStatusMain.Text = "lblStatusMain";
@@ -240,6 +241,7 @@
             btnDelCto.Size = new Size(35, 35);
             btnDelCto.TabIndex = 3;
             btnDelCto.UseVisualStyleBackColor = false;
+            btnDelCto.Click += BtnDelCto_Click;
             // 
             // cboxPrueba
             // 
