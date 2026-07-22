@@ -13,12 +13,6 @@ public partial class FormMain : Form
 
     private void FormMain_Load(object sender, EventArgs e)
     {
-        using (var db = new AppDbContext())
-        {
-            // Migracion de la base de datos para asegurarnos de que la estructura está actualizad
-            db.Database.Migrate();
-        }
-
         // Inicializaciones
         BotonesInit();
         ComboCampeonatosInit();

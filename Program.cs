@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using rknRallySlotApp.Datos;
 using rknRallySlotApp.Vistas;
 
 namespace rknRallySlotApp
@@ -16,7 +14,7 @@ namespace rknRallySlotApp
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            Application.Run(new FormMain());
+            Application.Run(new FormSplash());
 
         }
     }

@@ -429,7 +429,7 @@
             MainMenuStrip = menuMain;
             Name = "FormMain";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "rkN RallySlot principal";
+            Text = "rkN RallySlot";
             Load += FormMain_Load;
             ((System.ComponentModel.ISupportInitialize)dgvCtoPrueba).EndInit();
             menuMain.ResumeLayout(false);
