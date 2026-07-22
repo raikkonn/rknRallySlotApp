@@ -7,14 +7,21 @@ namespace rknRallySlotApp.Vistas;
 
 public partial class FormCto : Form
 {
-    // Propiedad pública de lectura para devolver el ID recién creado al FormMain
-    public int IdCampeonatoCreado { get; private set; }
+    private readonly ToolTip _toolTip = new();
+    public int IdCampeonatoCreado { get; private set; } // Para devolver el ID recién creado
 
     public FormCto(String titulo)
     {
         InitializeComponent();
+        ConfigurarToolTips();
 
         lblFrmCto.Text = titulo;
+    }
+
+    private void ConfigurarToolTips()
+    {
+        _toolTip.SetToolTip(btnSave, "Grabar");
+        _toolTip.SetToolTip(btnCancel, "Cancelar");
     }
 
     private void FormCto_Load(object sender, EventArgs e)

@@ -6,9 +6,22 @@ namespace rknRallySlotApp.Vistas;
 
 public partial class FormMain : Form
 {
+    private readonly ToolTip _toolTip = new();
+
     public FormMain()
     {
         InitializeComponent();
+        ConfigurarToolTips();
+    }
+
+    private void ConfigurarToolTips()
+    {
+        _toolTip.SetToolTip(btnNewCto, "Nuevo Campeonato");
+        _toolTip.SetToolTip(btnEditCto, "Modificar Campeonato");
+        _toolTip.SetToolTip(btnDelCto, "Borrar Campeonato");
+        _toolTip.SetToolTip(btnNewPrueba, "Nueva Prueba");
+        _toolTip.SetToolTip(btnEditPrueba, "Modificar Prueba");
+        _toolTip.SetToolTip(btnDelPrueba, "Borrar Prueba");
     }
 
     private void FormMain_Load(object sender, EventArgs e)
