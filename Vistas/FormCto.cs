@@ -10,9 +10,11 @@ public partial class FormCto : Form
     // Propiedad pública de lectura para devolver el ID recién creado al FormMain
     public int IdCampeonatoCreado { get; private set; }
 
-    public FormCto()
+    public FormCto(String titulo)
     {
         InitializeComponent();
+
+        lblFrmCto.Text = titulo;
     }
 
     private void FormCto_Load(object sender, EventArgs e)
@@ -31,15 +33,14 @@ public partial class FormCto : Form
         btnCancel.Image = Properties.Resources.cancel_r.Zoom(btnCancel.Width - 15, btnCancel.Height - 15);
         btnCancel.ImageAlign = ContentAlignment.MiddleCenter;
         btnCancel.Enabled = true;
-
     }
 
     private void BtnSave_Click(object sender, EventArgs e)
     {
-        // 1. Sanitización de texto: elimina espacios múltiples/extremos y aplica TitleCase (Ej: "  rally  de  navidad " -> "Rally De Navidad")
+        // Saneado texto: elimina espacios múltiples/extremos y aplica TitleCase (Ej: "  rally  de  navidad " -> "Rally De Navidad")
         string nombreLimpio = TxtTools.TrimCleanAndTitle(tboxCto.Text);
 
-        // 2. Operación de persistencia con EF Core
+        // Operación de persistencia con EF Core
         using var db = new AppDbContext();
 
         // Validar que no exista otro campeonato con el mismo nombre (Ignorando mayúsculas/minúsculas)
@@ -47,7 +48,7 @@ public partial class FormCto : Form
 
         if (existe)
         {
-            MessageBox.Show($"Ya existe un campeonato registrado con el nombre '{nombreLimpio}'.",
+            MessageBox.Show($"Ya existe un campeonato registrado como '{nombreLimpio}'.",
                             "Nombre Duplicado",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
@@ -96,7 +97,7 @@ public partial class FormCto : Form
         btnSave.Enabled = !string.IsNullOrWhiteSpace(tboxCto.Text);
     }
 
-    private void TboxCto_KeyDown(object sender, KeyEventArgs e)
+    private void All_tbox_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.KeyCode == Keys.Enter)
         {
@@ -107,6 +108,18 @@ public partial class FormCto : Form
             if (btnSave.Enabled)
             {
                 btnSave.PerformClick();
+            }
+        }
+
+        if (e.KeyCode == Keys.Escape)
+        {
+            // Evita el sonido 'beep' por defecto de Windows
+            e.SuppressKeyPress = true;
+
+            // Ejecuta el click del botón si está habilitado
+            if (btnCancel.Enabled)
+            {
+                btnCancel.PerformClick();
             }
         }
     }

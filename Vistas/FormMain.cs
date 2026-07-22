@@ -19,57 +19,102 @@ public partial class FormMain : Form
             db.Database.Migrate();
         }
 
-        // Asignacion de imagenes a los botones
+        // Inicializaciones
         BotonesInit();
         ComboCampeonatosInit();
-        DataGridInscripcionInit();
+
+        //DataGridInscripcionInit();
     }
 
     private void BotonesInit()
     {
         btnNewCto.Image = Properties.Resources.new_b.Zoom(btnEditCto.Width - 5, btnEditCto.Height - 5);
         btnNewCto.ImageAlign = ContentAlignment.MiddleCenter;
-        btnNewCto.Enabled = true;
 
         btnEditCto.Image = Properties.Resources.pencil_b.Zoom(btnEditCto.Width - 5, btnEditCto.Height - 5);
         btnEditCto.ImageAlign = ContentAlignment.MiddleCenter;
-        btnEditCto.Enabled = false;
 
         btnDelCto.Image = Properties.Resources.del_r.Zoom(btnEditCto.Width - 5, btnEditCto.Height - 5);
         btnDelCto.ImageAlign = ContentAlignment.MiddleCenter;
-        btnDelCto.Enabled = false;
 
         btnNewPrueba.Image = Properties.Resources.new_b.Zoom(btnEditCto.Width - 5, btnEditCto.Height - 5);
         btnNewPrueba.ImageAlign = ContentAlignment.MiddleCenter;
-        btnNewPrueba.Enabled = false;
 
         btnEditPrueba.Image = Properties.Resources.pencil_b.Zoom(btnEditCto.Width - 5, btnEditCto.Height - 5);
         btnEditPrueba.ImageAlign = ContentAlignment.MiddleCenter;
-        btnEditPrueba.Enabled = false;
 
         btnDelPrueba.Image = Properties.Resources.del_r.Zoom(btnEditCto.Width - 5, btnEditCto.Height - 5);
         btnDelPrueba.ImageAlign = ContentAlignment.MiddleCenter;
-        btnDelPrueba.Enabled = false;
+    }
+
+    private void ControlesEnableDisable()
+    {
+        if (cboxCto.SelectedValue is int iCto && iCto > 0)
+        {
+            btnNewCto.Enabled = true;
+            btnEditCto.Enabled = true;
+            btnDelCto.Enabled = true;
+
+            cboxPrueba.Enabled = true;
+
+            if (cboxPrueba.SelectedValue is int iPrueba && iPrueba > 0)
+            {
+                btnNewPrueba.Enabled = true;
+                btnEditPrueba.Enabled = true;
+                btnDelPrueba.Enabled = true;
+            }
+            else
+            {
+                btnNewPrueba.Enabled = true;
+                btnEditPrueba.Enabled = false;
+                btnDelPrueba.Enabled = false;
+            }
+        }
+        else
+        {
+            tboxPuntos.Clear();
+
+            btnNewCto.Enabled = true;
+            btnEditCto.Enabled = false;
+            btnDelCto.Enabled = false;
+
+            cboxPrueba.Enabled = false;
+
+            btnNewPrueba.Enabled = false;
+            btnEditPrueba.Enabled = false;
+            btnDelPrueba.Enabled = false;
+        }
     }
 
     private void ComboCampeonatosInit()
     {
-        using var db = new AppDbContext();
+        cboxCto.SelectedIndexChanged -= CboxCto_SelectedIndexChanged;
 
-        // Obtenemos la lista de campeonatos desde la base de datos
-        var listaCampeonatos = db.Campeonatos
-            .Select(c => new { c.Id, c.Nombre })
-            .ToList();
-        // Agregamos un elemento "comodín" al final de la lista
-        listaCampeonatos.Add(new { Id = -9, Nombre = "- Añadir nuevo -" });
-        // Asignamos la lista al ComboBox
-        cboxCto.DataSource = listaCampeonatos;
-        cboxCto.DisplayMember = "Nombre";
-        cboxCto.ValueMember = "Id";
+        try
+        {
+            using var db = new AppDbContext();
 
-        // Dejar Selección Vacia
-        cboxCto.SelectedIndex = -1;
-        tboxPuntos.Clear();
+            // Obtenemos la lista de campeonatos desde la base de datos
+            var listaCampeonatos = db.Campeonatos
+                .Select(c => new { c.Id, c.Nombre })
+                .ToList();
+
+            // Agregamos un elemento "comodín" al final de la lista
+            listaCampeonatos.Add(new { Id = -5, Nombre = "- Añadir nuevo -" });
+
+            // Asignamos la lista al ComboBox
+            cboxCto.DataSource = listaCampeonatos;
+            cboxCto.DisplayMember = "Nombre";
+            cboxCto.ValueMember = "Id";
+
+            // Dejar Selección Vacia
+            cboxCto.SelectedIndex = -1;
+            ControlesEnableDisable();
+        }
+        finally
+        {
+            cboxCto.SelectedIndexChanged += CboxCto_SelectedIndexChanged;
+        }
     }
 
     private void ComboPruebasInit(int idCtoSeleccionado)
@@ -81,19 +126,24 @@ public partial class FormMain : Form
             .Where(p => p.IdCampeonato == idCtoSeleccionado)
             .Select(p => new { p.Id, p.Nombre })
             .ToList();
+
         // Agregamos un elemento "comodín" al final de la lista
-        listaPruebas.Add(new { Id = -9, Nombre = "- Añadir nuevo -" });
+        listaPruebas.Add(new { Id = -5, Nombre = "- Añadir nuevo -" });
+
         // Asignamos la lista al ComboBox
         cboxPrueba.DataSource = listaPruebas;
         cboxPrueba.DisplayMember = "Nombre";
         cboxPrueba.ValueMember = "Id";
+
         // Dejar Selección Vacia
         cboxPrueba.SelectedIndex = -1;
+        ControlesEnableDisable();
     }
 
     private void DataGridInscripcionInit()
     {
         using var db = new AppDbContext();
+
         // Hacemos la consulta trayendo datos de ambas tablas gracias a la relación
         var listaGrid = db.Inscripciones
             .Select(i => new
@@ -110,40 +160,36 @@ public partial class FormMain : Form
         dgvCtoPrueba.DataSource = listaGrid;
     }
 
-    private void CboxCto_SelectedIndexChanged(object sender, EventArgs e)
+    private void CboxCto_SelectedIndexChanged(object? sender, EventArgs e)
     {
-        // 1. Extraemos y validamos el ID usando Pattern Matching seguro
-        if (cboxCto.SelectedValue is int idCtoSeleccionado)
+        if (cboxCto.SelectedValue is int idSelected)
         {
-            // 2. Controlamos la opción especial de "Añadir Nuevo"
-            if (idCtoSeleccionado == -9)
+            if (idSelected > 0)
             {
-                // Abrimos el formulario de alta
-                AltaCampeonato();
-                return;
-            }
-
-            // 3. Si es un ID válido de la base de datos (> 0), consultamos la DB
-            if (idCtoSeleccionado > 0)
+                ConsultaPtosCampeonato(idSelected); // (> 0) ID válido, consultar DB
+                ComboPruebasInit(idSelected);       // Inicializamos Combo Pruebas para el campeonato seleccionado
+            } 
+            else if (idSelected == -5)
             {
-                ConsultaPtosCampeonato(idCtoSeleccionado);
-                ComboPruebasInit(idCtoSeleccionado);
-                ControlesEnableDisable();
+                cboxCto.SelectedIndex = -1; // Limpiamos la selección para evitar confusión 
+                tboxPuntos.Clear();         // Sin selección activa, limpiamos el TextBox
+                ControlesEnableDisable();   // Actualizamos los controles después de la operación
+                AltaCampeonato();           // Opción "Añadir Nuevo"
             }
-        }
-        else
-        {
-            // Si SelectedIndex == -1 o no hay selección activa, limpiamos el TextBox
-            tboxPuntos.Clear();
-        }
-
+            else
+            {
+                tboxPuntos.Clear();         // Sin selección activa, limpiamos el TextBox
+                ControlesEnableDisable();   // Actualizamos los controles después de la operación
+            }
+        }   
     }
 
-    private void ConsultaPtosCampeonato(int idCtoSeleccionado)
+    private void ConsultaPtosCampeonato(int idSelected)
     {
         using var db = new AppDbContext();
+
         var puntuaciones = db.Campeonatos
-                              .Where(c => c.Id == idCtoSeleccionado)
+                              .Where(c => c.Id == idSelected)
                               .Select(c => c.SistemaPuntuacion)
                               .FirstOrDefault();
 
@@ -152,125 +198,102 @@ public partial class FormMain : Form
 
     private void AltaCampeonato()
     {
-        using var frmAlta = new FormCto();
+        using var frmAlta = new FormCto("Nuevo Campeonato");
 
         if (frmAlta.ShowDialog() == DialogResult.OK)
         {
-            // Si el usuario guardó con éxito, refrescamos este combo
-            ComboCampeonatosInit();
-            cboxCto.SelectedValue = frmAlta.IdCampeonatoCreado;
+            ComboCampeonatosInit();                             // Si el usuario guardó con éxito, refrescamos este combo
+            cboxCto.SelectedValue = frmAlta.IdCampeonatoCreado; // seleccionamos el nuevo campeonato creado
+            ControlesEnableDisable();                           // Actualizamos los controles después de la operación
         }
         else
         {
-            // Si canceló, vaciamos el combo
-            cboxCto.SelectedIndex = -1;
+            cboxCto.SelectedIndex = -1; // Si canceló, vaciamos el combo
+            ControlesEnableDisable();   // Actualizamos los controles después de la operación
         }
-
-        ControlesEnableDisable();
     }
 
     private void BtnNewCto_Click(object sender, EventArgs e)
     {
-        // Abrimos el formulario de alta 
-        AltaCampeonato();
-    }
-
-    private void ControlesEnableDisable()
-    {
-        if (cboxCto.SelectedValue is int iCto && iCto > 0)
-        {
-            btnNewCto.Enabled = true;
-            btnEditCto.Enabled = true;
-            btnDelCto.Enabled = true;
-
-            cboxPrueba.Enabled = true;
-            btnNewPrueba.Enabled = true;
-            btnEditPrueba.Enabled = false;
-            btnDelPrueba.Enabled = false;
-        }
-        else
-        {
-            btnNewCto.Enabled = true;
-            btnEditCto.Enabled = false;
-            btnDelCto.Enabled = false;
-
-            cboxPrueba.Enabled = false;
-            btnNewPrueba.Enabled = false;
-            btnEditPrueba.Enabled = false;
-            btnDelPrueba.Enabled = false;
-        }
-
-        if (cboxPrueba.SelectedValue is int iPrueba && iPrueba > 0)
-        {
-            btnNewPrueba.Enabled = true;
-            btnEditPrueba.Enabled = true;
-            btnDelPrueba.Enabled = true;
-        }
-        else
-        {
-            btnNewPrueba.Enabled = true;
-            btnEditPrueba.Enabled = false;
-            btnDelPrueba.Enabled = false;
-        }
+        cboxCto.SelectedIndex = -1; // Limpiamos la selección para evitar confusión 
+        tboxPuntos.Clear();         // Sin selección activa, limpiamos el TextBox
+        ControlesEnableDisable();   // Actualizamos los controles después de la operación
+        AltaCampeonato();           // Opción "Añadir Nuevo"
     }
 
     private void BtnDelCto_Click(object sender, EventArgs e)
     {
-        // 1. Obtener y validar el ID del campeonato seleccionado en el ComboBox
-        if (cboxCto.SelectedValue is not int idCampeonato || idCampeonato <= 0)
+        // Validar ID campeonato seleccionado en ComboBox
+        if (cboxCto.SelectedValue is int idSelected && idSelected > 0)
         {
-            lblStatusMain.Text = "Selecciona campeonato válido";
-            return;
+            // Confirmación usuario 
+            DialogResult confirmacion = MessageBox.Show(
+                $"¿Estás seguro de que deseas eliminar este campeonato?\n\nEsta acción no se podrá deshacer.",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirmacion == DialogResult.Yes)
+            {
+                try
+                {
+                    using var db = new AppDbContext();  // Contexto DB
+
+                    var ctoParaBorrado = db.Campeonatos.Find(idSelected);    // DB, buscar por ID
+
+                    if (ctoParaBorrado != null)
+                    {
+                        db.Campeonatos.Remove(ctoParaBorrado);  // DB, marcar para borrado
+                        db.SaveChanges();                       // SQLite, guardar cambios 
+                        ComboCampeonatosInit();                 // Actualizar interfaz
+
+                        MostrarMsgEstado("Campeonato eliminado OK");
+                    }
+                    else
+                    {
+                        MostrarMsgEstado("Campeonato NO existe");
+                    }
+                }
+                catch (DbUpdateException)
+                {
+                    // Control de integridad referencial
+                    MessageBox.Show("No se puede eliminar el campeonato porque tiene pruebas o inscripciones asociadas.\n" +
+                                    "Elimina primero las pruebas vinculadas a este campeonato.",
+                                    "Error de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ocurrió un error inesperado al eliminar: {ex.Message}",
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
-
-        // 2. Pedir confirmación al usuario antes de borrar
-        DialogResult confirmacion = MessageBox.Show(
-            $"¿Estás seguro de que deseas eliminar este campeonato?\n\nEsta acción no se podrá deshacer.",
-            "Confirmar eliminación",
-            MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question);
-
-        if (confirmacion != DialogResult.Yes)
+        else
         {
-            return; // El usuario canceló la operación
+            MostrarMsgEstado("Selecciona campeonato válido");
         }
+    }
+
+    private CancellationTokenSource? _ctsMensaje;
+
+    private async void MostrarMsgEstado(string msg, int ms = 4000)
+    {
+        // Cancela la espera del mensaje anterior si aún estaba corriendo
+        _ctsMensaje?.Cancel();
+        _ctsMensaje = new CancellationTokenSource();
+
+        lblStatusMain.Text = msg;
 
         try
         {
-            // 3. Abrir un contexto de base de datos fresco
-            using var db = new AppDbContext();
-
-            // 4. Buscar la entidad en la base de datos por su ID
-            var campeonatoAborrar = db.Campeonatos.Find(idCampeonato);
-
-            if (campeonatoAborrar != null)
-            {
-                // 5. Marcar para eliminación y guardar cambios en SQLite
-                db.Campeonatos.Remove(campeonatoAborrar);
-                db.SaveChanges();
-
-                lblStatusMain.Text = "Campeonato eliminado OK";
-            }
-            else
-            {
-                lblStatusMain.Text = "Campeonato NO existe";
-            }
+            // Pasa el Token de cancelación a Task.Delay
+            await Task.Delay(ms, _ctsMensaje.Token);
+            lblStatusMain.Text = string.Empty; // Limpia al terminar el tiempo
         }
-        catch (DbUpdateException)
+        catch (TaskCanceledException)
         {
-            // Control de integridad referencial
-            MessageBox.Show("No se puede eliminar el campeonato porque tiene pruebas o inscripciones asociadas.\n" +
-                            "Elimina primero las pruebas vinculadas a este campeonato.",
-                            "Error de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            // Ocurre cuando un nuevo mensaje interrumpe la espera actual
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Ocurrió un error inesperado al eliminar: {ex.Message}",
-                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        // 6. Actualizar la interfaz
-        ComboCampeonatosInit();
-        ControlesEnableDisable();
     }
+
 }

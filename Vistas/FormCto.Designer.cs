@@ -47,7 +47,7 @@
             tboxPuntos.Name = "tboxPuntos";
             tboxPuntos.Size = new Size(260, 23);
             tboxPuntos.TabIndex = 2;
-            tboxPuntos.KeyDown += TboxCto_KeyDown;
+            tboxPuntos.KeyDown += All_tbox_KeyDown;
             // 
             // lblPtos1
             // 
@@ -108,9 +108,8 @@
             lblFrmCto.ForeColor = Color.White;
             lblFrmCto.Location = new Point(18, 29);
             lblFrmCto.Name = "lblFrmCto";
-            lblFrmCto.Size = new Size(186, 27);
+            lblFrmCto.Size = new Size(2, 27);
             lblFrmCto.TabIndex = 9;
-            lblFrmCto.Text = "Alta de Campeonato";
             // 
             // tboxCto
             // 
@@ -122,7 +121,7 @@
             tboxCto.Size = new Size(260, 23);
             tboxCto.TabIndex = 1;
             tboxCto.TextChanged += TboxCto_TextChanged;
-            tboxCto.KeyDown += TboxCto_KeyDown;
+            tboxCto.KeyDown += All_tbox_KeyDown;
             // 
             // lblPtos2
             // 

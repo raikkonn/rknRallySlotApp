@@ -149,9 +149,9 @@
             // 
             lblStatusMain.BackColor = Color.Transparent;
             lblStatusMain.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            lblStatusMain.ForeColor = Color.FromArgb(192, 0, 0);
             lblStatusMain.Name = "lblStatusMain";
-            lblStatusMain.Size = new Size(79, 17);
-            lblStatusMain.Text = "lblStatusMain";
+            lblStatusMain.Size = new Size(0, 17);
             // 
             // cboxCto
             // 
