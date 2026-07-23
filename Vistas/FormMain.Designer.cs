@@ -227,6 +227,7 @@
             btnEditCto.TabIndex = 0;
             btnEditCto.TabStop = false;
             btnEditCto.UseVisualStyleBackColor = false;
+            btnEditCto.Click += BtnEditCto_Click;
             // 
             // btnDelCto
             // 

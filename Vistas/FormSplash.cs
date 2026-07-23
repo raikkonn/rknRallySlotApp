@@ -36,7 +36,7 @@ public partial class FormSplash : Form
             }
             this.Refresh(); // Garatiza que la imagen y controles del Splash estén pintados al 100%
 
-            await Task.Delay(400);
+            await Task.Delay(600);
 
             // 4. Instanciamos y mostramos el formulario principal
             var formMain = new FormMain();

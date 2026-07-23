@@ -175,7 +175,7 @@ public partial class FormMain : Form
             {
                 ConsultaPtosCampeonato(idSelected); // (> 0) ID válido, consultar DB
                 ComboPruebasInit(idSelected);       // Inicializamos Combo Pruebas para el campeonato seleccionado
-            } 
+            }
             else if (idSelected == -5)
             {
                 cboxCto.SelectedIndex = -1; // Limpiamos la selección para evitar confusión 
@@ -188,7 +188,7 @@ public partial class FormMain : Form
                 tboxPuntos.Clear();         // Sin selección activa, limpiamos el TextBox
                 ControlesEnableDisable();   // Actualizamos los controles después de la operación
             }
-        }   
+        }
     }
 
     private void ConsultaPtosCampeonato(int idSelected)
@@ -209,9 +209,9 @@ public partial class FormMain : Form
 
         if (frmAlta.ShowDialog() == DialogResult.OK)
         {
-            ComboCampeonatosInit();                             // Si el usuario guardó con éxito, refrescamos este combo
-            cboxCto.SelectedValue = frmAlta.IdCampeonatoCreado; // seleccionamos el nuevo campeonato creado
-            ControlesEnableDisable();                           // Actualizamos los controles después de la operación
+            ComboCampeonatosInit();                                     // Si el usuario guardó con éxito, refrescamos este combo
+            cboxCto.SelectedValue = frmAlta.IdCampeonatoCreado ?? -1;   // seleccionamos el nuevo campeonato creado
+            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
         }
         else
         {
@@ -303,4 +303,24 @@ public partial class FormMain : Form
         }
     }
 
+    private void BtnEditCto_Click(object sender, EventArgs e)
+    {
+        EditaCampeonato();           // Opción "Modificar un Campeonato"
+    }
+
+    private void EditaCampeonato()
+    {
+        using var frmEdicion = new FormCto("Modificar Campeonato", cboxCto.SelectedValue);
+
+        if (frmEdicion.ShowDialog() == DialogResult.OK)
+        {
+            ComboCampeonatosInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
+            cboxCto.SelectedValue = frmEdicion.IdCampeonatoCreado ?? -1;    // seleccionamos el campeonato editado
+            ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
+        }
+
+    }
+
 }
+
+

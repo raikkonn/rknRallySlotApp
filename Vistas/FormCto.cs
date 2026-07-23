@@ -8,14 +8,52 @@ namespace rknRallySlotApp.Vistas;
 public partial class FormCto : Form
 {
     private readonly ToolTip _toolTip = new();
-    public int IdCampeonatoCreado { get; private set; } // Para devolver el ID recién creado
+    public int? IdCampeonatoCreado = null; // Para devolver el ID recién creado
+    public int? IdCampeonatoEditar = null; // Para indicar el ID a editar
 
-    public FormCto(String titulo)
+    public FormCto(String? titulo = null, object? idCto = null)
     {
         InitializeComponent();
         ConfigurarToolTips();
 
-        lblFrmCto.Text = titulo;
+        lblFrmCto.Text = titulo ?? String.Empty;
+        
+        if ((idCto is int idSelected) && (idSelected > 0))  
+        {
+            ConsultaCto(idSelected);
+            IdCampeonatoEditar = idSelected;
+        }
+        else
+        {
+            tboxCto.Text = String.Empty;
+            tboxPuntos.Text = String.Empty;
+        }
+    }
+
+    private void ConsultaCto(int idSelected)
+    {
+        using var db = new AppDbContext();
+
+        // Consultamos y proyectamos únicamente las dos columnas necesarias
+        var cto = db.Campeonatos
+                    .Where(c => c.Id == idSelected)
+                    .Select(c => new
+                    {
+                        c.Nombre,
+                        c.SistemaPuntuacion
+                    })
+                    .FirstOrDefault();
+
+        if (cto != null)
+        {
+            tboxCto.Text = cto.Nombre ?? string.Empty;
+            tboxPuntos.Text = cto.SistemaPuntuacion ?? string.Empty;
+        }
+        else // Si no se encuentra el registro o se pasa un ID no válido
+        {
+            tboxCto.Text = string.Empty;
+            tboxPuntos.Text = string.Empty;
+        }
     }
 
     private void ConfigurarToolTips()
@@ -28,7 +66,6 @@ public partial class FormCto : Form
     {
         // Asignacion de imagenes a los botones
         BotonesInit();
-
     }
 
     private void BotonesInit()
@@ -44,14 +81,15 @@ public partial class FormCto : Form
 
     private void BtnSave_Click(object sender, EventArgs e)
     {
-        // Saneado texto: elimina espacios múltiples/extremos y aplica TitleCase (Ej: "  rally  de  navidad " -> "Rally De Navidad")
+        // Saneado texto
         string nombreLimpio = TxtTools.TrimCleanAndTitle(tboxCto.Text);
 
-        // Operación de persistencia con EF Core
         using var db = new AppDbContext();
 
-        // Validar que no exista otro campeonato con el mismo nombre (Ignorando mayúsculas/minúsculas)
-        bool existe = db.Campeonatos.Any(c => c.Nombre.ToLower() == nombreLimpio.ToLower());
+        // Comprueba si existe ese nombre PERO excluyendo el campeonato que estamos editando actualmente
+        bool existe = db.Campeonatos.Any(c =>
+            c.Nombre.ToLower() == nombreLimpio.ToLower()
+            && (!IdCampeonatoEditar.HasValue || c.Id != IdCampeonatoEditar.Value));
 
         if (existe)
         {
@@ -64,20 +102,41 @@ public partial class FormCto : Form
             return;
         }
 
-        // Crear la entidad
-        var nuevoCampeonato = new Campeonato
-        {
-            Nombre = nombreLimpio,
-            SistemaPuntuacion = TxtTools.TrimAndClean(tboxPuntos.Text)
-        };
-
         try
         {
-            db.Campeonatos.Add(nuevoCampeonato);
-            db.SaveChanges(); // EF Core asigna el Id generado por SQLite al objeto automáticamente
+            Campeonato? campeonatoActual;
 
-            // Capturamos el ID para que el FormMain sepa cuál seleccionar
-            IdCampeonatoCreado = nuevoCampeonato.Id;
+            if (IdCampeonatoEditar.HasValue) // Si tenemos un ID, estamos en MODO EDICION
+            {
+                campeonatoActual = db.Campeonatos.Find(IdCampeonatoEditar.Value);
+
+                if (campeonatoActual == null)
+                {
+                    MessageBox.Show("NO existe ese campeonato en la base de datos.",
+                                    "Registro no encontrado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Sobrescribimos sus propiedades. EF Core detecta estos cambios automáticamente.
+                campeonatoActual.Nombre = nombreLimpio;
+                campeonatoActual.SistemaPuntuacion = TxtTools.TrimAndClean(tboxPuntos.Text);
+            }
+            else // Si no tenemos un ID, estamos en MODO ALTA 
+            {
+                campeonatoActual = new Campeonato
+                {
+                    Nombre = nombreLimpio,
+                    SistemaPuntuacion = TxtTools.TrimAndClean(tboxPuntos.Text)
+                };
+
+                db.Campeonatos.Add(campeonatoActual);   // Añadir registro nuevo (INSERT)
+            }
+
+            // Si Alta, hace un INSERT. Si Edición, hace un UPDATE solo de los campos modificados.
+            db.SaveChanges();
+
+            // Capturamos el ID para devolverlo al FormMain (sea el recién creado o el que acabamos de editar)
+            IdCampeonatoCreado = campeonatoActual.Id;
 
             // Retornamos OK y cerramos la ventana modal
             this.DialogResult = DialogResult.OK;
@@ -90,6 +149,7 @@ public partial class FormCto : Form
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
         }
+
     }
 
     private void BtnCancel_Click(object sender, EventArgs e)
