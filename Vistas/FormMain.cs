@@ -209,9 +209,10 @@ public partial class FormMain : Form
 
         if (frmAlta.ShowDialog() == DialogResult.OK)
         {
-            ComboCampeonatosInit();                                     // Si el usuario guardó con éxito, refrescamos este combo
-            cboxCto.SelectedValue = frmAlta.IdCampeonatoCreado ?? -1;   // seleccionamos el nuevo campeonato creado
-            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
+            ComboCampeonatosInit();                             // Si el usuario guardó con éxito, refrescamos este combo
+            cboxCto.SelectedValue = frmAlta.IdSelected ?? -1;   // seleccionamos el nuevo campeonato creado
+            ControlesEnableDisable();                           // Actualizamos los controles después de la operación
+            MostrarMsgEstado("Campeonato creado OK");
         }
         else
         {
@@ -305,22 +306,16 @@ public partial class FormMain : Form
 
     private void BtnEditCto_Click(object sender, EventArgs e)
     {
-        EditaCampeonato();           // Opción "Modificar un Campeonato"
-    }
-
-    private void EditaCampeonato()
-    {
         using var frmEdicion = new FormCto("Modificar Campeonato", cboxCto.SelectedValue);
 
         if (frmEdicion.ShowDialog() == DialogResult.OK)
         {
-            ComboCampeonatosInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
-            cboxCto.SelectedValue = frmEdicion.IdCampeonatoCreado ?? -1;    // seleccionamos el campeonato editado
-            ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
+            ComboCampeonatosInit();                                 // Si el usuario guardó con éxito, refrescamos este combo
+            cboxCto.SelectedValue = frmEdicion.IdSelected ?? -1;    // seleccionamos el campeonato editado
+            ControlesEnableDisable();                               // Actualizamos los controles después de la operación
+            MostrarMsgEstado("Campeonato modificado OK");
         }
-
     }
-
 }
 
 

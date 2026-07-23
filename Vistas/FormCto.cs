@@ -8,8 +8,7 @@ namespace rknRallySlotApp.Vistas;
 public partial class FormCto : Form
 {
     private readonly ToolTip _toolTip = new();
-    public int? IdCampeonatoCreado = null; // Para devolver el ID recién creado
-    public int? IdCampeonatoEditar = null; // Para indicar el ID a editar
+    public int? IdSelected = null;  // ID del campeonato seleccionado (null si es un nuevo registro)
 
     public FormCto(String? titulo = null, object? idCto = null)
     {
@@ -18,10 +17,10 @@ public partial class FormCto : Form
 
         lblFrmCto.Text = titulo ?? String.Empty;
         
-        if ((idCto is int idSelected) && (idSelected > 0))  
+        if ((idCto is int idSel) && (idSel > 0))  
         {
-            ConsultaCto(idSelected);
-            IdCampeonatoEditar = idSelected;
+            ConsultaCto(idSel);
+            IdSelected = idSel;
         }
         else
         {
@@ -89,7 +88,7 @@ public partial class FormCto : Form
         // Comprueba si existe ese nombre PERO excluyendo el campeonato que estamos editando actualmente
         bool existe = db.Campeonatos.Any(c =>
             c.Nombre.ToLower() == nombreLimpio.ToLower()
-            && (!IdCampeonatoEditar.HasValue || c.Id != IdCampeonatoEditar.Value));
+            && (!IdSelected.HasValue || c.Id != IdSelected.Value));
 
         if (existe)
         {
@@ -106,9 +105,9 @@ public partial class FormCto : Form
         {
             Campeonato? campeonatoActual;
 
-            if (IdCampeonatoEditar.HasValue) // Si tenemos un ID, estamos en MODO EDICION
+            if (IdSelected.HasValue) // Si tenemos un ID, estamos en MODO EDICION
             {
-                campeonatoActual = db.Campeonatos.Find(IdCampeonatoEditar.Value);
+                campeonatoActual = db.Campeonatos.Find(IdSelected.Value);
 
                 if (campeonatoActual == null)
                 {
@@ -136,7 +135,7 @@ public partial class FormCto : Form
             db.SaveChanges();
 
             // Capturamos el ID para devolverlo al FormMain (sea el recién creado o el que acabamos de editar)
-            IdCampeonatoCreado = campeonatoActual.Id;
+            IdSelected = campeonatoActual.Id;
 
             // Retornamos OK y cerramos la ventana modal
             this.DialogResult = DialogResult.OK;
