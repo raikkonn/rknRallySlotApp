@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             pictureBox1 = new PictureBox();
-            label1 = new Label();
+            lblTitulo = new Label();
             lblEstado = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -47,18 +47,18 @@
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
-            // label1
+            // lblTitulo
             // 
-            label1.BackColor = Color.Black;
-            label1.Dock = DockStyle.Top;
-            label1.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.Lime;
-            label1.Location = new Point(0, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(541, 30);
-            label1.TabIndex = 1;
-            label1.Text = "rknRallySlotApp v1.0";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            lblTitulo.BackColor = Color.Black;
+            lblTitulo.Dock = DockStyle.Top;
+            lblTitulo.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            lblTitulo.ForeColor = Color.Lime;
+            lblTitulo.Location = new Point(0, 0);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(541, 30);
+            lblTitulo.TabIndex = 1;
+            lblTitulo.Text = "rknRallySlotApp v1.0";
+            lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblEstado
             // 
@@ -80,7 +80,7 @@
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(541, 556);
             Controls.Add(lblEstado);
-            Controls.Add(label1);
+            Controls.Add(lblTitulo);
             Controls.Add(pictureBox1);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
@@ -97,7 +97,7 @@
         #endregion
 
         private PictureBox pictureBox1;
-        private Label label1;
+        private Label lblTitulo;
         private Label lblEstado;
     }
 }

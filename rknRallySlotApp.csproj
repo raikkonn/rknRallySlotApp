@@ -7,6 +7,9 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>rkn.ico</ApplicationIcon>
+    <Title>rknRallySlotApp</Title>
+    <Product>rknRallySlotApp</Product>
+    <AssemblyVersion>1.0.0.3</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

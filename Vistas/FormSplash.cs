@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using rknRallySlotApp.Datos;
+using System.Reflection;
 
 namespace rknRallySlotApp.Vistas;
 
@@ -14,31 +15,34 @@ public partial class FormSplash : Form
     {
         try
         {
-            // 1. Actualizamos texto y FORZAMOS el repintado inmediato en pantalla
-            if (lblEstado != null)
+            string nombreApp = Assembly.GetExecutingAssembly().GetName().Name ?? "unknown";                 // Nombre de la aplicación
+            string versionApp = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "unknown"; // Versión de la aplicación
+
+            lblTitulo.Text = $"{nombreApp} - v{versionApp}";    // Mostramos en el splash
+
+            if (lblEstado != null)      
             {
                 lblEstado.Text = "Comprobando y actualizando base de datos...";
-                lblEstado.Refresh(); // <-- Forzado de dibujado UI
+                lblEstado.Refresh();    // Forzar dibujado UI
             }
-            this.Refresh(); // Garatiza que la imagen y controles del Splash estén pintados al 100%
+            this.Refresh();             // FORZAR repintado
 
-            // 2. Ejecutamos la migración directamente de forma asíncrona
-            using (var db = new AppDbContext())
+            // Migración Asíncrona DB
+            using (var db = new AppDbContext())     
             {
-                await db.Database.MigrateAsync();
+                await db.Database.MigrateAsync();   
             }
 
-            // 3. Actualizamos estado final
-            if (lblEstado != null)
+            if (lblEstado != null)      
             {
                 lblEstado.Text = "Iniciando aplicación...";
-                lblEstado.Refresh();
+                lblEstado.Refresh();    // Forzar dibujado UI
             }
-            this.Refresh(); // Garatiza que la imagen y controles del Splash estén pintados al 100%
+            this.Refresh();             // FORZAR repintado
 
-            await Task.Delay(600);
+            await Task.Delay(600);      // espera estética
 
-            // 4. Instanciamos y mostramos el formulario principal
+            // Instanciamos y mostramos el formulario principal
             var formMain = new FormMain();
 
             // Al cerrar FormMain cerramos el splash y la aplicación

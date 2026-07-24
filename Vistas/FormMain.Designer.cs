@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            dgvCtoPrueba = new DataGridView();
+            DataGridInscripcion = new DataGridView();
             menuMain = new MenuStrip();
             gestionDeDatosToolStripMenuItem = new ToolStripMenuItem();
             campeonatosToolStripMenuItem = new ToolStripMenuItem();
@@ -38,19 +38,19 @@
             cochesToolStripMenuItem = new ToolStripMenuItem();
             inscripcionesToolStripMenuItem = new ToolStripMenuItem();
             statusStripMain = new StatusStrip();
-            lblStatusMain = new ToolStripStatusLabel();
-            cboxCto = new ComboBox();
+            labelStatus = new ToolStripStatusLabel();
+            comboCampeonatos = new ComboBox();
             lblCto = new Label();
-            btnNewCto = new Button();
+            botonNuevoCampeonato = new Button();
             label1 = new Label();
-            tboxPuntos = new TextBox();
-            btnEditCto = new Button();
-            btnDelCto = new Button();
-            cboxPrueba = new ComboBox();
+            tboxPuntuaciones = new TextBox();
+            botonEditaCampeonato = new Button();
+            botonBorraCampeonato = new Button();
+            comboPruebas = new ComboBox();
             label2 = new Label();
-            btnNewPrueba = new Button();
-            btnEditPrueba = new Button();
-            btnDelPrueba = new Button();
+            botonNuevaPrueba = new Button();
+            botonEditaPrueba = new Button();
+            botonBorraPrueba = new Button();
             label3 = new Label();
             tboxEtapas = new TextBox();
             label4 = new Label();
@@ -59,29 +59,29 @@
             tboxTmax = new TextBox();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)dgvCtoPrueba).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DataGridInscripcion).BeginInit();
             menuMain.SuspendLayout();
             statusStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
-            // dgvCtoPrueba
+            // datagridPrueba
             // 
-            dgvCtoPrueba.AllowUserToAddRows = false;
-            dgvCtoPrueba.AllowUserToDeleteRows = false;
-            dgvCtoPrueba.AllowUserToOrderColumns = true;
-            dgvCtoPrueba.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dgvCtoPrueba.BackgroundColor = Color.FromArgb(52, 73, 94);
-            dgvCtoPrueba.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dgvCtoPrueba.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgvCtoPrueba.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCtoPrueba.Location = new Point(0, 154);
-            dgvCtoPrueba.Name = "dgvCtoPrueba";
-            dgvCtoPrueba.ReadOnly = true;
-            dgvCtoPrueba.Size = new Size(1264, 502);
-            dgvCtoPrueba.TabIndex = 0;
-            dgvCtoPrueba.TabStop = false;
+            DataGridInscripcion.AllowUserToAddRows = false;
+            DataGridInscripcion.AllowUserToDeleteRows = false;
+            DataGridInscripcion.AllowUserToOrderColumns = true;
+            DataGridInscripcion.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            DataGridInscripcion.BackgroundColor = Color.FromArgb(52, 73, 94);
+            DataGridInscripcion.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            DataGridInscripcion.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            DataGridInscripcion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DataGridInscripcion.Location = new Point(0, 154);
+            DataGridInscripcion.Name = "datagridPrueba";
+            DataGridInscripcion.ReadOnly = true;
+            DataGridInscripcion.Size = new Size(1264, 502);
+            DataGridInscripcion.TabIndex = 0;
+            DataGridInscripcion.TabStop = false;
             // 
             // menuMain
             // 
@@ -138,32 +138,32 @@
             // statusStripMain
             // 
             statusStripMain.GripMargin = new Padding(0);
-            statusStripMain.Items.AddRange(new ToolStripItem[] { lblStatusMain });
+            statusStripMain.Items.AddRange(new ToolStripItem[] { labelStatus });
             statusStripMain.Location = new Point(0, 659);
             statusStripMain.Name = "statusStripMain";
             statusStripMain.Size = new Size(1264, 22);
             statusStripMain.SizingGrip = false;
             statusStripMain.TabIndex = 0;
             // 
-            // lblStatusMain
+            // labelStatusMain
             // 
-            lblStatusMain.BackColor = Color.Transparent;
-            lblStatusMain.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            lblStatusMain.ForeColor = Color.FromArgb(192, 0, 0);
-            lblStatusMain.Name = "lblStatusMain";
-            lblStatusMain.Size = new Size(0, 17);
+            labelStatus.BackColor = Color.Transparent;
+            labelStatus.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            labelStatus.ForeColor = Color.FromArgb(192, 0, 0);
+            labelStatus.Name = "labelStatusMain";
+            labelStatus.Size = new Size(0, 17);
             // 
-            // cboxCto
+            // comboCampeonatos
             // 
-            cboxCto.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            cboxCto.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboxCto.FormattingEnabled = true;
-            cboxCto.Location = new Point(6, 51);
-            cboxCto.MaxLength = 50;
-            cboxCto.Name = "cboxCto";
-            cboxCto.Size = new Size(260, 23);
-            cboxCto.TabIndex = 1;
-            cboxCto.SelectedIndexChanged += CboxCto_SelectedIndexChanged;
+            comboCampeonatos.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            comboCampeonatos.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboCampeonatos.FormattingEnabled = true;
+            comboCampeonatos.Location = new Point(6, 51);
+            comboCampeonatos.MaxLength = 50;
+            comboCampeonatos.Name = "comboCampeonatos";
+            comboCampeonatos.Size = new Size(260, 23);
+            comboCampeonatos.TabIndex = 1;
+            comboCampeonatos.SelectedIndexChanged += ComboCampeonatos_SelectedIndexChanged;
             // 
             // lblCto
             // 
@@ -175,21 +175,21 @@
             lblCto.TabIndex = 0;
             lblCto.Text = "Campeonato";
             // 
-            // btnNewCto
+            // botonNuevoCampeonato
             // 
-            btnNewCto.BackColor = Color.FromArgb(52, 73, 94);
-            btnNewCto.BackgroundImageLayout = ImageLayout.Zoom;
-            btnNewCto.Cursor = Cursors.Hand;
-            btnNewCto.Enabled = false;
-            btnNewCto.FlatStyle = FlatStyle.Flat;
-            btnNewCto.ForeColor = Color.Transparent;
-            btnNewCto.Location = new Point(549, 44);
-            btnNewCto.Name = "btnNewCto";
-            btnNewCto.Size = new Size(35, 35);
-            btnNewCto.TabIndex = 0;
-            btnNewCto.TabStop = false;
-            btnNewCto.UseVisualStyleBackColor = false;
-            btnNewCto.Click += BtnNewCto_Click;
+            botonNuevoCampeonato.BackColor = Color.FromArgb(52, 73, 94);
+            botonNuevoCampeonato.BackgroundImageLayout = ImageLayout.Zoom;
+            botonNuevoCampeonato.Cursor = Cursors.Hand;
+            botonNuevoCampeonato.Enabled = false;
+            botonNuevoCampeonato.FlatStyle = FlatStyle.Flat;
+            botonNuevoCampeonato.ForeColor = Color.Transparent;
+            botonNuevoCampeonato.Location = new Point(549, 44);
+            botonNuevoCampeonato.Name = "botonNuevoCampeonato";
+            botonNuevoCampeonato.Size = new Size(35, 35);
+            botonNuevoCampeonato.TabIndex = 0;
+            botonNuevoCampeonato.TabStop = false;
+            botonNuevoCampeonato.UseVisualStyleBackColor = false;
+            botonNuevoCampeonato.Click += BotonNuevoCampeonato_Click;
             // 
             // label1
             // 
@@ -203,58 +203,58 @@
             // 
             // tboxPuntos
             // 
-            tboxPuntos.BackColor = Color.FromArgb(52, 73, 94);
-            tboxPuntos.BorderStyle = BorderStyle.FixedSingle;
-            tboxPuntos.ForeColor = Color.White;
-            tboxPuntos.Location = new Point(272, 52);
-            tboxPuntos.Name = "tboxPuntos";
-            tboxPuntos.ReadOnly = true;
-            tboxPuntos.Size = new Size(260, 23);
-            tboxPuntos.TabIndex = 0;
-            tboxPuntos.TabStop = false;
+            tboxPuntuaciones.BackColor = Color.FromArgb(52, 73, 94);
+            tboxPuntuaciones.BorderStyle = BorderStyle.FixedSingle;
+            tboxPuntuaciones.ForeColor = Color.White;
+            tboxPuntuaciones.Location = new Point(272, 52);
+            tboxPuntuaciones.Name = "tboxPuntos";
+            tboxPuntuaciones.ReadOnly = true;
+            tboxPuntuaciones.Size = new Size(260, 23);
+            tboxPuntuaciones.TabIndex = 0;
+            tboxPuntuaciones.TabStop = false;
             // 
-            // btnEditCto
+            // botonEditaCampeonato
             // 
-            btnEditCto.BackColor = Color.FromArgb(52, 73, 94);
-            btnEditCto.BackgroundImageLayout = ImageLayout.None;
-            btnEditCto.Cursor = Cursors.Hand;
-            btnEditCto.Enabled = false;
-            btnEditCto.FlatStyle = FlatStyle.Flat;
-            btnEditCto.ForeColor = Color.Transparent;
-            btnEditCto.Location = new Point(590, 44);
-            btnEditCto.Name = "btnEditCto";
-            btnEditCto.Size = new Size(35, 35);
-            btnEditCto.TabIndex = 0;
-            btnEditCto.TabStop = false;
-            btnEditCto.UseVisualStyleBackColor = false;
-            btnEditCto.Click += BtnEditCto_Click;
+            botonEditaCampeonato.BackColor = Color.FromArgb(52, 73, 94);
+            botonEditaCampeonato.BackgroundImageLayout = ImageLayout.None;
+            botonEditaCampeonato.Cursor = Cursors.Hand;
+            botonEditaCampeonato.Enabled = false;
+            botonEditaCampeonato.FlatStyle = FlatStyle.Flat;
+            botonEditaCampeonato.ForeColor = Color.Transparent;
+            botonEditaCampeonato.Location = new Point(590, 44);
+            botonEditaCampeonato.Name = "botonEditaCampeonato";
+            botonEditaCampeonato.Size = new Size(35, 35);
+            botonEditaCampeonato.TabIndex = 0;
+            botonEditaCampeonato.TabStop = false;
+            botonEditaCampeonato.UseVisualStyleBackColor = false;
+            botonEditaCampeonato.Click += BotonEditaCampeonato_Click;
             // 
-            // btnDelCto
+            // botonBorraCampeonato
             // 
-            btnDelCto.BackColor = Color.FromArgb(52, 73, 94);
-            btnDelCto.BackgroundImageLayout = ImageLayout.Zoom;
-            btnDelCto.Cursor = Cursors.Hand;
-            btnDelCto.Enabled = false;
-            btnDelCto.FlatStyle = FlatStyle.Flat;
-            btnDelCto.ForeColor = Color.Transparent;
-            btnDelCto.Location = new Point(631, 44);
-            btnDelCto.Name = "btnDelCto";
-            btnDelCto.Size = new Size(35, 35);
-            btnDelCto.TabIndex = 3;
-            btnDelCto.UseVisualStyleBackColor = false;
-            btnDelCto.Click += BtnDelCto_Click;
+            botonBorraCampeonato.BackColor = Color.FromArgb(52, 73, 94);
+            botonBorraCampeonato.BackgroundImageLayout = ImageLayout.Zoom;
+            botonBorraCampeonato.Cursor = Cursors.Hand;
+            botonBorraCampeonato.Enabled = false;
+            botonBorraCampeonato.FlatStyle = FlatStyle.Flat;
+            botonBorraCampeonato.ForeColor = Color.Transparent;
+            botonBorraCampeonato.Location = new Point(631, 44);
+            botonBorraCampeonato.Name = "botonBorraCampeonato";
+            botonBorraCampeonato.Size = new Size(35, 35);
+            botonBorraCampeonato.TabIndex = 3;
+            botonBorraCampeonato.UseVisualStyleBackColor = false;
+            botonBorraCampeonato.Click += BotonBorraCampeonato_Click;
             // 
             // cboxPrueba
             // 
-            cboxPrueba.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            cboxPrueba.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboxPrueba.Enabled = false;
-            cboxPrueba.FormattingEnabled = true;
-            cboxPrueba.Location = new Point(6, 98);
-            cboxPrueba.MaxLength = 50;
-            cboxPrueba.Name = "cboxPrueba";
-            cboxPrueba.Size = new Size(260, 23);
-            cboxPrueba.TabIndex = 2;
+            comboPruebas.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            comboPruebas.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboPruebas.Enabled = false;
+            comboPruebas.FormattingEnabled = true;
+            comboPruebas.Location = new Point(6, 98);
+            comboPruebas.MaxLength = 50;
+            comboPruebas.Name = "cboxPrueba";
+            comboPruebas.Size = new Size(260, 23);
+            comboPruebas.TabIndex = 2;
             // 
             // label2
             // 
@@ -266,47 +266,47 @@
             label2.TabIndex = 0;
             label2.Text = "Prueba (Rally)";
             // 
-            // btnNewPrueba
+            // botonNuevaPrueba
             // 
-            btnNewPrueba.BackColor = Color.FromArgb(52, 73, 94);
-            btnNewPrueba.BackgroundImageLayout = ImageLayout.Zoom;
-            btnNewPrueba.Cursor = Cursors.Hand;
-            btnNewPrueba.Enabled = false;
-            btnNewPrueba.FlatStyle = FlatStyle.Flat;
-            btnNewPrueba.ForeColor = Color.Transparent;
-            btnNewPrueba.Location = new Point(414, 91);
-            btnNewPrueba.Name = "btnNewPrueba";
-            btnNewPrueba.Size = new Size(35, 35);
-            btnNewPrueba.TabIndex = 3;
-            btnNewPrueba.UseVisualStyleBackColor = false;
+            botonNuevaPrueba.BackColor = Color.FromArgb(52, 73, 94);
+            botonNuevaPrueba.BackgroundImageLayout = ImageLayout.Zoom;
+            botonNuevaPrueba.Cursor = Cursors.Hand;
+            botonNuevaPrueba.Enabled = false;
+            botonNuevaPrueba.FlatStyle = FlatStyle.Flat;
+            botonNuevaPrueba.ForeColor = Color.Transparent;
+            botonNuevaPrueba.Location = new Point(414, 91);
+            botonNuevaPrueba.Name = "botonNuevaPrueba";
+            botonNuevaPrueba.Size = new Size(35, 35);
+            botonNuevaPrueba.TabIndex = 3;
+            botonNuevaPrueba.UseVisualStyleBackColor = false;
             // 
-            // btnEditPrueba
+            // botonEditaPrueba
             // 
-            btnEditPrueba.BackColor = Color.FromArgb(52, 73, 94);
-            btnEditPrueba.BackgroundImageLayout = ImageLayout.Zoom;
-            btnEditPrueba.Cursor = Cursors.Hand;
-            btnEditPrueba.Enabled = false;
-            btnEditPrueba.FlatStyle = FlatStyle.Flat;
-            btnEditPrueba.ForeColor = Color.Transparent;
-            btnEditPrueba.Location = new Point(455, 91);
-            btnEditPrueba.Name = "btnEditPrueba";
-            btnEditPrueba.Size = new Size(35, 35);
-            btnEditPrueba.TabIndex = 3;
-            btnEditPrueba.UseVisualStyleBackColor = false;
+            botonEditaPrueba.BackColor = Color.FromArgb(52, 73, 94);
+            botonEditaPrueba.BackgroundImageLayout = ImageLayout.Zoom;
+            botonEditaPrueba.Cursor = Cursors.Hand;
+            botonEditaPrueba.Enabled = false;
+            botonEditaPrueba.FlatStyle = FlatStyle.Flat;
+            botonEditaPrueba.ForeColor = Color.Transparent;
+            botonEditaPrueba.Location = new Point(455, 91);
+            botonEditaPrueba.Name = "botonEditaPrueba";
+            botonEditaPrueba.Size = new Size(35, 35);
+            botonEditaPrueba.TabIndex = 3;
+            botonEditaPrueba.UseVisualStyleBackColor = false;
             // 
-            // btnDelPrueba
+            // botonBorraPrueba
             // 
-            btnDelPrueba.BackColor = Color.FromArgb(52, 73, 94);
-            btnDelPrueba.BackgroundImageLayout = ImageLayout.Zoom;
-            btnDelPrueba.Cursor = Cursors.Hand;
-            btnDelPrueba.Enabled = false;
-            btnDelPrueba.FlatStyle = FlatStyle.Flat;
-            btnDelPrueba.ForeColor = Color.Transparent;
-            btnDelPrueba.Location = new Point(496, 91);
-            btnDelPrueba.Name = "btnDelPrueba";
-            btnDelPrueba.Size = new Size(35, 35);
-            btnDelPrueba.TabIndex = 3;
-            btnDelPrueba.UseVisualStyleBackColor = false;
+            botonBorraPrueba.BackColor = Color.FromArgb(52, 73, 94);
+            botonBorraPrueba.BackgroundImageLayout = ImageLayout.Zoom;
+            botonBorraPrueba.Cursor = Cursors.Hand;
+            botonBorraPrueba.Enabled = false;
+            botonBorraPrueba.FlatStyle = FlatStyle.Flat;
+            botonBorraPrueba.ForeColor = Color.Transparent;
+            botonBorraPrueba.Location = new Point(496, 91);
+            botonBorraPrueba.Name = "botonBorraPrueba";
+            botonBorraPrueba.Size = new Size(35, 35);
+            botonBorraPrueba.TabIndex = 3;
+            botonBorraPrueba.UseVisualStyleBackColor = false;
             // 
             // label3
             // 
@@ -409,21 +409,21 @@
             Controls.Add(label5);
             Controls.Add(tboxEtapas);
             Controls.Add(label4);
-            Controls.Add(tboxPuntos);
+            Controls.Add(tboxPuntuaciones);
             Controls.Add(label3);
             Controls.Add(label1);
-            Controls.Add(btnDelPrueba);
-            Controls.Add(btnDelCto);
-            Controls.Add(btnEditPrueba);
-            Controls.Add(btnEditCto);
-            Controls.Add(btnNewPrueba);
-            Controls.Add(btnNewCto);
+            Controls.Add(botonBorraPrueba);
+            Controls.Add(botonBorraCampeonato);
+            Controls.Add(botonEditaPrueba);
+            Controls.Add(botonEditaCampeonato);
+            Controls.Add(botonNuevaPrueba);
+            Controls.Add(botonNuevoCampeonato);
             Controls.Add(label2);
             Controls.Add(lblCto);
-            Controls.Add(cboxPrueba);
-            Controls.Add(cboxCto);
+            Controls.Add(comboPruebas);
+            Controls.Add(comboCampeonatos);
             Controls.Add(statusStripMain);
-            Controls.Add(dgvCtoPrueba);
+            Controls.Add(DataGridInscripcion);
             Controls.Add(menuMain);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -431,8 +431,7 @@
             Name = "FormMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "rkN RallySlot";
-            Load += FormMain_Load;
-            ((System.ComponentModel.ISupportInitialize)dgvCtoPrueba).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DataGridInscripcion).EndInit();
             menuMain.ResumeLayout(false);
             menuMain.PerformLayout();
             statusStripMain.ResumeLayout(false);
@@ -444,7 +443,7 @@
         }
 
         #endregion
-        private DataGridView dgvCtoPrueba;
+        private DataGridView DataGridInscripcion;
         private MenuStrip menuMain;
         private ToolStripMenuItem gestionDeDatosToolStripMenuItem;
         private ToolStripMenuItem campeonatosToolStripMenuItem;
@@ -453,19 +452,19 @@
         private ToolStripMenuItem cochesToolStripMenuItem;
         private ToolStripMenuItem inscripcionesToolStripMenuItem;
         private StatusStrip statusStripMain;
-        private ToolStripStatusLabel lblStatusMain;
-        private ComboBox cboxCto;
+        private ToolStripStatusLabel labelStatus;
+        private ComboBox comboCampeonatos;
         private Label lblCto;
-        private Button btnNewCto;
+        private Button botonNuevoCampeonato;
         private Label label1;
-        private TextBox tboxPuntos;
-        private Button btnEditCto;
-        private Button btnDelCto;
-        private ComboBox cboxPrueba;
+        private TextBox tboxPuntuaciones;
+        private Button botonEditaCampeonato;
+        private Button botonBorraCampeonato;
+        private ComboBox comboPruebas;
         private Label label2;
-        private Button btnNewPrueba;
-        private Button btnEditPrueba;
-        private Button btnDelPrueba;
+        private Button botonNuevaPrueba;
+        private Button botonEditaPrueba;
+        private Button botonBorraPrueba;
         private Label label3;
         private TextBox tboxEtapas;
         private Label label4;
