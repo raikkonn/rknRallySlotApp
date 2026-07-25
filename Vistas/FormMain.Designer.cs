@@ -66,7 +66,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
-            // datagridPrueba
+            // DataGridInscripcion
             // 
             DataGridInscripcion.AllowUserToAddRows = false;
             DataGridInscripcion.AllowUserToDeleteRows = false;
@@ -77,7 +77,7 @@
             DataGridInscripcion.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             DataGridInscripcion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DataGridInscripcion.Location = new Point(0, 154);
-            DataGridInscripcion.Name = "datagridPrueba";
+            DataGridInscripcion.Name = "DataGridInscripcion";
             DataGridInscripcion.ReadOnly = true;
             DataGridInscripcion.Size = new Size(1264, 502);
             DataGridInscripcion.TabIndex = 0;
@@ -145,12 +145,12 @@
             statusStripMain.SizingGrip = false;
             statusStripMain.TabIndex = 0;
             // 
-            // labelStatusMain
+            // labelStatus
             // 
             labelStatus.BackColor = Color.Transparent;
             labelStatus.DisplayStyle = ToolStripItemDisplayStyle.Text;
             labelStatus.ForeColor = Color.FromArgb(192, 0, 0);
-            labelStatus.Name = "labelStatusMain";
+            labelStatus.Name = "labelStatus";
             labelStatus.Size = new Size(0, 17);
             // 
             // comboCampeonatos
@@ -201,13 +201,13 @@
             label1.TabIndex = 0;
             label1.Text = "Puntuación: ptos1º, ptos2º, ptos3º,...[ptos PS]";
             // 
-            // tboxPuntos
+            // tboxPuntuaciones
             // 
             tboxPuntuaciones.BackColor = Color.FromArgb(52, 73, 94);
             tboxPuntuaciones.BorderStyle = BorderStyle.FixedSingle;
             tboxPuntuaciones.ForeColor = Color.White;
             tboxPuntuaciones.Location = new Point(272, 52);
-            tboxPuntuaciones.Name = "tboxPuntos";
+            tboxPuntuaciones.Name = "tboxPuntuaciones";
             tboxPuntuaciones.ReadOnly = true;
             tboxPuntuaciones.Size = new Size(260, 23);
             tboxPuntuaciones.TabIndex = 0;
@@ -244,7 +244,7 @@
             botonBorraCampeonato.UseVisualStyleBackColor = false;
             botonBorraCampeonato.Click += BotonBorraCampeonato_Click;
             // 
-            // cboxPrueba
+            // comboPruebas
             // 
             comboPruebas.AutoCompleteSource = AutoCompleteSource.CustomSource;
             comboPruebas.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -252,9 +252,10 @@
             comboPruebas.FormattingEnabled = true;
             comboPruebas.Location = new Point(6, 98);
             comboPruebas.MaxLength = 50;
-            comboPruebas.Name = "cboxPrueba";
+            comboPruebas.Name = "comboPruebas";
             comboPruebas.Size = new Size(260, 23);
             comboPruebas.TabIndex = 2;
+            comboPruebas.SelectedIndexChanged += ComboPruebas_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -279,6 +280,7 @@
             botonNuevaPrueba.Size = new Size(35, 35);
             botonNuevaPrueba.TabIndex = 3;
             botonNuevaPrueba.UseVisualStyleBackColor = false;
+            botonNuevaPrueba.Click += BotonNuevaPrueba_Click;
             // 
             // botonEditaPrueba
             // 
@@ -293,6 +295,7 @@
             botonEditaPrueba.Size = new Size(35, 35);
             botonEditaPrueba.TabIndex = 3;
             botonEditaPrueba.UseVisualStyleBackColor = false;
+            botonEditaPrueba.Click += BotonEditaPrueba_Click;
             // 
             // botonBorraPrueba
             // 
@@ -307,6 +310,7 @@
             botonBorraPrueba.Size = new Size(35, 35);
             botonBorraPrueba.TabIndex = 3;
             botonBorraPrueba.UseVisualStyleBackColor = false;
+            botonBorraPrueba.Click += BotonBorraPrueba_Click;
             // 
             // label3
             // 
