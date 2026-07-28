@@ -32,7 +32,7 @@ namespace rknRallySlotApp.Datos
                       .IsUnique();
             });
 
-            // REGLA 2: Piloto -> Nombre y Abreviado obligatorios, Nombre y Abreviado único
+            // REGLA 2: Piloto -> Nombre y Alias obligatorios, Nombre y Alias único
             modelBuilder.Entity<Piloto>(entity =>
             {
                 entity.Property(p => p.Nombre)
@@ -42,11 +42,11 @@ namespace rknRallySlotApp.Datos
                 entity.HasIndex(p => p.Nombre)
                       .IsUnique();
 
-                entity.Property(p => p.Abreviado)
+                entity.Property(p => p.Alias)
                       .IsRequired()
                       .HasMaxLength(3);
 
-                entity.HasIndex(p => p.Abreviado)
+                entity.HasIndex(p => p.Alias)
                       .IsUnique();
 
                 entity.Property(p => p.Escuderia)
