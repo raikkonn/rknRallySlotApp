@@ -32,7 +32,7 @@ namespace rknRallySlotApp.Datos
                       .IsUnique();
             });
 
-            // REGLA 2: Piloto -> Nombre y Abreviado obligatorios, Abreviado único
+            // REGLA 2: Piloto -> Nombre y Abreviado obligatorios, Nombre y Abreviado único
             modelBuilder.Entity<Piloto>(entity =>
             {
                 entity.Property(p => p.Nombre)
@@ -48,6 +48,9 @@ namespace rknRallySlotApp.Datos
 
                 entity.HasIndex(p => p.Abreviado)
                       .IsUnique();
+
+                entity.Property(p => p.Escuderia)
+                      .HasMaxLength(30);
             });
 
             // REGLA 3: Coche -> Modelo obligatorio
@@ -55,12 +58,11 @@ namespace rknRallySlotApp.Datos
             {
                 entity.Property(c => c.Modelo)
                       .IsRequired()
-                      .HasMaxLength(25); 
+                      .HasMaxLength(30); 
                 
                 entity.Property(c => c.Marca)
                       .HasMaxLength(25);
             });
-
 
             // REGLA 4: Prueba -> Todos obligatorios y Nombre único PARA ESE campeonato
             modelBuilder.Entity<Prueba>(entity =>
@@ -105,7 +107,7 @@ namespace rknRallySlotApp.Datos
                 entity.HasIndex(i => new { i.IdPrueba, i.Dorsal }).IsUnique();
             });
 
-            // REGLA 6: TiempoTramo -> Llave primaria compuesta por tres campos
+            // REGLA 6: TiempoTramo -> Clave primaria compuesta por tres campos
             modelBuilder.Entity<TiempoTramo>(entity =>
             {
                 entity.HasKey(t => new { t.IdInscripcion, t.Etapa, t.Tramo });
