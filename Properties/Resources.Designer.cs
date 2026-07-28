@@ -73,29 +73,9 @@ namespace rknRallySlotApp.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap cancel_b {
-            get {
-                object obj = ResourceManager.GetObject("cancel_b", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap cancel_r {
             get {
                 object obj = ResourceManager.GetObject("cancel_r", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap cancel_w {
-            get {
-                object obj = ResourceManager.GetObject("cancel_w", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,29 +93,9 @@ namespace rknRallySlotApp.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap car_r {
+        internal static System.Drawing.Bitmap carN_g {
             get {
-                object obj = ResourceManager.GetObject("car_r", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap car_w {
-            get {
-                object obj = ResourceManager.GetObject("car_w", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap del_b {
-            get {
-                object obj = ResourceManager.GetObject("del_b", resourceCulture);
+                object obj = ResourceManager.GetObject("carN_g", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,16 +113,6 @@ namespace rknRallySlotApp.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap del_w {
-            get {
-                object obj = ResourceManager.GetObject("del_w", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap helmet_b {
             get {
                 object obj = ResourceManager.GetObject("helmet_b", resourceCulture);
@@ -173,19 +123,9 @@ namespace rknRallySlotApp.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap helmet_r {
+        internal static System.Drawing.Bitmap helmetN_v {
             get {
-                object obj = ResourceManager.GetObject("helmet_r", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap helmet_w {
-            get {
-                object obj = ResourceManager.GetObject("helmet_w", resourceCulture);
+                object obj = ResourceManager.GetObject("helmetN_v", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,26 +143,6 @@ namespace rknRallySlotApp.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap new_r {
-            get {
-                object obj = ResourceManager.GetObject("new_r", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap new_w {
-            get {
-                object obj = ResourceManager.GetObject("new_w", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap pencil_b {
             get {
                 object obj = ResourceManager.GetObject("pencil_b", resourceCulture);
@@ -233,9 +153,9 @@ namespace rknRallySlotApp.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pencil_r {
+        internal static System.Drawing.Bitmap pencil_g {
             get {
-                object obj = ResourceManager.GetObject("pencil_r", resourceCulture);
+                object obj = ResourceManager.GetObject("pencil_g", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -243,9 +163,9 @@ namespace rknRallySlotApp.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pencil_w {
+        internal static System.Drawing.Bitmap pencil_v {
             get {
-                object obj = ResourceManager.GetObject("pencil_w", resourceCulture);
+                object obj = ResourceManager.GetObject("pencil_v", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -273,26 +193,6 @@ namespace rknRallySlotApp.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap save_r {
-            get {
-                object obj = ResourceManager.GetObject("save_r", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap save_w {
-            get {
-                object obj = ResourceManager.GetObject("save_w", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap test_b {
             get {
                 object obj = ResourceManager.GetObject("test_b", resourceCulture);
@@ -303,49 +203,9 @@ namespace rknRallySlotApp.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap test_r {
-            get {
-                object obj = ResourceManager.GetObject("test_r", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap test_w {
-            get {
-                object obj = ResourceManager.GetObject("test_w", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap wand_b {
             get {
                 object obj = ResourceManager.GetObject("wand_b", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap wand_r {
-            get {
-                object obj = ResourceManager.GetObject("wand_r", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap wand_w {
-            get {
-                object obj = ResourceManager.GetObject("wand_w", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

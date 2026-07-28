@@ -36,16 +36,16 @@ public partial class FormMain : Form
         botonBorraPrueba.Image = Properties.Resources.del_r.Zoom(botonBorraPrueba.Width - 5, botonBorraPrueba.Height - 5);
         botonBorraPrueba.ImageAlign = ContentAlignment.MiddleCenter;
 
-        botonNuevoPiloto.Image = Properties.Resources.new_b.Zoom(botonNuevoPiloto.Width - 5, botonNuevoPiloto.Height - 5);
+        botonNuevoPiloto.Image = Properties.Resources.helmetN_v.Zoom(botonNuevoPiloto.Width - 5, botonNuevoPiloto.Height - 5);
         botonNuevoPiloto.ImageAlign = ContentAlignment.MiddleCenter;
-        botonEditaPiloto.Image = Properties.Resources.pencil_b.Zoom(botonEditaPiloto.Width - 5, botonEditaPiloto.Height - 5);
+        botonEditaPiloto.Image = Properties.Resources.pencil_v.Zoom(botonEditaPiloto.Width - 5, botonEditaPiloto.Height - 5);
         botonEditaPiloto.ImageAlign = ContentAlignment.MiddleCenter;
         botonBorraPiloto.Image = Properties.Resources.del_r.Zoom(botonBorraPiloto.Width - 5, botonBorraPiloto.Height - 5);
         botonBorraPiloto.ImageAlign = ContentAlignment.MiddleCenter;
 
-        botonNuevoCoche.Image = Properties.Resources.new_b.Zoom(botonNuevoCoche.Width - 5, botonNuevoCoche.Height - 5);
+        botonNuevoCoche.Image = Properties.Resources.carN_g.Zoom(botonNuevoCoche.Width - 5, botonNuevoCoche.Height - 5);
         botonNuevoCoche.ImageAlign = ContentAlignment.MiddleCenter;
-        botonEditaCoche.Image = Properties.Resources.pencil_b.Zoom(botonEditaCoche.Width - 5, botonEditaCoche.Height - 5);
+        botonEditaCoche.Image = Properties.Resources.pencil_g.Zoom(botonEditaCoche.Width - 5, botonEditaCoche.Height - 5);
         botonEditaCoche.ImageAlign = ContentAlignment.MiddleCenter;
         botonBorraCoche.Image = Properties.Resources.del_r.Zoom(botonBorraCoche.Width - 5, botonBorraCoche.Height - 5);
         botonBorraCoche.ImageAlign = ContentAlignment.MiddleCenter;
@@ -125,6 +125,14 @@ public partial class FormMain : Form
             botonEditaPrueba.Enabled = false;       // Deshabilitado SIN prueba seleccionada
             botonBorraPrueba.Enabled = false;       // Deshabilitado SIN prueba seleccionada
         }
+
+        botonNuevoPiloto.Enabled = true;
+        botonEditaPiloto.Enabled = true;
+        botonBorraPiloto.Enabled = true;
+
+        botonNuevoCoche.Enabled = true; 
+        botonEditaCoche.Enabled = true;
+        botonBorraCoche.Enabled = true;
     }
 
     private void ComboCampeonatosInit()

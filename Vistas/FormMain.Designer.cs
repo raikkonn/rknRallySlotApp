@@ -199,7 +199,7 @@
             tboxEscuderia.Name = "tboxEscuderia";
             tboxEscuderia.ReadOnly = true;
             tboxEscuderia.Size = new Size(213, 23);
-            tboxEscuderia.TabIndex = 4;
+            tboxEscuderia.TabIndex = 0;
             tboxEscuderia.TabStop = false;
             // 
             // label12
@@ -209,7 +209,7 @@
             label12.Location = new Point(318, 19);
             label12.Name = "label12";
             label12.Size = new Size(93, 15);
-            label12.TabIndex = 5;
+            label12.TabIndex = 0;
             label12.Text = "Club / Escudería";
             // 
             // tboxMarca
@@ -268,7 +268,8 @@
             botonBorraCoche.Location = new Point(496, 76);
             botonBorraCoche.Name = "botonBorraCoche";
             botonBorraCoche.Size = new Size(35, 35);
-            botonBorraCoche.TabIndex = 3;
+            botonBorraCoche.TabIndex = 0;
+            botonBorraCoche.TabStop = false;
             botonBorraCoche.UseVisualStyleBackColor = false;
             botonBorraCoche.Click += BotonBorraCoche_Click;
             // 
@@ -283,7 +284,8 @@
             botonBorraPiloto.Location = new Point(622, 29);
             botonBorraPiloto.Name = "botonBorraPiloto";
             botonBorraPiloto.Size = new Size(35, 35);
-            botonBorraPiloto.TabIndex = 3;
+            botonBorraPiloto.TabIndex = 0;
+            botonBorraPiloto.TabStop = false;
             botonBorraPiloto.UseVisualStyleBackColor = false;
             botonBorraPiloto.Click += BotonBorraPiloto_Click;
             // 
@@ -298,7 +300,8 @@
             botonEditaCoche.Location = new Point(455, 76);
             botonEditaCoche.Name = "botonEditaCoche";
             botonEditaCoche.Size = new Size(35, 35);
-            botonEditaCoche.TabIndex = 3;
+            botonEditaCoche.TabIndex = 0;
+            botonEditaCoche.TabStop = false;
             botonEditaCoche.UseVisualStyleBackColor = false;
             botonEditaCoche.Click += BotonEditaCoche_Click;
             // 
@@ -329,7 +332,8 @@
             botonNuevoCoche.Location = new Point(414, 76);
             botonNuevoCoche.Name = "botonNuevoCoche";
             botonNuevoCoche.Size = new Size(35, 35);
-            botonNuevoCoche.TabIndex = 3;
+            botonNuevoCoche.TabIndex = 0;
+            botonNuevoCoche.TabStop = false;
             botonNuevoCoche.UseVisualStyleBackColor = false;
             botonNuevoCoche.Click += BotonNuevoCoche_Click;
             // 
@@ -379,7 +383,7 @@
             comboCoches.MaxLength = 50;
             comboCoches.Name = "comboCoches";
             comboCoches.Size = new Size(260, 23);
-            comboCoches.TabIndex = 2;
+            comboCoches.TabIndex = 3;
             comboCoches.SelectedIndexChanged += ComboCoches_SelectedIndexChanged;
             // 
             // comboPilotos
@@ -392,7 +396,7 @@
             comboPilotos.MaxLength = 50;
             comboPilotos.Name = "comboPilotos";
             comboPilotos.Size = new Size(260, 23);
-            comboPilotos.TabIndex = 1;
+            comboPilotos.TabIndex = 3;
             comboPilotos.SelectedIndexChanged += ComboPilotos_SelectedIndexChanged;
             // 
             // groupBox1
@@ -523,7 +527,8 @@
             botonBorraPrueba.Location = new Point(496, 76);
             botonBorraPrueba.Name = "botonBorraPrueba";
             botonBorraPrueba.Size = new Size(35, 35);
-            botonBorraPrueba.TabIndex = 3;
+            botonBorraPrueba.TabIndex = 0;
+            botonBorraPrueba.TabStop = false;
             botonBorraPrueba.UseVisualStyleBackColor = false;
             botonBorraPrueba.Click += BotonBorraPrueba_Click;
             // 
@@ -538,7 +543,8 @@
             botonBorraCampeonato.Location = new Point(622, 29);
             botonBorraCampeonato.Name = "botonBorraCampeonato";
             botonBorraCampeonato.Size = new Size(35, 35);
-            botonBorraCampeonato.TabIndex = 3;
+            botonBorraCampeonato.TabIndex = 0;
+            botonBorraCampeonato.TabStop = false;
             botonBorraCampeonato.UseVisualStyleBackColor = false;
             botonBorraCampeonato.Click += BotonBorraCampeonato_Click;
             // 
@@ -553,7 +559,8 @@
             botonEditaPrueba.Location = new Point(455, 76);
             botonEditaPrueba.Name = "botonEditaPrueba";
             botonEditaPrueba.Size = new Size(35, 35);
-            botonEditaPrueba.TabIndex = 3;
+            botonEditaPrueba.TabIndex = 0;
+            botonEditaPrueba.TabStop = false;
             botonEditaPrueba.UseVisualStyleBackColor = false;
             botonEditaPrueba.Click += BotonEditaPrueba_Click;
             // 
@@ -584,7 +591,8 @@
             botonNuevaPrueba.Location = new Point(414, 76);
             botonNuevaPrueba.Name = "botonNuevaPrueba";
             botonNuevaPrueba.Size = new Size(35, 35);
-            botonNuevaPrueba.TabIndex = 3;
+            botonNuevaPrueba.TabIndex = 0;
+            botonNuevaPrueba.TabStop = false;
             botonNuevaPrueba.UseVisualStyleBackColor = false;
             botonNuevaPrueba.Click += BotonNuevaPrueba_Click;
             // 

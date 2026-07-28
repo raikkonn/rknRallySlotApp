@@ -121,59 +121,35 @@
   <data name="avslot logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\avslot logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cancel_b" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cancel_b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="cancel_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cancel_r.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cancel_w" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cancel_w.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="carN_g" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\car+_g.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="car_b" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\car_b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="car_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\car_r.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="car_w" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\car_w.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="del_b" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\del_b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="del_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\del_r.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="del_w" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\del_w.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="helmetN_v" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet+_v.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="helmet_b" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\helmet_b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="helmet_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\helmet_r.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="helmet_w" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\helmet_w.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="new_b" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\new_b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="new_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\new_r.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="new_w" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\new_w.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="pencil_b" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pencil_b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pencil_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pencil_r.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="pencil_g" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pencil_g.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pencil_w" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pencil_w.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="pencil_v" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pencil_v.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="rkn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\rkn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -181,28 +157,10 @@
   <data name="save_b" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\save_b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="save_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\save_r.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="save_w" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\save_w.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="test_b" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\test_b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="test_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\test_r.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="test_w" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\test_w.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="wand_b" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wand_b.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wand_r" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\wand_r.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wand_w" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\wand_w.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
