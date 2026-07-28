@@ -31,12 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             DataGridInscripcion = new DataGridView();
             menuMain = new MenuStrip();
-            gestionDeDatosToolStripMenuItem = new ToolStripMenuItem();
-            campeonatosToolStripMenuItem = new ToolStripMenuItem();
-            pruebasToolStripMenuItem = new ToolStripMenuItem();
-            pilotosToolStripMenuItem = new ToolStripMenuItem();
-            cochesToolStripMenuItem = new ToolStripMenuItem();
-            inscripcionesToolStripMenuItem = new ToolStripMenuItem();
+            archivoToolStripMenuItem = new ToolStripMenuItem();
             statusStripMain = new StatusStrip();
             labelStatus = new ToolStripStatusLabel();
             comboCampeonatos = new ComboBox();
@@ -59,11 +54,14 @@
             tboxTmax = new TextBox();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
+            groupBox1 = new GroupBox();
+            salirToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)DataGridInscripcion).BeginInit();
             menuMain.SuspendLayout();
             statusStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // DataGridInscripcion
@@ -85,7 +83,7 @@
             // 
             // menuMain
             // 
-            menuMain.Items.AddRange(new ToolStripItem[] { gestionDeDatosToolStripMenuItem });
+            menuMain.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuMain.Location = new Point(0, 0);
             menuMain.Name = "menuMain";
             menuMain.Padding = new Padding(0);
@@ -94,46 +92,16 @@
             menuMain.TabIndex = 2;
             menuMain.Text = "menuStrip1";
             // 
-            // gestionDeDatosToolStripMenuItem
+            // archivoToolStripMenuItem
             // 
-            gestionDeDatosToolStripMenuItem.AutoToolTip = true;
-            gestionDeDatosToolStripMenuItem.BackColor = Color.Transparent;
-            gestionDeDatosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { campeonatosToolStripMenuItem, pruebasToolStripMenuItem, pilotosToolStripMenuItem, cochesToolStripMenuItem, inscripcionesToolStripMenuItem });
-            gestionDeDatosToolStripMenuItem.ForeColor = Color.Black;
-            gestionDeDatosToolStripMenuItem.Name = "gestionDeDatosToolStripMenuItem";
-            gestionDeDatosToolStripMenuItem.Padding = new Padding(0);
-            gestionDeDatosToolStripMenuItem.Size = new Size(100, 24);
-            gestionDeDatosToolStripMenuItem.Text = "Gestion de Datos";
-            // 
-            // campeonatosToolStripMenuItem
-            // 
-            campeonatosToolStripMenuItem.Name = "campeonatosToolStripMenuItem";
-            campeonatosToolStripMenuItem.Size = new Size(148, 22);
-            campeonatosToolStripMenuItem.Text = "Campeonatos";
-            // 
-            // pruebasToolStripMenuItem
-            // 
-            pruebasToolStripMenuItem.Name = "pruebasToolStripMenuItem";
-            pruebasToolStripMenuItem.Size = new Size(148, 22);
-            pruebasToolStripMenuItem.Text = "Pruebas";
-            // 
-            // pilotosToolStripMenuItem
-            // 
-            pilotosToolStripMenuItem.Name = "pilotosToolStripMenuItem";
-            pilotosToolStripMenuItem.Size = new Size(148, 22);
-            pilotosToolStripMenuItem.Text = "Pilotos";
-            // 
-            // cochesToolStripMenuItem
-            // 
-            cochesToolStripMenuItem.Name = "cochesToolStripMenuItem";
-            cochesToolStripMenuItem.Size = new Size(148, 22);
-            cochesToolStripMenuItem.Text = "Coches";
-            // 
-            // inscripcionesToolStripMenuItem
-            // 
-            inscripcionesToolStripMenuItem.Name = "inscripcionesToolStripMenuItem";
-            inscripcionesToolStripMenuItem.Size = new Size(148, 22);
-            inscripcionesToolStripMenuItem.Text = "Inscripciones";
+            archivoToolStripMenuItem.AutoToolTip = true;
+            archivoToolStripMenuItem.BackColor = Color.Transparent;
+            archivoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { salirToolStripMenuItem });
+            archivoToolStripMenuItem.ForeColor = Color.Black;
+            archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
+            archivoToolStripMenuItem.Padding = new Padding(0);
+            archivoToolStripMenuItem.Size = new Size(52, 24);
+            archivoToolStripMenuItem.Text = "Archivo";
             // 
             // statusStripMain
             // 
@@ -158,7 +126,7 @@
             comboCampeonatos.AutoCompleteSource = AutoCompleteSource.CustomSource;
             comboCampeonatos.DropDownStyle = ComboBoxStyle.DropDownList;
             comboCampeonatos.FormattingEnabled = true;
-            comboCampeonatos.Location = new Point(6, 51);
+            comboCampeonatos.Location = new Point(6, 36);
             comboCampeonatos.MaxLength = 50;
             comboCampeonatos.Name = "comboCampeonatos";
             comboCampeonatos.Size = new Size(260, 23);
@@ -169,7 +137,7 @@
             // 
             lblCto.AutoSize = true;
             lblCto.ForeColor = Color.White;
-            lblCto.Location = new Point(6, 33);
+            lblCto.Location = new Point(6, 18);
             lblCto.Name = "lblCto";
             lblCto.Size = new Size(76, 15);
             lblCto.TabIndex = 0;
@@ -183,7 +151,7 @@
             botonNuevoCampeonato.Enabled = false;
             botonNuevoCampeonato.FlatStyle = FlatStyle.Flat;
             botonNuevoCampeonato.ForeColor = Color.Transparent;
-            botonNuevoCampeonato.Location = new Point(549, 44);
+            botonNuevoCampeonato.Location = new Point(540, 29);
             botonNuevoCampeonato.Name = "botonNuevoCampeonato";
             botonNuevoCampeonato.Size = new Size(35, 35);
             botonNuevoCampeonato.TabIndex = 0;
@@ -195,18 +163,18 @@
             // 
             label1.AutoSize = true;
             label1.ForeColor = Color.White;
-            label1.Location = new Point(272, 33);
+            label1.Location = new Point(272, 18);
             label1.Name = "label1";
-            label1.Size = new Size(247, 15);
+            label1.Size = new Size(259, 15);
             label1.TabIndex = 0;
-            label1.Text = "Puntuación: ptos1º, ptos2º, ptos3º,...[ptos PS]";
+            label1.Text = "Puntuación: ptos1º, ptos2º,...[ptos Power Stage]";
             // 
             // tboxPuntuaciones
             // 
             tboxPuntuaciones.BackColor = Color.FromArgb(52, 73, 94);
             tboxPuntuaciones.BorderStyle = BorderStyle.FixedSingle;
             tboxPuntuaciones.ForeColor = Color.White;
-            tboxPuntuaciones.Location = new Point(272, 52);
+            tboxPuntuaciones.Location = new Point(272, 37);
             tboxPuntuaciones.Name = "tboxPuntuaciones";
             tboxPuntuaciones.ReadOnly = true;
             tboxPuntuaciones.Size = new Size(260, 23);
@@ -221,7 +189,7 @@
             botonEditaCampeonato.Enabled = false;
             botonEditaCampeonato.FlatStyle = FlatStyle.Flat;
             botonEditaCampeonato.ForeColor = Color.Transparent;
-            botonEditaCampeonato.Location = new Point(590, 44);
+            botonEditaCampeonato.Location = new Point(581, 29);
             botonEditaCampeonato.Name = "botonEditaCampeonato";
             botonEditaCampeonato.Size = new Size(35, 35);
             botonEditaCampeonato.TabIndex = 0;
@@ -237,7 +205,7 @@
             botonBorraCampeonato.Enabled = false;
             botonBorraCampeonato.FlatStyle = FlatStyle.Flat;
             botonBorraCampeonato.ForeColor = Color.Transparent;
-            botonBorraCampeonato.Location = new Point(631, 44);
+            botonBorraCampeonato.Location = new Point(622, 29);
             botonBorraCampeonato.Name = "botonBorraCampeonato";
             botonBorraCampeonato.Size = new Size(35, 35);
             botonBorraCampeonato.TabIndex = 3;
@@ -250,7 +218,7 @@
             comboPruebas.DropDownStyle = ComboBoxStyle.DropDownList;
             comboPruebas.Enabled = false;
             comboPruebas.FormattingEnabled = true;
-            comboPruebas.Location = new Point(6, 98);
+            comboPruebas.Location = new Point(6, 83);
             comboPruebas.MaxLength = 50;
             comboPruebas.Name = "comboPruebas";
             comboPruebas.Size = new Size(260, 23);
@@ -261,7 +229,7 @@
             // 
             label2.AutoSize = true;
             label2.ForeColor = Color.White;
-            label2.Location = new Point(6, 80);
+            label2.Location = new Point(6, 65);
             label2.Name = "label2";
             label2.Size = new Size(80, 15);
             label2.TabIndex = 0;
@@ -275,7 +243,7 @@
             botonNuevaPrueba.Enabled = false;
             botonNuevaPrueba.FlatStyle = FlatStyle.Flat;
             botonNuevaPrueba.ForeColor = Color.Transparent;
-            botonNuevaPrueba.Location = new Point(414, 91);
+            botonNuevaPrueba.Location = new Point(414, 76);
             botonNuevaPrueba.Name = "botonNuevaPrueba";
             botonNuevaPrueba.Size = new Size(35, 35);
             botonNuevaPrueba.TabIndex = 3;
@@ -290,7 +258,7 @@
             botonEditaPrueba.Enabled = false;
             botonEditaPrueba.FlatStyle = FlatStyle.Flat;
             botonEditaPrueba.ForeColor = Color.Transparent;
-            botonEditaPrueba.Location = new Point(455, 91);
+            botonEditaPrueba.Location = new Point(455, 76);
             botonEditaPrueba.Name = "botonEditaPrueba";
             botonEditaPrueba.Size = new Size(35, 35);
             botonEditaPrueba.TabIndex = 3;
@@ -305,7 +273,7 @@
             botonBorraPrueba.Enabled = false;
             botonBorraPrueba.FlatStyle = FlatStyle.Flat;
             botonBorraPrueba.ForeColor = Color.Transparent;
-            botonBorraPrueba.Location = new Point(496, 91);
+            botonBorraPrueba.Location = new Point(496, 76);
             botonBorraPrueba.Name = "botonBorraPrueba";
             botonBorraPrueba.Size = new Size(35, 35);
             botonBorraPrueba.TabIndex = 3;
@@ -316,7 +284,7 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = Color.White;
-            label3.Location = new Point(272, 80);
+            label3.Location = new Point(272, 65);
             label3.Name = "label3";
             label3.Size = new Size(41, 15);
             label3.TabIndex = 0;
@@ -327,18 +295,19 @@
             tboxEtapas.BackColor = Color.FromArgb(52, 73, 94);
             tboxEtapas.BorderStyle = BorderStyle.FixedSingle;
             tboxEtapas.ForeColor = Color.White;
-            tboxEtapas.Location = new Point(272, 99);
+            tboxEtapas.Location = new Point(272, 84);
             tboxEtapas.Name = "tboxEtapas";
             tboxEtapas.ReadOnly = true;
             tboxEtapas.Size = new Size(40, 23);
             tboxEtapas.TabIndex = 0;
             tboxEtapas.TabStop = false;
+            tboxEtapas.TextAlign = HorizontalAlignment.Right;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.ForeColor = Color.White;
-            label4.Location = new Point(316, 80);
+            label4.Location = new Point(316, 65);
             label4.Name = "label4";
             label4.Size = new Size(46, 15);
             label4.TabIndex = 0;
@@ -349,18 +318,19 @@
             tboxTramos.BackColor = Color.FromArgb(52, 73, 94);
             tboxTramos.BorderStyle = BorderStyle.FixedSingle;
             tboxTramos.ForeColor = Color.White;
-            tboxTramos.Location = new Point(318, 99);
+            tboxTramos.Location = new Point(318, 84);
             tboxTramos.Name = "tboxTramos";
             tboxTramos.ReadOnly = true;
             tboxTramos.Size = new Size(40, 23);
             tboxTramos.TabIndex = 0;
             tboxTramos.TabStop = false;
+            tboxTramos.TextAlign = HorizontalAlignment.Right;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.ForeColor = Color.White;
-            label5.Location = new Point(364, 80);
+            label5.Location = new Point(364, 65);
             label5.Name = "label5";
             label5.Size = new Size(44, 15);
             label5.TabIndex = 0;
@@ -371,12 +341,13 @@
             tboxTmax.BackColor = Color.FromArgb(52, 73, 94);
             tboxTmax.BorderStyle = BorderStyle.FixedSingle;
             tboxTmax.ForeColor = Color.White;
-            tboxTmax.Location = new Point(364, 99);
+            tboxTmax.Location = new Point(364, 84);
             tboxTmax.Name = "tboxTmax";
             tboxTmax.ReadOnly = true;
             tboxTmax.Size = new Size(40, 23);
             tboxTmax.TabIndex = 0;
             tboxTmax.TabStop = false;
+            tboxTmax.TextAlign = HorizontalAlignment.Right;
             // 
             // pictureBox1
             // 
@@ -399,6 +370,39 @@
             pictureBox2.TabIndex = 7;
             pictureBox2.TabStop = false;
             // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(tboxTmax);
+            groupBox1.Controls.Add(tboxTramos);
+            groupBox1.Controls.Add(label5);
+            groupBox1.Controls.Add(tboxEtapas);
+            groupBox1.Controls.Add(label4);
+            groupBox1.Controls.Add(tboxPuntuaciones);
+            groupBox1.Controls.Add(label3);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(botonBorraPrueba);
+            groupBox1.Controls.Add(botonBorraCampeonato);
+            groupBox1.Controls.Add(botonEditaPrueba);
+            groupBox1.Controls.Add(botonEditaCampeonato);
+            groupBox1.Controls.Add(botonNuevaPrueba);
+            groupBox1.Controls.Add(botonNuevoCampeonato);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(lblCto);
+            groupBox1.Controls.Add(comboPruebas);
+            groupBox1.Controls.Add(comboCampeonatos);
+            groupBox1.Location = new Point(5, 27);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(667, 121);
+            groupBox1.TabIndex = 8;
+            groupBox1.TabStop = false;
+            // 
+            // salirToolStripMenuItem
+            // 
+            salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            salirToolStripMenuItem.Size = new Size(180, 22);
+            salirToolStripMenuItem.Text = "Salir";
+            salirToolStripMenuItem.Click += SalirToolStripMenuItem_Click;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -406,26 +410,9 @@
             BackColor = Color.FromArgb(44, 62, 80);
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(1264, 681);
+            Controls.Add(groupBox1);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
-            Controls.Add(tboxTmax);
-            Controls.Add(tboxTramos);
-            Controls.Add(label5);
-            Controls.Add(tboxEtapas);
-            Controls.Add(label4);
-            Controls.Add(tboxPuntuaciones);
-            Controls.Add(label3);
-            Controls.Add(label1);
-            Controls.Add(botonBorraPrueba);
-            Controls.Add(botonBorraCampeonato);
-            Controls.Add(botonEditaPrueba);
-            Controls.Add(botonEditaCampeonato);
-            Controls.Add(botonNuevaPrueba);
-            Controls.Add(botonNuevoCampeonato);
-            Controls.Add(label2);
-            Controls.Add(lblCto);
-            Controls.Add(comboPruebas);
-            Controls.Add(comboCampeonatos);
             Controls.Add(statusStripMain);
             Controls.Add(DataGridInscripcion);
             Controls.Add(menuMain);
@@ -442,6 +429,8 @@
             statusStripMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -449,12 +438,7 @@
         #endregion
         private DataGridView DataGridInscripcion;
         private MenuStrip menuMain;
-        private ToolStripMenuItem gestionDeDatosToolStripMenuItem;
-        private ToolStripMenuItem campeonatosToolStripMenuItem;
-        private ToolStripMenuItem pruebasToolStripMenuItem;
-        private ToolStripMenuItem pilotosToolStripMenuItem;
-        private ToolStripMenuItem cochesToolStripMenuItem;
-        private ToolStripMenuItem inscripcionesToolStripMenuItem;
+        private ToolStripMenuItem archivoToolStripMenuItem;
         private StatusStrip statusStripMain;
         private ToolStripStatusLabel labelStatus;
         private ComboBox comboCampeonatos;
@@ -477,5 +461,7 @@
         private TextBox tboxTmax;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
+        private GroupBox groupBox1;
+        private ToolStripMenuItem salirToolStripMenuItem;
     }
 }

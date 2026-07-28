@@ -51,45 +51,64 @@ public partial class FormMain : Form
 
     private void ControlesEnableDisable()
     {
-        if (comboCampeonatos.SelectedValue is int idCto && idCto > 0)
+        if (comboCampeonatos.SelectedValue is int idCto && idCto > 0)   // campeonato VÁlIDO seleccionado
         {
-            botonNuevoCampeonato.Enabled = true;
-            botonEditaCampeonato.Enabled = true;
-            botonBorraCampeonato.Enabled = true;
+            IdCampeonatoActual = idCto;                 // Guardamos el ID del campeonato seleccionado en miembro público   
+            botonNuevoCampeonato.Enabled = true;        // Siempre habilitado para crear nuevos campeonatos
+            botonEditaCampeonato.Enabled = true;        // Habilitado para editar el campeonato seleccionado
+            botonBorraCampeonato.Enabled = true;        // Habilitado para borrar el campeonato seleccionado
 
-            comboPruebas.Enabled = true;
+            comboPruebas.Enabled = true;                // Habilitado para seleccionar pruebas del campeonato seleccionado
 
-            if (comboPruebas.SelectedValue is int iPrueba && iPrueba > 0)
+            if (comboPruebas.SelectedValue is int iPrueba && iPrueba > 0)   // prueba VÁLIDA seleccionada
             {
-                botonNuevaPrueba.Enabled = true;
-                botonEditaPrueba.Enabled = true;
-                botonBorraPrueba.Enabled = true;
+                IdPruebaActual = iPrueba;               // Guardamos el ID de la prueba seleccionada en miembro público
+                botonNuevaPrueba.Enabled = true;        // Siempre habilitado para crear nuevas pruebas
+                botonEditaPrueba.Enabled = true;        // Habilitado para editar la prueba seleccionada
+                botonBorraPrueba.Enabled = true;        // Habilitado para borrar la prueba seleccionada
             }
-            else
+            else    // prueba INVÁlIDA o SIN selección
             {
-                botonNuevaPrueba.Enabled = true;
-                botonEditaPrueba.Enabled = false;
-                botonBorraPrueba.Enabled = false;
+                IdPruebaActual = null;                  // Limpiamos el ID de la prueba seleccionada
+                comboPruebas.SelectedIndex = -1;        // Limpiamos la selección del ComboBox de pruebas
+
+                tboxEtapas.Clear();                     // Sin selección activa, limpiar TextBox
+                tboxTramos.Clear();
+                tboxTmax.Clear();
+
+                botonNuevaPrueba.Enabled = true;        // Siempre habilitado para crear nuevas pruebas
+                botonEditaPrueba.Enabled = false;       // Deshabilitado SIN prueba seleccionada
+                botonBorraPrueba.Enabled = false;       // Deshabilitado SIN prueba seleccionada
             }
         }
-        else
+        else    // campeonato INVÁlIDO o SIN selección
         {
-            tboxPuntuaciones.Clear();
+            IdCampeonatoActual = null;              // Limpiamos el ID del campeonato seleccionado
+            comboCampeonatos.SelectedIndex = -1;    // Limpiamos la selección del ComboBox de campeonatos
 
-            botonNuevoCampeonato.Enabled = true;
-            botonEditaCampeonato.Enabled = false;
-            botonBorraCampeonato.Enabled = false;
+            tboxPuntuaciones.Clear();               // Sin selección activa, limpiar TextBox    
 
-            comboPruebas.Enabled = false;
+            botonNuevoCampeonato.Enabled = true;    // Siempre habilitado para crear nuevos campeonatos
+            botonEditaCampeonato.Enabled = false;   // Deshabilitado SIN campeonato seleccionado
+            botonBorraCampeonato.Enabled = false;   // Deshabilitado SIN campeonato seleccionado
 
-            botonNuevaPrueba.Enabled = false;
-            botonEditaPrueba.Enabled = false;
-            botonBorraPrueba.Enabled = false;
+            IdPruebaActual = null;                  // Limpiamos el ID de la prueba seleccionada
+            comboPruebas.SelectedIndex = -1;        // Limpiamos la selección del ComboBox de pruebas
+            comboPruebas.Enabled = false;           // Deshabilitado SIN campeonato seleccionado
+
+            tboxEtapas.Clear();                     // Sin selección activa, limpiar TextBox
+            tboxTramos.Clear();
+            tboxTmax.Clear();
+
+            botonNuevaPrueba.Enabled = false;       // Deshabilitado SIN campeonato seleccionado
+            botonEditaPrueba.Enabled = false;       // Deshabilitado SIN prueba seleccionada
+            botonBorraPrueba.Enabled = false;       // Deshabilitado SIN prueba seleccionada
         }
     }
 
     private void ComboCampeonatosInit()
     {
+        // Desconectamos el evento para evitar que se dispare durante la inicialización
         comboCampeonatos.SelectedIndexChanged -= ComboCampeonatos_SelectedIndexChanged;
 
         try
@@ -115,12 +134,14 @@ public partial class FormMain : Form
         }
         finally
         {
+            // Reconectamos el evento después de la inicialización
             comboCampeonatos.SelectedIndexChanged += ComboCampeonatos_SelectedIndexChanged;
         }
     }
 
     private void ComboPruebasInit()
     {
+        // Desconectamos el evento para evitar que se dispare durante la inicialización
         comboPruebas.SelectedIndexChanged -= ComboPruebas_SelectedIndexChanged;
 
         try
@@ -148,53 +169,56 @@ public partial class FormMain : Form
         finally
         {
             comboPruebas.SelectedIndexChanged += ComboPruebas_SelectedIndexChanged;
-        }   
-    }
-
-    private void DataGridInscripcionInit()
-    {
-        using var db = new AppDbContext();
-
-        // Hacemos la consulta trayendo datos de ambas tablas gracias a la relación
-        var listaGrid = db.Inscripciones
-            .Select(i => new
-            {
-                i.Dorsal,
-                Piloto = i.NombrePiloto,
-                i.Coche,
-                Cat = i.Categoria,
-                Verif = i.Verificado
-            })
-            .ToList();
-
-        // Vinculamos el resultado al DataGridView
-        DataGridInscripcion.DataSource = listaGrid;
+        }
     }
 
     private void ComboCampeonatos_SelectedIndexChanged(object? sender, EventArgs e)
     {
         if (comboCampeonatos.SelectedValue is int idSel)
         {
-            if (idSel > 0)                              // si ID es válido 
+            if (idSel > 0)                              // ID es válido 
             {
                 IdCampeonatoActual = idSel;             // Guardamos el ID del campeonato seleccionado en miembro público
-                Consulta_PuntuacionesCampeonato();      // consultar DB
-                ComboPruebasInit();                     // Inicializamos Combo Pruebas para el campeonato seleccionado
+                Consulta_PuntuacionesCampeonato();      // Consultamos la DB para rellenar el TextBox de puntuaciones
+                ComboPruebasInit();                     // Inicializamos el ComboBox de pruebas para el campeonato seleccionado
             }
             else if (idSel == -5)                       // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
             {
                 botonNuevoCampeonato.PerformClick();    // Simulamos click en el botón de nuevo campeonato      
             }
-            else                                        // ID inválido, limpiar selección y TextBox
+            else                                        // ID inválido, limpiar selecciones y TextBox
             {
+                comboCampeonatos.SelectedIndex = -1;    // Limpiamos la selección del ComboBox de campeonatos
+                comboPruebas.SelectedIndex = -1;        // Limpiamos la selección del ComboBox de pruebas
+
                 IdCampeonatoActual = null;              // Limpiamos el ID del campeonato seleccionado
-                tboxPuntuaciones.Clear();               // Sin selección activa, limpiamos el TextBox
-
                 IdPruebaActual = null;                  // Limpiamos el ID de la prueba seleccionada
-                // limpiar textos de la prueba si los hubiera
-
-                ControlesEnableDisable();               // Actualizamos los controles después de la operación
             }
+        }
+
+        ControlesEnableDisable();                       // Actualizamos los controles después de la operación
+    }
+
+    private void ComboPruebas_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (comboPruebas.SelectedValue is int idSel)
+        {
+            if (idSel > 0)                          // si ID es válido 
+            {
+                IdPruebaActual = idSel;             // Guardamos el ID de la prueba seleccionada en miembro público
+                Consulta_DatosPrueba();             // Consultamos la DB para rellenar los TextBox de datos de la prueba
+            }
+            else if (idSel == -5)                       // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
+            {
+                botonNuevaPrueba.PerformClick();        // Simulamos click en el botón de nueva prueba      
+            }
+            else                                        // ID inválido, limpiar seleccines y TextBox
+            {
+                comboPruebas.SelectedIndex = -1;        // Limpiamos la selección del ComboBox de pruebas
+                IdPruebaActual = null;                  // Limpiamos el ID de la prueba seleccionada
+            }
+
+            ControlesEnableDisable();                       // Actualizamos los controles después de la operación
         }
     }
 
@@ -207,11 +231,43 @@ public partial class FormMain : Form
                               .Select(c => c.SistemaPuntuacion)
                               .FirstOrDefault();
 
-        tboxPuntuaciones.Text = string.IsNullOrEmpty(puntuaciones) ? "NO definido" : puntuaciones;
+        tboxPuntuaciones.Text = !string.IsNullOrEmpty(puntuaciones) ? puntuaciones : "NO definido";
     }
 
-    private void AltaCampeonato()
+    private void Consulta_DatosPrueba()
     {
+        using var db = new AppDbContext();
+
+        var prueba = db.Pruebas
+                            .Where(p => p.Id == IdPruebaActual)
+                            .Select(p => new
+                            {
+                                p.NumEtapas,
+                                p.TramosPorEtapa,
+                                p.TiempoMaximo
+                            })
+                            .FirstOrDefault();
+
+        if (prueba != null)
+        {
+            tboxEtapas.Text = !string.IsNullOrEmpty(prueba.NumEtapas.ToString()) ? prueba.NumEtapas.ToString() : "NO def.";
+            tboxTramos.Text = !string.IsNullOrEmpty(prueba.TramosPorEtapa.ToString()) ? prueba.TramosPorEtapa.ToString() : "NO def.";
+            tboxTmax.Text = !string.IsNullOrEmpty(prueba.TiempoMaximo.ToString()) ? prueba.TiempoMaximo.ToString() : "NO def.";
+        }
+        else
+        {
+            tboxEtapas.Clear();
+            tboxTramos.Clear();
+            tboxTmax.Clear();
+        }
+    }
+
+    private void BotonNuevoCampeonato_Click(object sender, EventArgs e)
+    {
+        comboCampeonatos.SelectedIndex = -1;    // Limpiar la selección para evitar confusión 
+        ControlesEnableDisable();               // Actualizar los controles después de la operación
+
+        // Alta de un nuevo campeonato
         using var formAlta = new FormCampeonato("Nuevo Campeonato");
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
@@ -223,18 +279,60 @@ public partial class FormMain : Form
         }
         else
         {
-            comboCampeonatos.SelectedIndex = -1;        // Si canceló, vaciamos el combo
-            ControlesEnableDisable();                   // Actualizamos los controles después de la operación
+            comboCampeonatos.SelectedIndex = -1;                            // Si canceló, vaciamos el combo
+            ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
             MostrarMensajeEstado("Operacion Cancelada");
         }
     }
 
-    private void BotonNuevoCampeonato_Click(object sender, EventArgs e)
+    private void BotonNuevaPrueba_Click(object sender, EventArgs e)
     {
-        comboCampeonatos.SelectedIndex = -1;    // Limpiar la selección para evitar confusión 
-        tboxPuntuaciones.Clear();               // Sin selección activa, limpiar TextBox
+        comboPruebas.SelectedIndex = -1;        // Limpiar la selección para evitar confusión 
         ControlesEnableDisable();               // Actualizar los controles después de la operación
-        AltaCampeonato();                       // Abrir alta de un nuevo campeonato
+
+        // Alta de una nueva prueba
+        using var formAlta = new FormPrueba("Nueva Prueba");
+
+        if (formAlta.ShowDialog(this) == DialogResult.OK)
+        {
+            ComboPruebasInit();                                         // Si el usuario guardó con éxito, refrescamos combo
+            comboPruebas.SelectedValue = formAlta.IdSelected ?? -1;     // seleccionamos la nueva prueba creada
+            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
+            MostrarMensajeEstado("Prueba creada OK");
+        }
+        else
+        {
+            comboCampeonatos.SelectedIndex = -1;                        // Si canceló, vaciamos el combo
+            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
+            MostrarMensajeEstado("Operacion Cancelada");
+        }
+    }
+
+    private void BotonEditaCampeonato_Click(object sender, EventArgs e)
+    {
+        using var formEdicion = new FormCampeonato("Modificar Campeonato", comboCampeonatos.SelectedValue);
+
+        if (formEdicion.ShowDialog(this) == DialogResult.OK)
+        {
+            ComboCampeonatosInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
+            comboCampeonatos.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos el campeonato editado o ninguno si es null
+            ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
+            MostrarMensajeEstado("Campeonato modificado OK");
+        }
+    }
+
+    private void BotonEditaPrueba_Click(object sender, EventArgs e)
+    {
+        using var formEdicion = new FormPrueba("Modificar Prueba", comboPruebas.SelectedValue);
+
+        if (formEdicion.ShowDialog(this) == DialogResult.OK)
+        {
+            ComboPruebasInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
+            comboPruebas.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos la prueba editada o ninguna si es null
+            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
+            MostrarMensajeEstado("Prueba modificada OK");
+        }
+
     }
 
     private void BotonBorraCampeonato_Click(object sender, EventArgs e)
@@ -289,107 +387,6 @@ public partial class FormMain : Form
             MostrarMensajeEstado("Selecciona campeonato válido");
         }
     }
-
-    private CancellationTokenSource? _ctsMensaje;
-
-    public async void MostrarMensajeEstado(string msg, int ms = 4000)
-    {
-        // Cancela la espera del mensaje anterior si aún estaba corriendo
-        _ctsMensaje?.Cancel();
-        _ctsMensaje = new CancellationTokenSource();
-
-        labelStatus.Text = msg;
-
-        try
-        {
-            // Pasa el Token de cancelación a Task.Delay
-            await Task.Delay(ms, _ctsMensaje.Token);
-            labelStatus.Text = string.Empty; // Limpia al terminar el tiempo
-        }
-        catch (TaskCanceledException)
-        {
-            // Ocurre cuando un nuevo mensaje interrumpe la espera actual
-        }
-    }
-
-    private void BotonEditaCampeonato_Click(object sender, EventArgs e)
-    {
-        using var formEdicion = new FormCampeonato("Modificar Campeonato", comboCampeonatos.SelectedValue);
-
-        if (formEdicion.ShowDialog(this) == DialogResult.OK)
-        {
-            ComboCampeonatosInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
-            comboCampeonatos.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos el campeonato editado o ninguno si es null
-            ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
-            MostrarMensajeEstado("Campeonato modificado OK");
-        }
-    }
-
-    private void ComboPruebas_SelectedIndexChanged(object? sender, EventArgs e)
-    {
-        if (comboPruebas.SelectedValue is int idSel)
-        {
-            if (idSel > 0)                          // si ID es válido 
-            {
-                IdPruebaActual = idSel;             // Guardamos el ID de la prueba seleccionada en miembro público
-
-                // consultar DB textos prueba y rellenar controles
-            }
-            else if (idSel == -5)                       // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
-            {
-                botonNuevaPrueba.PerformClick();        // Simulamos click en el botón de nuevo prueba      
-            }
-            else                                        // ID inválido, limpiar selección y TextBox
-            {
-                IdPruebaActual = null;                  // Limpiamos el ID de la prueba seleccionada
-                // Sin selección activa, limpiamos el TextBox
-                ControlesEnableDisable();               // Actualizamos los controles después de la operación
-            }
-        }
-
-    }
-
-    private void BotonNuevaPrueba_Click(object sender, EventArgs e)
-    {
-        comboPruebas.SelectedIndex = -1;    // Limpiar la selección para evitar confusión 
-        // Sin selección activa, limpiar TextBox
-        ControlesEnableDisable();               // Actualizar los controles después de la operación
-        AltaPrueba();                       // Abrir alta de un nuevo campeonato
-    }
-
-    private void AltaPrueba()
-    {
-        using var formAlta = new FormPrueba("Nueva Prueba");
-
-        if (formAlta.ShowDialog(this) == DialogResult.OK)
-        {
-            ComboPruebasInit();                                         // Si el usuario guardó con éxito, refrescamos combo
-            comboPruebas.SelectedValue = formAlta.IdSelected ?? -1;     // seleccionamos la nueva prueba creada
-            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
-            MostrarMensajeEstado("Prueba creada OK");
-        }
-        else
-        {
-            comboCampeonatos.SelectedIndex = -1;        // Si canceló, vaciamos el combo
-            ControlesEnableDisable();                   // Actualizamos los controles después de la operación
-            MostrarMensajeEstado("Operacion Cancelada");
-        }
-    }
-
-    private void BotonEditaPrueba_Click(object sender, EventArgs e)
-    {
-        using var formEdicion = new FormPrueba("Modificar Prueba", comboPruebas.SelectedValue);
-
-        if (formEdicion.ShowDialog(this) == DialogResult.OK)
-        {
-            ComboPruebasInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
-            comboPruebas.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos la prueba editada o ninguna si es null
-            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
-            MostrarMensajeEstado("Prueba modificada OK");
-        }
-
-    }
-
     private void BotonBorraPrueba_Click(object sender, EventArgs e)
     {
         // Validar ID prueba seleccionada en ComboBox
@@ -441,6 +438,52 @@ public partial class FormMain : Form
         {
             MostrarMensajeEstado("Selecciona prueba válida");
         }
+    }
+
+    private void DataGridInscripcionInit()
+    {
+        using var db = new AppDbContext();
+
+        // Hacemos la consulta trayendo datos de ambas tablas gracias a la relación
+        var listaGrid = db.Inscripciones
+            .Select(i => new
+            {
+                i.Dorsal,
+                Piloto = i.NombrePiloto,
+                i.Coche,
+                Cat = i.Categoria,
+                Verif = i.Verificado
+            })
+            .ToList();
+
+        // Vinculamos el resultado al DataGridView
+        DataGridInscripcion.DataSource = listaGrid;
+    }
+
+    private CancellationTokenSource? _ctsMensaje;
+    public async void MostrarMensajeEstado(string msg, int ms = 4000)
+    {
+        // Cancela la espera del mensaje anterior si aún estaba corriendo
+        _ctsMensaje?.Cancel();
+        _ctsMensaje = new CancellationTokenSource();
+
+        labelStatus.Text = msg;
+
+        try
+        {
+            // Pasa el Token de cancelación a Task.Delay
+            await Task.Delay(ms, _ctsMensaje.Token);
+            labelStatus.Text = string.Empty; // Limpia al terminar el tiempo
+        }
+        catch (TaskCanceledException)
+        {
+            // Ocurre cuando un nuevo mensaje interrumpe la espera actual
+        }
+    }
+
+    private void SalirToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        this.Close();
     }
 }
 

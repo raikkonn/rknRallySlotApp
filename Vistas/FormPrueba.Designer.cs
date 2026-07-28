@@ -40,8 +40,6 @@
             tbox_tMaxSeg = new TextBox();
             label3 = new Label();
             label4 = new Label();
-            numericUpDown1 = new NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
             // lblPrueba
@@ -190,13 +188,6 @@
             label4.TabIndex = 16;
             label4.Text = "seg.";
             // 
-            // numericUpDown1
-            // 
-            numericUpDown1.Location = new Point(27, 123);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(120, 23);
-            numericUpDown1.TabIndex = 17;
-            // 
             // FormPrueba
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -204,7 +195,6 @@
             BackColor = Color.FromArgb(44, 62, 80);
             ClientSize = new Size(569, 211);
             ControlBox = false;
-            Controls.Add(numericUpDown1);
             Controls.Add(label4);
             Controls.Add(tbox_tMaxSeg);
             Controls.Add(label3);
@@ -220,7 +210,6 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "FormPrueba";
             StartPosition = FormStartPosition.CenterParent;
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -238,6 +227,5 @@
         private TextBox tbox_tMaxSeg;
         private Label label3;
         private Label label4;
-        private NumericUpDown numericUpDown1;
     }
 }

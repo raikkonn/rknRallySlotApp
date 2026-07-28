@@ -13,7 +13,7 @@ namespace rknRallySlotApp.Modelos
         public string Nombre { get; set; } = string.Empty;
         public int NumEtapas { get; set; }
         public int TramosPorEtapa { get; set; }
-        public decimal TiempoMaximo { get; set; } = 300;
+        public int TiempoMaximo { get; set; } = 300;
 
         // Relaciones
 
