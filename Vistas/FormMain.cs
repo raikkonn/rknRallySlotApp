@@ -7,8 +7,10 @@ namespace rknRallySlotApp.Vistas;
 public partial class FormMain : Form
 {
     private readonly ToolTip _toolTip = new();
-    public int? IdCampeonatoActual = null;  // ID del campeonato seleccionado (null con selección vacía)
-    public int? IdPruebaActual = null;      // ID de la prueba seleccionada (null con selección vacía)
+    public int? IdCampeonatoSeleccionado = null;  // ID del campeonato seleccionado (null con selección vacía)
+    public int? IdPruebaSeleccionada = null;      // ID de la prueba seleccionada (null con selección vacía)
+    public int? IdPilotoSeleccionado = null;      // ID del piloto seleccionado (null con selección vacía)
+    public int? IdCocheSeleccionado = null;      // ID del coche seleccionado (null con selección vacía)
 
     public FormMain()
     {
@@ -20,23 +22,33 @@ public partial class FormMain : Form
 
     private void BotonesInit()
     {
-        botonNuevoCampeonato.Image = Properties.Resources.new_b.Zoom(botonEditaCampeonato.Width - 5, botonEditaCampeonato.Height - 5);
+        botonNuevoCampeonato.Image = Properties.Resources.new_b.Zoom(botonNuevoCampeonato.Width - 5, botonNuevoCampeonato.Height - 5);
         botonNuevoCampeonato.ImageAlign = ContentAlignment.MiddleCenter;
-
         botonEditaCampeonato.Image = Properties.Resources.pencil_b.Zoom(botonEditaCampeonato.Width - 5, botonEditaCampeonato.Height - 5);
         botonEditaCampeonato.ImageAlign = ContentAlignment.MiddleCenter;
-
-        botonBorraCampeonato.Image = Properties.Resources.del_r.Zoom(botonEditaCampeonato.Width - 5, botonEditaCampeonato.Height - 5);
+        botonBorraCampeonato.Image = Properties.Resources.del_r.Zoom(botonBorraCampeonato.Width - 5, botonBorraCampeonato.Height - 5);
         botonBorraCampeonato.ImageAlign = ContentAlignment.MiddleCenter;
 
-        botonNuevaPrueba.Image = Properties.Resources.new_b.Zoom(botonEditaCampeonato.Width - 5, botonEditaCampeonato.Height - 5);
+        botonNuevaPrueba.Image = Properties.Resources.new_b.Zoom(botonNuevaPrueba.Width - 5, botonNuevaPrueba.Height - 5);
         botonNuevaPrueba.ImageAlign = ContentAlignment.MiddleCenter;
-
-        botonEditaPrueba.Image = Properties.Resources.pencil_b.Zoom(botonEditaCampeonato.Width - 5, botonEditaCampeonato.Height - 5);
+        botonEditaPrueba.Image = Properties.Resources.pencil_b.Zoom(botonEditaPrueba.Width - 5, botonEditaPrueba.Height - 5);
         botonEditaPrueba.ImageAlign = ContentAlignment.MiddleCenter;
-
-        botonBorraPrueba.Image = Properties.Resources.del_r.Zoom(botonEditaCampeonato.Width - 5, botonEditaCampeonato.Height - 5);
+        botonBorraPrueba.Image = Properties.Resources.del_r.Zoom(botonBorraPrueba.Width - 5, botonBorraPrueba.Height - 5);
         botonBorraPrueba.ImageAlign = ContentAlignment.MiddleCenter;
+
+        botonNuevoPiloto.Image = Properties.Resources.new_b.Zoom(botonNuevoPiloto.Width - 5, botonNuevoPiloto.Height - 5);
+        botonNuevoPiloto.ImageAlign = ContentAlignment.MiddleCenter;
+        botonEditaPiloto.Image = Properties.Resources.pencil_b.Zoom(botonEditaPiloto.Width - 5, botonEditaPiloto.Height - 5);
+        botonEditaPiloto.ImageAlign = ContentAlignment.MiddleCenter;
+        botonBorraPiloto.Image = Properties.Resources.del_r.Zoom(botonBorraPiloto.Width - 5, botonBorraPiloto.Height - 5);
+        botonBorraPiloto.ImageAlign = ContentAlignment.MiddleCenter;
+
+        botonNuevoCoche.Image = Properties.Resources.new_b.Zoom(botonNuevoCoche.Width - 5, botonNuevoCoche.Height - 5);
+        botonNuevoCoche.ImageAlign = ContentAlignment.MiddleCenter;
+        botonEditaCoche.Image = Properties.Resources.pencil_b.Zoom(botonEditaCoche.Width - 5, botonEditaCoche.Height - 5);
+        botonEditaCoche.ImageAlign = ContentAlignment.MiddleCenter;
+        botonBorraCoche.Image = Properties.Resources.del_r.Zoom(botonBorraCoche.Width - 5, botonBorraCoche.Height - 5);
+        botonBorraCoche.ImageAlign = ContentAlignment.MiddleCenter;
     }
 
     private void ConfigurarToolTips()
@@ -44,16 +56,25 @@ public partial class FormMain : Form
         _toolTip.SetToolTip(botonNuevoCampeonato, "Nuevo Campeonato");
         _toolTip.SetToolTip(botonEditaCampeonato, "Modificar Campeonato");
         _toolTip.SetToolTip(botonBorraCampeonato, "Borrar Campeonato");
+
         _toolTip.SetToolTip(botonNuevaPrueba, "Nueva Prueba");
         _toolTip.SetToolTip(botonEditaPrueba, "Modificar Prueba");
         _toolTip.SetToolTip(botonBorraPrueba, "Borrar Prueba");
+
+        _toolTip.SetToolTip(botonNuevoPiloto, "Nuevo Piloto");
+        _toolTip.SetToolTip(botonEditaPiloto, "Modificar Piloto");
+        _toolTip.SetToolTip(botonBorraPiloto, "Borrar Piloto");
+
+        _toolTip.SetToolTip(botonNuevoCoche, "Nuevo Coche");
+        _toolTip.SetToolTip(botonEditaCoche, "Modificar Coche");
+        _toolTip.SetToolTip(botonBorraCoche, "Borrar Coche");
     }
 
     private void ControlesEnableDisable()
     {
         if (comboCampeonatos.SelectedValue is int idCto && idCto > 0)   // campeonato VÁlIDO seleccionado
         {
-            IdCampeonatoActual = idCto;                 // Guardamos el ID del campeonato seleccionado en miembro público   
+            IdCampeonatoSeleccionado = idCto;           // Guardamos el ID del campeonato seleccionado en miembro público   
             botonNuevoCampeonato.Enabled = true;        // Siempre habilitado para crear nuevos campeonatos
             botonEditaCampeonato.Enabled = true;        // Habilitado para editar el campeonato seleccionado
             botonBorraCampeonato.Enabled = true;        // Habilitado para borrar el campeonato seleccionado
@@ -62,14 +83,14 @@ public partial class FormMain : Form
 
             if (comboPruebas.SelectedValue is int iPrueba && iPrueba > 0)   // prueba VÁLIDA seleccionada
             {
-                IdPruebaActual = iPrueba;               // Guardamos el ID de la prueba seleccionada en miembro público
+                IdPruebaSeleccionada = iPrueba;         // Guardamos el ID de la prueba seleccionada en miembro público
                 botonNuevaPrueba.Enabled = true;        // Siempre habilitado para crear nuevas pruebas
                 botonEditaPrueba.Enabled = true;        // Habilitado para editar la prueba seleccionada
                 botonBorraPrueba.Enabled = true;        // Habilitado para borrar la prueba seleccionada
             }
             else    // prueba INVÁlIDA o SIN selección
             {
-                IdPruebaActual = null;                  // Limpiamos el ID de la prueba seleccionada
+                IdPruebaSeleccionada = null;            // Limpiamos el ID de la prueba seleccionada
                 comboPruebas.SelectedIndex = -1;        // Limpiamos la selección del ComboBox de pruebas
 
                 tboxEtapas.Clear();                     // Sin selección activa, limpiar TextBox
@@ -83,7 +104,7 @@ public partial class FormMain : Form
         }
         else    // campeonato INVÁlIDO o SIN selección
         {
-            IdCampeonatoActual = null;              // Limpiamos el ID del campeonato seleccionado
+            IdCampeonatoSeleccionado = null;        // Limpiamos el ID del campeonato seleccionado
             comboCampeonatos.SelectedIndex = -1;    // Limpiamos la selección del ComboBox de campeonatos
 
             tboxPuntuaciones.Clear();               // Sin selección activa, limpiar TextBox    
@@ -92,7 +113,7 @@ public partial class FormMain : Form
             botonEditaCampeonato.Enabled = false;   // Deshabilitado SIN campeonato seleccionado
             botonBorraCampeonato.Enabled = false;   // Deshabilitado SIN campeonato seleccionado
 
-            IdPruebaActual = null;                  // Limpiamos el ID de la prueba seleccionada
+            IdPruebaSeleccionada = null;                  // Limpiamos el ID de la prueba seleccionada
             comboPruebas.SelectedIndex = -1;        // Limpiamos la selección del ComboBox de pruebas
             comboPruebas.Enabled = false;           // Deshabilitado SIN campeonato seleccionado
 
@@ -150,7 +171,7 @@ public partial class FormMain : Form
 
             // Obtenemos la lista de pruebas desde la base de datos
             var listaPruebas = db.Pruebas
-                .Where(p => p.IdCampeonato == IdCampeonatoActual)
+                .Where(p => p.IdCampeonato == IdCampeonatoSeleccionado)
                 .Select(p => new { p.Id, p.Nombre })
                 .ToList();
 
@@ -178,7 +199,7 @@ public partial class FormMain : Form
         {
             if (idSel > 0)                              // ID es válido 
             {
-                IdCampeonatoActual = idSel;             // Guardamos el ID del campeonato seleccionado en miembro público
+                IdCampeonatoSeleccionado = idSel;             // Guardamos el ID del campeonato seleccionado en miembro público
                 Consulta_PuntuacionesCampeonato();      // Consultamos la DB para rellenar el TextBox de puntuaciones
                 ComboPruebasInit();                     // Inicializamos el ComboBox de pruebas para el campeonato seleccionado
             }
@@ -191,8 +212,8 @@ public partial class FormMain : Form
                 comboCampeonatos.SelectedIndex = -1;    // Limpiamos la selección del ComboBox de campeonatos
                 comboPruebas.SelectedIndex = -1;        // Limpiamos la selección del ComboBox de pruebas
 
-                IdCampeonatoActual = null;              // Limpiamos el ID del campeonato seleccionado
-                IdPruebaActual = null;                  // Limpiamos el ID de la prueba seleccionada
+                IdCampeonatoSeleccionado = null;              // Limpiamos el ID del campeonato seleccionado
+                IdPruebaSeleccionada = null;                  // Limpiamos el ID de la prueba seleccionada
             }
         }
 
@@ -205,21 +226,31 @@ public partial class FormMain : Form
         {
             if (idSel > 0)                          // si ID es válido 
             {
-                IdPruebaActual = idSel;             // Guardamos el ID de la prueba seleccionada en miembro público
+                IdPruebaSeleccionada = idSel;       // Guardamos el ID de la prueba seleccionada en miembro público
                 Consulta_DatosPrueba();             // Consultamos la DB para rellenar los TextBox de datos de la prueba
             }
-            else if (idSel == -5)                       // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
+            else if (idSel == -5)                   // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
             {
-                botonNuevaPrueba.PerformClick();        // Simulamos click en el botón de nueva prueba      
+                botonNuevaPrueba.PerformClick();    // Simulamos click en el botón de nueva prueba      
             }
-            else                                        // ID inválido, limpiar seleccines y TextBox
+            else                                    // ID inválido, limpiar seleccines y TextBox
             {
-                comboPruebas.SelectedIndex = -1;        // Limpiamos la selección del ComboBox de pruebas
-                IdPruebaActual = null;                  // Limpiamos el ID de la prueba seleccionada
+                comboPruebas.SelectedIndex = -1;    // Limpiamos la selección del ComboBox de pruebas
+                IdPruebaSeleccionada = null;        // Limpiamos el ID de la prueba seleccionada
             }
 
-            ControlesEnableDisable();                       // Actualizamos los controles después de la operación
+            ControlesEnableDisable();               // Actualizamos los controles después de la operación
         }
+    }
+
+    private void ComboPilotos_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    private void ComboCoches_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
     }
 
     private void Consulta_PuntuacionesCampeonato()
@@ -227,7 +258,7 @@ public partial class FormMain : Form
         using var db = new AppDbContext();
 
         var puntuaciones = db.Campeonatos
-                              .Where(c => c.Id == IdCampeonatoActual)
+                              .Where(c => c.Id == IdCampeonatoSeleccionado)
                               .Select(c => c.SistemaPuntuacion)
                               .FirstOrDefault();
 
@@ -239,7 +270,7 @@ public partial class FormMain : Form
         using var db = new AppDbContext();
 
         var prueba = db.Pruebas
-                            .Where(p => p.Id == IdPruebaActual)
+                            .Where(p => p.Id == IdPruebaSeleccionada)
                             .Select(p => new
                             {
                                 p.NumEtapas,
@@ -308,6 +339,16 @@ public partial class FormMain : Form
         }
     }
 
+    private void BotonNuevoPiloto_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void BotonNuevoCoche_Click(object sender, EventArgs e)
+    {
+
+    }
+
     private void BotonEditaCampeonato_Click(object sender, EventArgs e)
     {
         using var formEdicion = new FormCampeonato("Modificar Campeonato", comboCampeonatos.SelectedValue);
@@ -332,6 +373,16 @@ public partial class FormMain : Form
             ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
             MostrarMensajeEstado("Prueba modificada OK");
         }
+
+    }
+
+    private void BotonEditaPiloto_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void BotonEditaCoche_Click(object sender, EventArgs e)
+    {
 
     }
 
@@ -440,6 +491,16 @@ public partial class FormMain : Form
         }
     }
 
+    private void BotonBorraPiloto_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void BotonBorraCoche_Click(object sender, EventArgs e)
+    {
+
+    }
+
     private void DataGridInscripcionInit()
     {
         using var db = new AppDbContext();
@@ -486,4 +547,3 @@ public partial class FormMain : Form
         this.Close();
     }
 }
-

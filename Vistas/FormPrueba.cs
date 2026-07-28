@@ -101,7 +101,7 @@ public partial class FormPrueba : Form
 
     private void BotonSave_Click(object sender, EventArgs e)
     {
-        int idCampeonatoActual = (this.Owner as FormMain)?.IdCampeonatoActual ?? 0;
+        int idCampeonatoActual = (this.Owner as FormMain)?.IdCampeonatoSeleccionado ?? 0;
 
         if (idCampeonatoActual <= 0)
         {
