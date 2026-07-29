@@ -13,14 +13,14 @@ public partial class FormCampeonato : Form
     public FormCampeonato(String? titulo = null, object? id = null)
     {
         InitializeComponent();
-        BotonesInit();  // Asignacion de imagenes a los botones
+        BotonesInit();                  // Asignacion de imagenes a los botones
         ConfigurarToolTips();
 
         lblForm.Text = titulo ?? String.Empty;
         
         if ((id is int idSel) && (idSel > 0))  
         {
-            ConsultaCampeonato(idSel);
+            RellenaCampeonato(idSel);
             IdSelected = idSel;
         }
         else
@@ -49,7 +49,7 @@ public partial class FormCampeonato : Form
         _toolTip.SetToolTip(botonCancel, "Cancelar");
     }
 
-    private void ConsultaCampeonato(int id)
+    private void RellenaCampeonato(int id)
     {
         using var db = new AppDbContext();
 

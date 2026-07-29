@@ -208,7 +208,7 @@ public partial class FormMain : Form
             if (idSel > 0)                              // ID es válido 
             {
                 IdCampeonatoSeleccionado = idSel;             // Guardamos el ID del campeonato seleccionado en miembro público
-                Consulta_PuntuacionesCampeonato();      // Consultamos la DB para rellenar el TextBox de puntuaciones
+                Rellena_PuntuacionCampeonato();      // Consultamos la DB para rellenar el TextBox de puntuaciones
                 ComboPruebasInit();                     // Inicializamos el ComboBox de pruebas para el campeonato seleccionado
             }
             else if (idSel == -5)                       // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
@@ -235,7 +235,7 @@ public partial class FormMain : Form
             if (idSel > 0)                          // si ID es válido 
             {
                 IdPruebaSeleccionada = idSel;       // Guardamos el ID de la prueba seleccionada en miembro público
-                Consulta_DatosPrueba();             // Consultamos la DB para rellenar los TextBox de datos de la prueba
+                Rellena_DatosPrueba();             // Consultamos la DB para rellenar los TextBox de datos de la prueba
             }
             else if (idSel == -5)                   // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
             {
@@ -261,7 +261,7 @@ public partial class FormMain : Form
 
     }
 
-    private void Consulta_PuntuacionesCampeonato()
+    private void Rellena_PuntuacionCampeonato()
     {
         using var db = new AppDbContext();
 
@@ -273,7 +273,7 @@ public partial class FormMain : Form
         tboxPuntuaciones.Text = !string.IsNullOrEmpty(puntuaciones) ? puntuaciones : "NO definido";
     }
 
-    private void Consulta_DatosPrueba()
+    private void Rellena_DatosPrueba()
     {
         using var db = new AppDbContext();
 
@@ -349,6 +349,25 @@ public partial class FormMain : Form
 
     private void BotonNuevoPiloto_Click(object sender, EventArgs e)
     {
+        comboPilotos.SelectedIndex = -1;        // Limpiar la selección para evitar confusión 
+        ControlesEnableDisable();               // Actualizar los controles después de la operación
+
+        // Alta nuevo piloto
+        using var formAlta = new FormPiloto("Nuevo Piloto");
+
+        if (formAlta.ShowDialog(this) == DialogResult.OK)
+        {
+            // ComboPilotosInit();                                         // Si el usuario guardó con éxito, refrescamos combo
+            comboPilotos.SelectedValue = formAlta.IdSelected ?? -1;     // seleccionamos el nuevo piloto creado
+            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
+            MostrarMensajeEstado("Piloto creado OK");
+        }
+        else
+        {
+            comboPilotos.SelectedIndex = -1;                            // Si canceló, vaciamos el combo
+            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
+            MostrarMensajeEstado("Operacion Cancelada");
+        }
 
     }
 
@@ -386,7 +405,15 @@ public partial class FormMain : Form
 
     private void BotonEditaPiloto_Click(object sender, EventArgs e)
     {
+        using var formEdicion = new FormPiloto("Modificar Piloto", comboPilotos.SelectedValue);
 
+        if (formEdicion.ShowDialog(this) == DialogResult.OK)
+        {
+            // ComboPilotosInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
+            comboPilotos.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos el piloto editado o ninguno si es null
+            ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
+            MostrarMensajeEstado("Piloto modificado OK");
+        }
     }
 
     private void BotonEditaCoche_Click(object sender, EventArgs e)
@@ -446,6 +473,7 @@ public partial class FormMain : Form
             MostrarMensajeEstado("Selecciona campeonato válido");
         }
     }
+
     private void BotonBorraPrueba_Click(object sender, EventArgs e)
     {
         // Validar ID prueba seleccionada en ComboBox

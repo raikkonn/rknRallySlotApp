@@ -38,13 +38,13 @@
             lblPtos2 = new Label();
             SuspendLayout();
             // 
-            // tboxPuntos
+            // tboxPuntuacion
             // 
             tboxPuntuacion.BackColor = Color.White;
             tboxPuntuacion.BorderStyle = BorderStyle.FixedSingle;
             tboxPuntuacion.ForeColor = Color.Black;
             tboxPuntuacion.Location = new Point(284, 110);
-            tboxPuntuacion.Name = "tboxPuntos";
+            tboxPuntuacion.Name = "tboxPuntuacion";
             tboxPuntuacion.Size = new Size(260, 23);
             tboxPuntuacion.TabIndex = 2;
             tboxPuntuacion.KeyDown += All_tbox_KeyDown;
@@ -69,7 +69,7 @@
             lblCto.TabIndex = 4;
             lblCto.Text = "Nombre Campeonato";
             // 
-            // btnCancel
+            // botonCancel
             // 
             botonCancel.BackColor = Color.FromArgb(52, 73, 94);
             botonCancel.BackgroundImageLayout = ImageLayout.Zoom;
@@ -77,14 +77,14 @@
             botonCancel.FlatStyle = FlatStyle.Flat;
             botonCancel.ForeColor = Color.Transparent;
             botonCancel.Location = new Point(509, 150);
-            botonCancel.Name = "btnCancel";
+            botonCancel.Name = "botonCancel";
             botonCancel.Size = new Size(35, 35);
             botonCancel.TabIndex = 8;
             botonCancel.TabStop = false;
             botonCancel.UseVisualStyleBackColor = false;
             botonCancel.Click += BotonCancel_Click;
             // 
-            // btnSave
+            // botonSave
             // 
             botonSave.BackColor = Color.FromArgb(52, 73, 94);
             botonSave.BackgroundImageLayout = ImageLayout.None;
@@ -93,31 +93,31 @@
             botonSave.FlatStyle = FlatStyle.Flat;
             botonSave.ForeColor = Color.Transparent;
             botonSave.Location = new Point(468, 150);
-            botonSave.Name = "btnSave";
+            botonSave.Name = "botonSave";
             botonSave.Size = new Size(35, 35);
             botonSave.TabIndex = 6;
             botonSave.TabStop = false;
             botonSave.UseVisualStyleBackColor = false;
             botonSave.Click += BotonSave_Click;
             // 
-            // lblFrmCto
+            // lblForm
             // 
             lblForm.AutoSize = true;
             lblForm.BorderStyle = BorderStyle.FixedSingle;
             lblForm.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblForm.ForeColor = Color.White;
             lblForm.Location = new Point(18, 29);
-            lblForm.Name = "lblFrmCto";
+            lblForm.Name = "lblForm";
             lblForm.Size = new Size(2, 27);
             lblForm.TabIndex = 9;
             // 
-            // tboxCto
+            // tboxCampeonato
             // 
             tboxCampeonato.BackColor = Color.White;
             tboxCampeonato.BorderStyle = BorderStyle.FixedSingle;
             tboxCampeonato.ForeColor = Color.Black;
             tboxCampeonato.Location = new Point(18, 110);
-            tboxCampeonato.Name = "tboxCto";
+            tboxCampeonato.Name = "tboxCampeonato";
             tboxCampeonato.Size = new Size(260, 23);
             tboxCampeonato.TabIndex = 1;
             tboxCampeonato.TextChanged += TboxCampeonato_TextChanged;
@@ -133,7 +133,7 @@
             lblPtos2.TabIndex = 11;
             lblPtos2.Text = "ptos1º, ptos2º, ptos3º,...[ptos PS:1º, 2º, 3º, ...]";
             // 
-            // FormCto
+            // FormCampeonato
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -149,7 +149,7 @@
             Controls.Add(lblPtos1);
             Controls.Add(lblCto);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Name = "FormCto";
+            Name = "FormCampeonato";
             StartPosition = FormStartPosition.CenterParent;
             ResumeLayout(false);
             PerformLayout();

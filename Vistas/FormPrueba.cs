@@ -21,7 +21,7 @@ public partial class FormPrueba : Form
         if ((id is int idSel) && (idSel > 0))
         {
             IdSelected = idSel;
-            ConsultaPruebas(idSel);
+            RellenaPrueba(idSel);
         }
         else
         {
@@ -56,7 +56,7 @@ public partial class FormPrueba : Form
         _toolTip.SetToolTip(botonCancel, "Cancelar");
     }
 
-    private void ConsultaPruebas(int id)
+    private void RellenaPrueba(int id)
     {
         using var db = new AppDbContext();
 
