@@ -46,7 +46,7 @@
             // 
             lblPrueba.AutoSize = true;
             lblPrueba.ForeColor = Color.White;
-            lblPrueba.Location = new Point(27, 76);
+            lblPrueba.Location = new Point(67, 88);
             lblPrueba.Name = "lblPrueba";
             lblPrueba.Size = new Size(127, 15);
             lblPrueba.TabIndex = 4;
@@ -59,7 +59,7 @@
             botonCancel.Cursor = Cursors.Hand;
             botonCancel.FlatStyle = FlatStyle.Flat;
             botonCancel.ForeColor = Color.Transparent;
-            botonCancel.Location = new Point(509, 150);
+            botonCancel.Location = new Point(549, 162);
             botonCancel.Name = "botonCancel";
             botonCancel.Size = new Size(35, 35);
             botonCancel.TabIndex = 8;
@@ -75,7 +75,7 @@
             botonSave.Enabled = false;
             botonSave.FlatStyle = FlatStyle.Flat;
             botonSave.ForeColor = Color.Transparent;
-            botonSave.Location = new Point(468, 150);
+            botonSave.Location = new Point(508, 162);
             botonSave.Name = "botonSave";
             botonSave.Size = new Size(35, 35);
             botonSave.TabIndex = 6;
@@ -89,7 +89,7 @@
             lblForm.BorderStyle = BorderStyle.FixedSingle;
             lblForm.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblForm.ForeColor = Color.White;
-            lblForm.Location = new Point(27, 24);
+            lblForm.Location = new Point(67, 36);
             lblForm.Name = "lblForm";
             lblForm.Size = new Size(2, 27);
             lblForm.TabIndex = 9;
@@ -99,7 +99,7 @@
             tbox_Prueba.BackColor = Color.White;
             tbox_Prueba.BorderStyle = BorderStyle.FixedSingle;
             tbox_Prueba.ForeColor = Color.Black;
-            tbox_Prueba.Location = new Point(27, 94);
+            tbox_Prueba.Location = new Point(67, 106);
             tbox_Prueba.Name = "tbox_Prueba";
             tbox_Prueba.Size = new Size(260, 23);
             tbox_Prueba.TabIndex = 1;
@@ -111,7 +111,7 @@
             tbox_nEtapas.BackColor = Color.White;
             tbox_nEtapas.BorderStyle = BorderStyle.FixedSingle;
             tbox_nEtapas.ForeColor = Color.Black;
-            tbox_nEtapas.Location = new Point(293, 94);
+            tbox_nEtapas.Location = new Point(333, 106);
             tbox_nEtapas.Name = "tbox_nEtapas";
             tbox_nEtapas.Size = new Size(61, 23);
             tbox_nEtapas.TabIndex = 10;
@@ -123,7 +123,7 @@
             // 
             label1.AutoSize = true;
             label1.ForeColor = Color.White;
-            label1.Location = new Point(293, 76);
+            label1.Location = new Point(333, 88);
             label1.Name = "label1";
             label1.Size = new Size(56, 15);
             label1.TabIndex = 11;
@@ -135,7 +135,7 @@
             tbox_nTramos.BackColor = Color.White;
             tbox_nTramos.BorderStyle = BorderStyle.FixedSingle;
             tbox_nTramos.ForeColor = Color.Black;
-            tbox_nTramos.Location = new Point(360, 94);
+            tbox_nTramos.Location = new Point(400, 106);
             tbox_nTramos.Name = "tbox_nTramos";
             tbox_nTramos.Size = new Size(61, 23);
             tbox_nTramos.TabIndex = 12;
@@ -147,7 +147,7 @@
             // 
             label2.AutoSize = true;
             label2.ForeColor = Color.White;
-            label2.Location = new Point(360, 76);
+            label2.Location = new Point(400, 88);
             label2.Name = "label2";
             label2.Size = new Size(61, 15);
             label2.TabIndex = 13;
@@ -159,7 +159,7 @@
             tbox_tMaxSeg.BackColor = Color.White;
             tbox_tMaxSeg.BorderStyle = BorderStyle.FixedSingle;
             tbox_tMaxSeg.ForeColor = Color.Black;
-            tbox_tMaxSeg.Location = new Point(427, 94);
+            tbox_tMaxSeg.Location = new Point(467, 106);
             tbox_tMaxSeg.Name = "tbox_tMaxSeg";
             tbox_tMaxSeg.Size = new Size(69, 23);
             tbox_tMaxSeg.TabIndex = 14;
@@ -171,7 +171,7 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = Color.White;
-            label3.Location = new Point(427, 76);
+            label3.Location = new Point(467, 88);
             label3.Name = "label3";
             label3.Size = new Size(69, 15);
             label3.TabIndex = 15;
@@ -182,7 +182,7 @@
             // 
             label4.AutoSize = true;
             label4.ForeColor = Color.White;
-            label4.Location = new Point(502, 96);
+            label4.Location = new Point(542, 108);
             label4.Name = "label4";
             label4.Size = new Size(28, 15);
             label4.TabIndex = 16;
@@ -192,8 +192,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(44, 62, 80);
-            ClientSize = new Size(569, 211);
+            BackColor = Color.FromArgb(52, 73, 94);
+            ClientSize = new Size(664, 234);
             ControlBox = false;
             Controls.Add(label4);
             Controls.Add(tbox_tMaxSeg);
@@ -207,7 +207,8 @@
             Controls.Add(botonCancel);
             Controls.Add(botonSave);
             Controls.Add(lblPrueba);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            ForeColor = SystemColors.WindowText;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormPrueba";
             StartPosition = FormStartPosition.CenterParent;
             ResumeLayout(false);

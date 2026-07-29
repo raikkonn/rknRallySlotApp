@@ -36,7 +36,7 @@
             statusStripMain = new StatusStrip();
             labelStatus = new ToolStripStatusLabel();
             panel1 = new Panel();
-            groupBox2 = new GroupBox();
+            gBoxPilotoCoche = new GroupBox();
             tboxEscuderia = new TextBox();
             label12 = new Label();
             tboxMarca = new TextBox();
@@ -53,7 +53,7 @@
             label11 = new Label();
             comboCoches = new ComboBox();
             comboPilotos = new ComboBox();
-            groupBox1 = new GroupBox();
+            gBoxCampeonatoPrueba = new GroupBox();
             tboxTmax = new TextBox();
             tboxTramos = new TextBox();
             label5 = new Label();
@@ -80,8 +80,8 @@
             menuMain.SuspendLayout();
             statusStripMain.SuspendLayout();
             panel1.SuspendLayout();
-            groupBox2.SuspendLayout();
-            groupBox1.SuspendLayout();
+            gBoxPilotoCoche.SuspendLayout();
+            gBoxCampeonatoPrueba.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -157,8 +157,8 @@
             // 
             panel1.AutoSize = true;
             panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            panel1.Controls.Add(groupBox2);
-            panel1.Controls.Add(groupBox1);
+            panel1.Controls.Add(gBoxPilotoCoche);
+            panel1.Controls.Add(gBoxCampeonatoPrueba);
             panel1.Controls.Add(panel3);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 24);
@@ -166,29 +166,29 @@
             panel1.Size = new Size(1264, 254);
             panel1.TabIndex = 10;
             // 
-            // groupBox2
+            // gBoxPilotoCoche
             // 
-            groupBox2.Controls.Add(tboxEscuderia);
-            groupBox2.Controls.Add(label12);
-            groupBox2.Controls.Add(tboxMarca);
-            groupBox2.Controls.Add(tboxAlias);
-            groupBox2.Controls.Add(label8);
-            groupBox2.Controls.Add(label9);
-            groupBox2.Controls.Add(botonBorraCoche);
-            groupBox2.Controls.Add(botonBorraPiloto);
-            groupBox2.Controls.Add(botonEditaCoche);
-            groupBox2.Controls.Add(botonEditaPiloto);
-            groupBox2.Controls.Add(botonNuevoCoche);
-            groupBox2.Controls.Add(botonNuevoPiloto);
-            groupBox2.Controls.Add(label10);
-            groupBox2.Controls.Add(label11);
-            groupBox2.Controls.Add(comboCoches);
-            groupBox2.Controls.Add(comboPilotos);
-            groupBox2.Location = new Point(3, 130);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(667, 121);
-            groupBox2.TabIndex = 13;
-            groupBox2.TabStop = false;
+            gBoxPilotoCoche.Controls.Add(tboxEscuderia);
+            gBoxPilotoCoche.Controls.Add(label12);
+            gBoxPilotoCoche.Controls.Add(tboxMarca);
+            gBoxPilotoCoche.Controls.Add(tboxAlias);
+            gBoxPilotoCoche.Controls.Add(label8);
+            gBoxPilotoCoche.Controls.Add(label9);
+            gBoxPilotoCoche.Controls.Add(botonBorraCoche);
+            gBoxPilotoCoche.Controls.Add(botonBorraPiloto);
+            gBoxPilotoCoche.Controls.Add(botonEditaCoche);
+            gBoxPilotoCoche.Controls.Add(botonEditaPiloto);
+            gBoxPilotoCoche.Controls.Add(botonNuevoCoche);
+            gBoxPilotoCoche.Controls.Add(botonNuevoPiloto);
+            gBoxPilotoCoche.Controls.Add(label10);
+            gBoxPilotoCoche.Controls.Add(label11);
+            gBoxPilotoCoche.Controls.Add(comboCoches);
+            gBoxPilotoCoche.Controls.Add(comboPilotos);
+            gBoxPilotoCoche.Location = new Point(3, 130);
+            gBoxPilotoCoche.Name = "gBoxPilotoCoche";
+            gBoxPilotoCoche.Size = new Size(667, 121);
+            gBoxPilotoCoche.TabIndex = 13;
+            gBoxPilotoCoche.TabStop = false;
             // 
             // tboxEscuderia
             // 
@@ -399,31 +399,31 @@
             comboPilotos.TabIndex = 3;
             comboPilotos.SelectedIndexChanged += ComboPilotos_SelectedIndexChanged;
             // 
-            // groupBox1
+            // gBoxCampeonatoPrueba
             // 
-            groupBox1.Controls.Add(tboxTmax);
-            groupBox1.Controls.Add(tboxTramos);
-            groupBox1.Controls.Add(label5);
-            groupBox1.Controls.Add(tboxEtapas);
-            groupBox1.Controls.Add(label4);
-            groupBox1.Controls.Add(tboxPuntuaciones);
-            groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(botonBorraPrueba);
-            groupBox1.Controls.Add(botonBorraCampeonato);
-            groupBox1.Controls.Add(botonEditaPrueba);
-            groupBox1.Controls.Add(botonEditaCampeonato);
-            groupBox1.Controls.Add(botonNuevaPrueba);
-            groupBox1.Controls.Add(botonNuevoCampeonato);
-            groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(lblCto);
-            groupBox1.Controls.Add(comboPruebas);
-            groupBox1.Controls.Add(comboCampeonatos);
-            groupBox1.Location = new Point(3, 3);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(667, 121);
-            groupBox1.TabIndex = 12;
-            groupBox1.TabStop = false;
+            gBoxCampeonatoPrueba.Controls.Add(tboxTmax);
+            gBoxCampeonatoPrueba.Controls.Add(tboxTramos);
+            gBoxCampeonatoPrueba.Controls.Add(label5);
+            gBoxCampeonatoPrueba.Controls.Add(tboxEtapas);
+            gBoxCampeonatoPrueba.Controls.Add(label4);
+            gBoxCampeonatoPrueba.Controls.Add(tboxPuntuaciones);
+            gBoxCampeonatoPrueba.Controls.Add(label3);
+            gBoxCampeonatoPrueba.Controls.Add(label1);
+            gBoxCampeonatoPrueba.Controls.Add(botonBorraPrueba);
+            gBoxCampeonatoPrueba.Controls.Add(botonBorraCampeonato);
+            gBoxCampeonatoPrueba.Controls.Add(botonEditaPrueba);
+            gBoxCampeonatoPrueba.Controls.Add(botonEditaCampeonato);
+            gBoxCampeonatoPrueba.Controls.Add(botonNuevaPrueba);
+            gBoxCampeonatoPrueba.Controls.Add(botonNuevoCampeonato);
+            gBoxCampeonatoPrueba.Controls.Add(label2);
+            gBoxCampeonatoPrueba.Controls.Add(lblCto);
+            gBoxCampeonatoPrueba.Controls.Add(comboPruebas);
+            gBoxCampeonatoPrueba.Controls.Add(comboCampeonatos);
+            gBoxCampeonatoPrueba.Location = new Point(3, 3);
+            gBoxCampeonatoPrueba.Name = "gBoxCampeonatoPrueba";
+            gBoxCampeonatoPrueba.Size = new Size(667, 121);
+            gBoxCampeonatoPrueba.TabIndex = 12;
+            gBoxCampeonatoPrueba.TabStop = false;
             // 
             // tboxTmax
             // 
@@ -724,10 +724,10 @@
             statusStripMain.ResumeLayout(false);
             statusStripMain.PerformLayout();
             panel1.ResumeLayout(false);
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
+            gBoxPilotoCoche.ResumeLayout(false);
+            gBoxPilotoCoche.PerformLayout();
+            gBoxCampeonatoPrueba.ResumeLayout(false);
+            gBoxCampeonatoPrueba.PerformLayout();
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -744,7 +744,7 @@
         private ToolStripMenuItem salirToolStripMenuItem;
         private Panel panel1;
         private Panel panel2;
-        private GroupBox groupBox2;
+        private GroupBox gBoxPilotoCoche;
         private TextBox tboxEscuderia;
         private Label label12;
         private TextBox tboxMarca;
@@ -761,7 +761,7 @@
         private Label label11;
         private ComboBox comboCoches;
         private ComboBox comboPilotos;
-        private GroupBox groupBox1;
+        private GroupBox gBoxCampeonatoPrueba;
         private TextBox tboxTmax;
         private TextBox tboxTramos;
         private Label label5;

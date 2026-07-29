@@ -46,7 +46,7 @@
             botonCancel.Cursor = Cursors.Hand;
             botonCancel.FlatStyle = FlatStyle.Flat;
             botonCancel.ForeColor = Color.Transparent;
-            botonCancel.Location = new Point(509, 142);
+            botonCancel.Location = new Point(549, 155);
             botonCancel.Name = "botonCancel";
             botonCancel.Size = new Size(35, 35);
             botonCancel.TabIndex = 0;
@@ -62,7 +62,7 @@
             botonSave.Enabled = false;
             botonSave.FlatStyle = FlatStyle.Flat;
             botonSave.ForeColor = Color.Transparent;
-            botonSave.Location = new Point(468, 142);
+            botonSave.Location = new Point(508, 155);
             botonSave.Name = "botonSave";
             botonSave.Size = new Size(35, 35);
             botonSave.TabIndex = 0;
@@ -76,7 +76,7 @@
             lblForm.BorderStyle = BorderStyle.FixedSingle;
             lblForm.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblForm.ForeColor = Color.White;
-            lblForm.Location = new Point(18, 29);
+            lblForm.Location = new Point(58, 42);
             lblForm.Name = "lblForm";
             lblForm.Size = new Size(2, 27);
             lblForm.TabIndex = 9;
@@ -86,7 +86,7 @@
             tboxEscuderia.BackColor = Color.White;
             tboxEscuderia.BorderStyle = BorderStyle.FixedSingle;
             tboxEscuderia.ForeColor = Color.Black;
-            tboxEscuderia.Location = new Point(331, 101);
+            tboxEscuderia.Location = new Point(371, 114);
             tboxEscuderia.Name = "tboxEscuderia";
             tboxEscuderia.Size = new Size(213, 23);
             tboxEscuderia.TabIndex = 3;
@@ -96,7 +96,7 @@
             // 
             label12.AutoSize = true;
             label12.ForeColor = Color.White;
-            label12.Location = new Point(331, 83);
+            label12.Location = new Point(371, 96);
             label12.Name = "label12";
             label12.Size = new Size(93, 15);
             label12.TabIndex = 0;
@@ -107,7 +107,7 @@
             tboxAlias.BackColor = Color.White;
             tboxAlias.BorderStyle = BorderStyle.FixedSingle;
             tboxAlias.ForeColor = Color.Black;
-            tboxAlias.Location = new Point(285, 101);
+            tboxAlias.Location = new Point(325, 114);
             tboxAlias.Name = "tboxAlias";
             tboxAlias.Size = new Size(41, 23);
             tboxAlias.TabIndex = 2;
@@ -119,7 +119,7 @@
             // 
             label9.AutoSize = true;
             label9.ForeColor = Color.White;
-            label9.Location = new Point(285, 83);
+            label9.Location = new Point(325, 96);
             label9.Name = "label9";
             label9.Size = new Size(32, 15);
             label9.TabIndex = 0;
@@ -129,7 +129,7 @@
             // 
             label11.AutoSize = true;
             label11.ForeColor = Color.White;
-            label11.Location = new Point(19, 83);
+            label11.Location = new Point(59, 96);
             label11.Name = "label11";
             label11.Size = new Size(38, 15);
             label11.TabIndex = 0;
@@ -140,7 +140,7 @@
             tboxPiloto.BackColor = Color.White;
             tboxPiloto.BorderStyle = BorderStyle.FixedSingle;
             tboxPiloto.ForeColor = Color.Black;
-            tboxPiloto.Location = new Point(19, 101);
+            tboxPiloto.Location = new Point(59, 114);
             tboxPiloto.Name = "tboxPiloto";
             tboxPiloto.Size = new Size(260, 23);
             tboxPiloto.TabIndex = 1;
@@ -152,8 +152,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(44, 62, 80);
-            ClientSize = new Size(569, 199);
+            BackColor = Color.FromArgb(52, 73, 94);
+            ClientSize = new Size(664, 234);
             ControlBox = false;
             Controls.Add(tboxPiloto);
             Controls.Add(tboxEscuderia);
@@ -164,7 +164,8 @@
             Controls.Add(lblForm);
             Controls.Add(botonCancel);
             Controls.Add(botonSave);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            ForeColor = SystemColors.WindowText;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormPiloto";
             StartPosition = FormStartPosition.CenterParent;
             ResumeLayout(false);

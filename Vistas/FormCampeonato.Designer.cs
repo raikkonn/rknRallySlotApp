@@ -43,7 +43,7 @@
             tboxPuntuacion.BackColor = Color.White;
             tboxPuntuacion.BorderStyle = BorderStyle.FixedSingle;
             tboxPuntuacion.ForeColor = Color.Black;
-            tboxPuntuacion.Location = new Point(284, 110);
+            tboxPuntuacion.Location = new Point(320, 120);
             tboxPuntuacion.Name = "tboxPuntuacion";
             tboxPuntuacion.Size = new Size(260, 23);
             tboxPuntuacion.TabIndex = 2;
@@ -53,7 +53,7 @@
             // 
             lblPtos1.AutoSize = true;
             lblPtos1.ForeColor = Color.White;
-            lblPtos1.Location = new Point(284, 74);
+            lblPtos1.Location = new Point(320, 84);
             lblPtos1.Name = "lblPtos1";
             lblPtos1.Size = new Size(71, 15);
             lblPtos1.TabIndex = 3;
@@ -63,7 +63,7 @@
             // 
             lblCto.AutoSize = true;
             lblCto.ForeColor = Color.White;
-            lblCto.Location = new Point(18, 91);
+            lblCto.Location = new Point(54, 101);
             lblCto.Name = "lblCto";
             lblCto.Size = new Size(123, 15);
             lblCto.TabIndex = 4;
@@ -76,7 +76,7 @@
             botonCancel.Cursor = Cursors.Hand;
             botonCancel.FlatStyle = FlatStyle.Flat;
             botonCancel.ForeColor = Color.Transparent;
-            botonCancel.Location = new Point(509, 150);
+            botonCancel.Location = new Point(545, 160);
             botonCancel.Name = "botonCancel";
             botonCancel.Size = new Size(35, 35);
             botonCancel.TabIndex = 8;
@@ -92,7 +92,7 @@
             botonSave.Enabled = false;
             botonSave.FlatStyle = FlatStyle.Flat;
             botonSave.ForeColor = Color.Transparent;
-            botonSave.Location = new Point(468, 150);
+            botonSave.Location = new Point(504, 160);
             botonSave.Name = "botonSave";
             botonSave.Size = new Size(35, 35);
             botonSave.TabIndex = 6;
@@ -106,7 +106,7 @@
             lblForm.BorderStyle = BorderStyle.FixedSingle;
             lblForm.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblForm.ForeColor = Color.White;
-            lblForm.Location = new Point(18, 29);
+            lblForm.Location = new Point(54, 39);
             lblForm.Name = "lblForm";
             lblForm.Size = new Size(2, 27);
             lblForm.TabIndex = 9;
@@ -116,7 +116,7 @@
             tboxCampeonato.BackColor = Color.White;
             tboxCampeonato.BorderStyle = BorderStyle.FixedSingle;
             tboxCampeonato.ForeColor = Color.Black;
-            tboxCampeonato.Location = new Point(18, 110);
+            tboxCampeonato.Location = new Point(54, 120);
             tboxCampeonato.Name = "tboxCampeonato";
             tboxCampeonato.Size = new Size(260, 23);
             tboxCampeonato.TabIndex = 1;
@@ -127,7 +127,7 @@
             // 
             lblPtos2.AutoSize = true;
             lblPtos2.ForeColor = Color.White;
-            lblPtos2.Location = new Point(284, 92);
+            lblPtos2.Location = new Point(320, 102);
             lblPtos2.Name = "lblPtos2";
             lblPtos2.Size = new Size(243, 15);
             lblPtos2.TabIndex = 11;
@@ -137,8 +137,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(44, 62, 80);
-            ClientSize = new Size(569, 211);
+            BackColor = Color.FromArgb(52, 73, 94);
+            ClientSize = new Size(664, 234);
             ControlBox = false;
             Controls.Add(lblPtos2);
             Controls.Add(tboxCampeonato);
@@ -148,7 +148,8 @@
             Controls.Add(tboxPuntuacion);
             Controls.Add(lblPtos1);
             Controls.Add(lblCto);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            ForeColor = SystemColors.WindowText;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "FormCampeonato";
             StartPosition = FormStartPosition.CenterParent;
             ResumeLayout(false);

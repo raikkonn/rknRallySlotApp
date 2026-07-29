@@ -309,6 +309,9 @@ public partial class FormMain : Form
         // Alta de un nuevo campeonato
         using var formAlta = new FormCampeonato("Nuevo Campeonato");
 
+        formAlta.StartPosition = FormStartPosition.Manual;
+        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
+
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
             ComboCampeonatosInit();                                         // Si el usuario guardó con éxito, refrescamos combo
@@ -318,8 +321,6 @@ public partial class FormMain : Form
         }
         else
         {
-            comboCampeonatos.SelectedIndex = -1;                            // Si canceló, vaciamos el combo
-            ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
             MostrarMensajeEstado("Operacion Cancelada");
         }
     }
@@ -332,6 +333,9 @@ public partial class FormMain : Form
         // Alta de una nueva prueba
         using var formAlta = new FormPrueba("Nueva Prueba");
 
+        formAlta.StartPosition = FormStartPosition.Manual;
+        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
+
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
             ComboPruebasInit();                                         // Si el usuario guardó con éxito, refrescamos combo
@@ -341,8 +345,6 @@ public partial class FormMain : Form
         }
         else
         {
-            comboCampeonatos.SelectedIndex = -1;                        // Si canceló, vaciamos el combo
-            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
             MostrarMensajeEstado("Operacion Cancelada");
         }
     }
@@ -355,6 +357,9 @@ public partial class FormMain : Form
         // Alta nuevo piloto
         using var formAlta = new FormPiloto("Nuevo Piloto");
 
+        formAlta.StartPosition = FormStartPosition.Manual;
+        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
+
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
             // ComboPilotosInit();                                         // Si el usuario guardó con éxito, refrescamos combo
@@ -364,11 +369,8 @@ public partial class FormMain : Form
         }
         else
         {
-            comboPilotos.SelectedIndex = -1;                            // Si canceló, vaciamos el combo
-            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
             MostrarMensajeEstado("Operacion Cancelada");
         }
-
     }
 
     private void BotonNuevoCoche_Click(object sender, EventArgs e)
@@ -379,6 +381,9 @@ public partial class FormMain : Form
     private void BotonEditaCampeonato_Click(object sender, EventArgs e)
     {
         using var formEdicion = new FormCampeonato("Modificar Campeonato", comboCampeonatos.SelectedValue);
+
+        formEdicion.StartPosition = FormStartPosition.Manual;
+        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -393,6 +398,9 @@ public partial class FormMain : Form
     {
         using var formEdicion = new FormPrueba("Modificar Prueba", comboPruebas.SelectedValue);
 
+        formEdicion.StartPosition = FormStartPosition.Manual;
+        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
+
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
             ComboPruebasInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
@@ -400,12 +408,14 @@ public partial class FormMain : Form
             ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
             MostrarMensajeEstado("Prueba modificada OK");
         }
-
     }
 
     private void BotonEditaPiloto_Click(object sender, EventArgs e)
     {
         using var formEdicion = new FormPiloto("Modificar Piloto", comboPilotos.SelectedValue);
+        
+        formEdicion.StartPosition = FormStartPosition.Manual;
+        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
