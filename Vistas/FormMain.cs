@@ -207,8 +207,8 @@ public partial class FormMain : Form
         {
             if (idSel > 0)                              // ID es válido 
             {
-                IdCampeonatoSeleccionado = idSel;             // Guardamos el ID del campeonato seleccionado en miembro público
-                Rellena_PuntuacionCampeonato();      // Consultamos la DB para rellenar el TextBox de puntuaciones
+                IdCampeonatoSeleccionado = idSel;       // Guardamos el ID del campeonato seleccionado en miembro público
+                Rellena_DatosCampeonato();              // Consultamos la DB para rellenar el TextBox de puntuaciones
                 ComboPruebasInit();                     // Inicializamos el ComboBox de pruebas para el campeonato seleccionado
             }
             else if (idSel == -5)                       // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
@@ -220,8 +220,8 @@ public partial class FormMain : Form
                 comboCampeonatos.SelectedIndex = -1;    // Limpiamos la selección del ComboBox de campeonatos
                 comboPruebas.SelectedIndex = -1;        // Limpiamos la selección del ComboBox de pruebas
 
-                IdCampeonatoSeleccionado = null;              // Limpiamos el ID del campeonato seleccionado
-                IdPruebaSeleccionada = null;                  // Limpiamos el ID de la prueba seleccionada
+                IdCampeonatoSeleccionado = null;        // Limpiamos el ID del campeonato seleccionado
+                IdPruebaSeleccionada = null;            // Limpiamos el ID de la prueba seleccionada
             }
         }
 
@@ -235,7 +235,7 @@ public partial class FormMain : Form
             if (idSel > 0)                          // si ID es válido 
             {
                 IdPruebaSeleccionada = idSel;       // Guardamos el ID de la prueba seleccionada en miembro público
-                Rellena_DatosPrueba();             // Consultamos la DB para rellenar los TextBox de datos de la prueba
+                Rellena_DatosPrueba();              // Consultamos la DB para rellenar los TextBox de datos de la prueba
             }
             else if (idSel == -5)                   // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
             {
@@ -261,7 +261,7 @@ public partial class FormMain : Form
 
     }
 
-    private void Rellena_PuntuacionCampeonato()
+    private void Rellena_DatosCampeonato()
     {
         using var db = new AppDbContext();
 
@@ -303,7 +303,7 @@ public partial class FormMain : Form
 
     private void BotonNuevoCampeonato_Click(object sender, EventArgs e)
     {
-        comboCampeonatos.SelectedIndex = -1;    // Limpiar la selección para evitar confusión 
+        comboCampeonatos.SelectedIndex = -1;    // Limpiar la selección para el ALTA y evitar confusión 
         ControlesEnableDisable();               // Actualizar los controles después de la operación
 
         // Alta de un nuevo campeonato
@@ -327,7 +327,7 @@ public partial class FormMain : Form
 
     private void BotonNuevaPrueba_Click(object sender, EventArgs e)
     {
-        comboPruebas.SelectedIndex = -1;        // Limpiar la selección para evitar confusión 
+        comboPruebas.SelectedIndex = -1;        // Limpiar la selección para el ALTA y evitar confusión
         ControlesEnableDisable();               // Actualizar los controles después de la operación
 
         // Alta de una nueva prueba
@@ -351,7 +351,7 @@ public partial class FormMain : Form
 
     private void BotonNuevoPiloto_Click(object sender, EventArgs e)
     {
-        comboPilotos.SelectedIndex = -1;        // Limpiar la selección para evitar confusión 
+        comboPilotos.SelectedIndex = -1;        // Limpiar la selección para el ALTA y evitar confusión
         ControlesEnableDisable();               // Actualizar los controles después de la operación
 
         // Alta nuevo piloto
@@ -375,6 +375,26 @@ public partial class FormMain : Form
 
     private void BotonNuevoCoche_Click(object sender, EventArgs e)
     {
+        comboCoches.SelectedIndex = -1;         // Limpiar la selección para el ALTA y evitar confusión 
+        ControlesEnableDisable();               // Actualizar los controles después de la operación
+
+        // Alta nuevo coche
+        using var formAlta = new FormCoche("Nuevo Coche");
+
+        formAlta.StartPosition = FormStartPosition.Manual;
+        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
+
+        if (formAlta.ShowDialog(this) == DialogResult.OK)
+        {
+            // ComboCochesInit();                                         // Si el usuario guardó con éxito, refrescamos combo
+            comboCoches.SelectedValue = formAlta.IdSelected ?? -1;     // seleccionamos el nuevo coche creado
+            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
+            MostrarMensajeEstado("Coche creado OK");
+        }
+        else
+        {
+            MostrarMensajeEstado("Operacion Cancelada");
+        }
 
     }
 
@@ -428,6 +448,18 @@ public partial class FormMain : Form
 
     private void BotonEditaCoche_Click(object sender, EventArgs e)
     {
+        using var formEdicion = new FormCoche("Modificar Coche", comboCoches.SelectedValue);
+
+        formEdicion.StartPosition = FormStartPosition.Manual;
+        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
+
+        if (formEdicion.ShowDialog(this) == DialogResult.OK)
+        {
+            // ComboCochesInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
+            comboCoches.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos el coche editado o ninguno si es null
+            ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
+            MostrarMensajeEstado("Coche modificado OK");
+        }
 
     }
 

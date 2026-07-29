@@ -61,7 +61,6 @@ public partial class FormPiloto : Form
     {
         using var db = new AppDbContext();
 
-        // Consultamos y proyectamos únicamente las columnas necesarias
         var piloto = db.Pilotos
                         .Where(p => p.Id == id)
                         .Select(p => new
@@ -110,7 +109,7 @@ public partial class FormPiloto : Form
             return;
         }
 
-        // Generamos un alias automáticamente solo si estamos en modo ALTA (no edición)
+        // Generamos un alias automáticamente solo si estamos en modo ALTA (NO en edición)
         if (!IdSelected.HasValue)
         {
             var servicioAlias = new GeneradorAlias(db);
@@ -122,6 +121,7 @@ public partial class FormPiloto : Form
     {
         // Saneado texto
         string aliasLimpio = TxtTools.TrimAndClean(tboxAlias.Text).ToUpper();
+        aliasLimpio = aliasLimpio.Length < 3 ? aliasLimpio.PadRight(3, 'X') : aliasLimpio[..3];
         tboxAlias.Text = aliasLimpio;
 
         using var db = new AppDbContext();
@@ -161,10 +161,19 @@ public partial class FormPiloto : Form
 
     private void BotonSave_Click(object sender, EventArgs e)
     {
+        if (string.IsNullOrWhiteSpace(tboxPiloto.Text) || string.IsNullOrWhiteSpace(tboxAlias.Text))
+        {
+            tboxPiloto.Focus();
+            tboxPiloto.SelectAll();
+            return;
+        }
+
         // Saneado texto
         string pilotoLimpio = TxtTools.TrimCleanAndTitle(tboxPiloto.Text);
-        tboxPiloto.Text = pilotoLimpio;   
+        tboxPiloto.Text = pilotoLimpio;
+
         string aliasLimpio = TxtTools.TrimAndClean(tboxAlias.Text).ToUpper();
+        aliasLimpio = aliasLimpio.Length < 3 ? aliasLimpio.PadRight(3, 'X') : aliasLimpio[..3];
         tboxAlias.Text = aliasLimpio;
 
         using var db = new AppDbContext();
