@@ -223,7 +223,6 @@
             tboxMarca.Size = new Size(132, 23);
             tboxMarca.TabIndex = 0;
             tboxMarca.TabStop = false;
-            tboxMarca.TextAlign = HorizontalAlignment.Right;
             // 
             // tboxAlias
             // 
@@ -383,7 +382,7 @@
             comboCoches.MaxLength = 50;
             comboCoches.Name = "comboCoches";
             comboCoches.Size = new Size(260, 23);
-            comboCoches.TabIndex = 3;
+            comboCoches.TabIndex = 4;
             comboCoches.SelectedIndexChanged += ComboCoches_SelectedIndexChanged;
             // 
             // comboPilotos

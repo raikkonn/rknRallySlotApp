@@ -48,6 +48,7 @@
             tboxPuntuacion.Size = new Size(260, 23);
             tboxPuntuacion.TabIndex = 2;
             tboxPuntuacion.KeyDown += All_tbox_KeyDown;
+            tboxPuntuacion.KeyPress += TboxPuntuacion_KeyPress;
             // 
             // lblPtos1
             // 

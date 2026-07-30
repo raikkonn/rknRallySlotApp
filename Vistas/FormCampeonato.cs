@@ -17,8 +17,8 @@ public partial class FormCampeonato : Form
         ConfigurarToolTips();
 
         lblForm.Text = titulo ?? String.Empty;
-        
-        if ((id is int idSel) && (idSel > 0))  
+
+        if ((id is int idSel) && (idSel > 0))
         {
             RellenaCampeonato(idSel);
             IdSelected = idSel;
@@ -94,7 +94,7 @@ public partial class FormCampeonato : Form
         using var db = new AppDbContext();
 
         // Comprueba si existe ese nombre PERO excluyendo el campeonato que estamos editando actualmente
-        bool existe = db.Campeonatos.Any( c =>
+        bool existe = db.Campeonatos.Any(c =>
             (c.Nombre.ToLower() == nombreLimpio.ToLower())
             && (!IdSelected.HasValue || c.Id != IdSelected.Value));
 
@@ -108,7 +108,7 @@ public partial class FormCampeonato : Form
             tboxCampeonato.SelectAll();
         }
         else
-        { 
+        {
             try
             {
                 Campeonato? campeonatoActual;
@@ -183,6 +183,45 @@ public partial class FormCampeonato : Form
             if (botonCancel.Enabled)
             {
                 botonCancel.PerformClick();
+            }
+        }
+    }
+
+    private void TboxPuntuacion_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (sender is TextBox txt)
+        {
+            if (e.KeyChar == '.')
+            {
+                e.KeyChar = ',';
+            }
+
+            if (e.KeyChar == ',')
+            {
+                int cursor = txt.SelectionStart;
+
+                // Comprobamos si el carácter justo ANTES del cursor es una coma
+                bool hayComaAntes = cursor > 0 && txt.Text[cursor - 1] == ',';
+
+                // Comprobamos si el carácter justo DESPUÉS del cursor (o selección) es una coma
+                int indexDespues = cursor + txt.SelectionLength;
+                bool hayComaDespues = indexDespues < txt.Text.Length && txt.Text[indexDespues] == ',';
+
+                if (hayComaAntes || hayComaDespues)
+                {
+                    e.Handled = true; // Interceptamos y bloqueamos la tecla
+                    return;
+                }
+            }
+
+            // Bloqueo de caracteres extraños según el patrón "15,10,5,3,2,1[3,2,1]"
+            if (!char.IsControl(e.KeyChar) &&        // IsControl permite usar la tecla de Borrar (Backspace)
+                !char.IsDigit(e.KeyChar) &&
+                e.KeyChar != ',' &&
+                e.KeyChar != '[' &&
+                e.KeyChar != ']') 
+            {
+                e.Handled = true; // Si teclean letras u otros símbolos, se ignoran
             }
         }
     }

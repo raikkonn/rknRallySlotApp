@@ -77,6 +77,10 @@ public partial class FormMain : Form
         _toolTip.SetToolTip(botonBorraCoche, "Borrar Coche");
     }
 
+    #endregion
+
+    #region ComboBox Init
+
     private void ControlesEnableDisable()
     {
         // Evaluamos el estado de cada ComboBox de forma individual con nombres únicos
@@ -112,10 +116,6 @@ public partial class FormMain : Form
         botonEditaCoche.Enabled = hayCoche;
         botonBorraCoche.Enabled = hayCoche;
     }
-
-    #endregion
-
-    #region ComboBox Init
 
     private void ComboCampeonatosInit()
     {
@@ -474,10 +474,14 @@ public partial class FormMain : Form
 
     private void BotonNuevoCampeonato_Click(object sender, EventArgs e)
     {
-        var valorPorSiCancela = comboCampeonatos.SelectedValue;     // Guardamos el valor actual por si el usuario cancela la operación
+        // Guardamos los valores actuales por si el usuario cancela la operación
+        var valorCampeonatoSiCancela = (comboCampeonatos.SelectedValue is int idCto && idCto > 0) ? idCto : -1 ;
+        var valorPruebaSiCancela = (comboPruebas.SelectedValue is int idPrueba && idPrueba > 0) ? idPrueba : -1;
 
         comboCampeonatos.SelectedIndex = -1;                        // Limpiar la selección para el ALTA y evitar confusión 
-        ControlesEnableDisable();                                   // Actualizar los controles después de la operación
+        comboPruebas.SelectedIndex = -1;                            // Limpiar la selección para el ALTA y evitar confusión 
+        Limpia_DatosCampeonato();                                   // Limpiar TextBox
+        Limpia_DatosPrueba();                                       // Limpiar TextBox 
 
         using var formAlta = new FormCampeonato("Nuevo Campeonato");
 
@@ -492,7 +496,9 @@ public partial class FormMain : Form
         }
         else
         {
-            comboCampeonatos.SelectedValue = valorPorSiCancela ?? -1;       // Restauramos el valor anterior si el usuario cancela
+            comboCampeonatos.SelectedValue = valorCampeonatoSiCancela;   // Restauramos el valor anterior si el usuario cancela
+            comboPruebas.SelectedValue = valorPruebaSiCancela ;          // Restauramos el valor anterior si el usuario cancela
+
             MostrarMensajeEstado("Operacion Cancelada");
         }
 
@@ -501,7 +507,8 @@ public partial class FormMain : Form
 
     private void BotonNuevaPrueba_Click(object sender, EventArgs e)
     {
-        var valorPorSiCancela = comboPruebas.SelectedValue;     // Guardamos el valor actual por si el usuario cancela la operación
+        // Guardamos el valor actual por si el usuario cancela la operación
+        var valorSiCancela = (comboPruebas.SelectedValue is int idSel && idSel > 0) ? idSel : -1;
 
         comboPruebas.SelectedIndex = -1;                        // Limpiar la selección para el ALTA y evitar confusión
         ControlesEnableDisable();                               // Actualizar los controles después de la operación
@@ -519,7 +526,7 @@ public partial class FormMain : Form
         }
         else
         {
-            comboPruebas.SelectedValue = valorPorSiCancela ?? -1;       // Restauramos el valor anterior si el usuario cancela
+            comboPruebas.SelectedValue = valorSiCancela;       // Restauramos el valor anterior si el usuario cancela
             MostrarMensajeEstado("Operacion Cancelada");
         }
 
@@ -528,7 +535,8 @@ public partial class FormMain : Form
 
     private void BotonNuevoPiloto_Click(object sender, EventArgs e)
     {
-        var valorPorSiCancela = comboPilotos.SelectedValue;     // Guardamos el valor actual por si el usuario cancela la operación
+        // Guardamos el valor actual por si el usuario cancela la operación
+        var valorSiCancela = (comboPilotos.SelectedValue is int idSel && idSel > 0) ? idSel : -1;
 
         comboPilotos.SelectedIndex = -1;                        // Limpiar la selección para el ALTA y evitar confusión
         ControlesEnableDisable();                               // Actualizar los controles después de la operación
@@ -546,7 +554,7 @@ public partial class FormMain : Form
         }
         else
         {
-            comboPilotos.SelectedValue = valorPorSiCancela ?? -1;  // Restauramos el valor anterior si el usuario cancela
+            comboPilotos.SelectedValue = valorSiCancela;             // Restauramos el valor anterior si el usuario cancela
             MostrarMensajeEstado("Operacion Cancelada");
         }
 
@@ -555,7 +563,8 @@ public partial class FormMain : Form
 
     private void BotonNuevoCoche_Click(object sender, EventArgs e)
     {
-        var valorPorSiCancela = comboCoches.SelectedValue;      // Guardamos el valor actual por si el usuario cancela la operación
+        // Guardamos el valor actual por si el usuario cancela la operación
+        var valorSiCancela = (comboCoches.SelectedValue is int idSel && idSel > 0) ? idSel : -1;
 
         comboCoches.SelectedIndex = -1;                         // Limpiar la selección para el ALTA y evitar confusión 
         ControlesEnableDisable();                               // Actualizar los controles después de la operación
@@ -573,7 +582,7 @@ public partial class FormMain : Form
         }
         else
         {
-            comboCoches.SelectedValue = valorPorSiCancela ?? -1;         // Restauramos el valor anterior si el usuario cancela
+            comboCoches.SelectedValue = valorSiCancela;              // Restauramos el valor anterior si el usuario cancela
             MostrarMensajeEstado("Operacion Cancelada");
         }
 
@@ -593,8 +602,12 @@ public partial class FormMain : Form
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
+            var valorPruebaPorsi = (comboPruebas.SelectedValue is int idPrueba && idPrueba > 0) ? idPrueba : -1;
+            Limpia_DatosPrueba();                                           // Limpiamos los TextBox de datos de la prueba
+
             ComboCampeonatosInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
             comboCampeonatos.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos el campeonato editado o ninguno si es null
+            comboPruebas.SelectedValue = valorPruebaPorsi;                  // Restauramos la selección de prueba anterior
             ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
             MostrarMensajeEstado("Campeonato modificado OK");
         }
@@ -655,216 +668,219 @@ public partial class FormMain : Form
     private void BotonBorraCampeonato_Click(object sender, EventArgs e)
     {
         // Validar ID campeonato seleccionado en ComboBox
-        if (comboCampeonatos.SelectedValue is int idSel && idSel > 0)
-        {
-            // Confirmación usuario 
-            DialogResult confirmacion = MessageBox.Show(
-                $"¿Estás seguro de que deseas eliminar este campeonato?\n\nEsta acción no se podrá deshacer.",
-                "Confirmar eliminación",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button2);
-
-            if (confirmacion == DialogResult.Yes)
-            {
-                try
-                {
-                    using var db = new AppDbContext();  // Contexto DB
-
-                    var ctoParaBorrado = db.Campeonatos.Find(idSel);    // DB, buscar por ID
-
-                    if (ctoParaBorrado != null)
-                    {
-                        db.Campeonatos.Remove(ctoParaBorrado);  // DB, marcar para borrado
-                        db.SaveChanges();                       // SQLite, guardar cambios 
-                        ComboCampeonatosInit();                 // Actualizar interfaz
-
-                        MostrarMensajeEstado("Campeonato borrado OK");
-                    }
-                    else
-                    {
-                        MostrarMensajeEstado("Campeonato NO existe");
-                    }
-                }
-                catch (DbUpdateException)
-                {
-                    // Control de integridad referencial
-                    MessageBox.Show("No se puede eliminar el campeonato porque tiene pruebas o inscripciones asociadas.\n" +
-                                    "Elimina primero las pruebas vinculadas a este campeonato.",
-                                    "Error de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ocurrió un error inesperado al eliminar: {ex.Message}",
-                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-        else
+        if (!(comboCampeonatos.SelectedValue is int idSel && idSel > 0))
         {
             MostrarMensajeEstado("Selecciona campeonato válido");
+            return;  
+        }
+
+        // Confirmación usuario 
+        DialogResult confirmacion = MessageBox.Show(
+            $"¿Estás seguro de que deseas eliminar este campeonato?\n\nEsta acción no se podrá deshacer.",
+            "Confirmar eliminación",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question,
+            MessageBoxDefaultButton.Button2);
+
+        if (confirmacion == DialogResult.Yes)
+        {
+            try
+            {
+                using var db = new AppDbContext();                  // Contexto DB
+                var ctoParaBorrado = db.Campeonatos.Find(idSel);    // DB, buscar por ID
+
+                if (ctoParaBorrado != null)
+                {
+                    db.Campeonatos.Remove(ctoParaBorrado);      // DB, marcar para borrado
+                    db.SaveChanges();                           // SQLite, guardar cambios 
+
+                    Limpia_DatosCampeonato();                   // Limpiar TextBox 
+                    Limpia_DatosPrueba();                       // Limpiar TextBox 
+
+                    ComboCampeonatosInit();                     // Actualizar interfaz
+                    ComboPruebasInit();                         // Actualizar interfaz
+
+                    MostrarMensajeEstado("Campeonato borrado OK");
+                }
+                else
+                {
+                    MostrarMensajeEstado("Campeonato NO existe");
+                }
+            }
+            catch (DbUpdateException)
+            {
+                // Control de integridad referencial
+                MessageBox.Show("No se puede eliminar el campeonato porque tiene pruebas o inscripciones asociadas.\n" +
+                                "Elimina primero las pruebas vinculadas a este campeonato.",
+                                "Error de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error inesperado al eliminar: {ex.Message}",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 
     private void BotonBorraPrueba_Click(object sender, EventArgs e)
     {
-        // Validar ID prueba seleccionada en ComboBox
-        if (comboPruebas.SelectedValue is int idSel && idSel > 0)
-        {
-            // Confirmación usuario 
-            DialogResult confirmacion = MessageBox.Show(
-                $"¿Estás seguro de que deseas eliminar esta prueba?\n\nEsta acción no se podrá deshacer.",
-                "Confirmar eliminación",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button2);
-
-            if (confirmacion == DialogResult.Yes)
-            {
-                try
-                {
-                    using var db = new AppDbContext();              // Contexto DB
-
-                    var pruebaParaBorrado = db.Pruebas.Find(idSel); // DB, buscar por ID
-
-                    if (pruebaParaBorrado != null)
-                    {
-                        db.Pruebas.Remove(pruebaParaBorrado);       // DB, marcar para borrado
-                        db.SaveChanges();                           // SQLite, guardar cambios 
-                        ComboPruebasInit();                         // Actualizar interfaz
-
-                        MostrarMensajeEstado("Prueba borrada OK");
-                    }
-                    else
-                    {
-                        MostrarMensajeEstado("Prueba NO existe");
-                    }
-                }
-                catch (DbUpdateException)
-                {
-                    // Control de integridad referencial
-                    MessageBox.Show("No se puede eliminar la prueba porque tiene inscripciones asociadas.\n" +
-                                    "Elimina primero las inscripciones vinculadas a esta prueba.",
-                                    "Error de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ocurrió un error inesperado al eliminar: {ex.Message}",
-                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-        else
+        // Validar ID prueba seleccionado en ComboBox
+        if (!(comboPruebas.SelectedValue is int idSel && idSel > 0))
         {
             MostrarMensajeEstado("Selecciona prueba válida");
+            return;
+        }
+
+        // Confirmación usuario 
+        DialogResult confirmacion = MessageBox.Show(
+            $"¿Estás seguro de que deseas eliminar esta prueba?\n\nEsta acción no se podrá deshacer.",
+            "Confirmar eliminación",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question,
+            MessageBoxDefaultButton.Button2);
+
+        if (confirmacion == DialogResult.Yes)
+        {
+            try
+            {
+                using var db = new AppDbContext();                  // Contexto DB
+                var pruebaParaBorrado = db.Pruebas.Find(idSel);     // DB, buscar por ID
+
+                if (pruebaParaBorrado != null)
+                {
+                    db.Pruebas.Remove(pruebaParaBorrado);       // DB, marcar para borrado
+                    db.SaveChanges();                           // SQLite, guardar cambios 
+
+                    Limpia_DatosPrueba();                       // Limpiar TextBox 
+                    ComboPruebasInit();                         // Actualizar interfaz
+
+                    MostrarMensajeEstado("Prueba borrada OK");
+                }
+                else
+                {
+                    MostrarMensajeEstado("Prueba NO existe");
+                }
+            }
+            catch (DbUpdateException)
+            {
+                // Control de integridad referencial
+                MessageBox.Show("No se puede eliminar la prueba porque tiene inscripciones asociadas.\n" +
+                                "Elimina primero las inscripciones vinculadas a esta prueba.",
+                                "Error de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error inesperado al eliminar: {ex.Message}",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 
     private void BotonBorraPiloto_Click(object sender, EventArgs e)
     {
         // Validar ID piloto seleccionado en ComboBox
-        if (comboPilotos.SelectedValue is int idSel && idSel > 0)
+        if (!(comboPilotos.SelectedValue is int idSel && idSel > 0))
         {
-            // Confirmación usuario 
-            DialogResult confirmacion = MessageBox.Show(
+            MostrarMensajeEstado("Selecciona piloto válido");
+            return;
+        }
+
+        // Confirmación usuario 
+        DialogResult confirmacion = MessageBox.Show(
                 $"¿Estás seguro de que deseas eliminar este piloto?\n\nEsta acción no se podrá deshacer.",
                 "Confirmar eliminación",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question,
                 MessageBoxDefaultButton.Button2);
 
-            if (confirmacion == DialogResult.Yes)
+        if (confirmacion == DialogResult.Yes)
+        {
+            try
             {
-                try
+                using var db = new AppDbContext();                  // Contexto DB
+                var pilotoParaBorrado = db.Pilotos.Find(idSel);    // DB, buscar por ID
+
+                if (pilotoParaBorrado != null)
                 {
-                    using var db = new AppDbContext();  // Contexto DB
+                    db.Pilotos.Remove(pilotoParaBorrado);           // DB, marcar para borrado
+                    db.SaveChanges();                               // SQLite, guardar cambios 
 
-                    var pilotoParaBorrado = db.Pilotos.Find(idSel);    // DB, buscar por ID
+                    Limpia_DatosPiloto();                           // Limpiar TextBox 
+                    ComboPilotosInit();                             // Actualizar interfaz
 
-                    if (pilotoParaBorrado != null)
-                    {
-                        db.Pilotos.Remove(pilotoParaBorrado);           // DB, marcar para borrado
-                        db.SaveChanges();                               // SQLite, guardar cambios 
-                        ComboPilotosInit();                             // Actualizar interfaz
-
-                        MostrarMensajeEstado("Piloto borrado OK");
-                    }
-                    else
-                    {
-                        MostrarMensajeEstado("Piloto NO existe");
-                    }
+                    MostrarMensajeEstado("Piloto borrado OK");
                 }
-                catch (DbUpdateException)
+                else
                 {
-                    // Control de integridad referencial
-                    MessageBox.Show("No se puede eliminar el piloto porque tiene inscripciones asociadas.\n" +
-                                    "Elimina primero las inscripciones vinculadas a este piloto.",
-                                    "Error de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ocurrió un error inesperado al eliminar: {ex.Message}",
-                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MostrarMensajeEstado("Piloto NO existe");
                 }
             }
-        }
-        else
-        {
-            MostrarMensajeEstado("Selecciona piloto válido");
+            catch (DbUpdateException)
+            {
+                // Control de integridad referencial
+                MessageBox.Show("No se puede eliminar el piloto porque tiene inscripciones asociadas.\n" +
+                                "Elimina primero las inscripciones vinculadas a este piloto.",
+                                "Error de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error inesperado al eliminar: {ex.Message}",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 
     private void BotonBorraCoche_Click(object sender, EventArgs e)
     {
         // Validar ID coche seleccionado en ComboBox
-        if (comboCoches.SelectedValue is int idSel && idSel > 0)
+        if (!(comboCoches.SelectedValue is int idSel && idSel > 0))
         {
-            // Confirmación usuario 
-            DialogResult confirmacion = MessageBox.Show(
+            MostrarMensajeEstado("Selecciona coche válido");
+            return;
+        }
+
+        // Confirmación usuario 
+        DialogResult confirmacion = MessageBox.Show(
                 $"¿Estás seguro de que deseas eliminar este coche?\n\nEsta acción no se podrá deshacer.",
                 "Confirmar eliminación",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question,
                 MessageBoxDefaultButton.Button2);
 
-            if (confirmacion == DialogResult.Yes)
+        if (confirmacion == DialogResult.Yes)
+        {
+            try
             {
-                try
+                using var db = new AppDbContext();              // Contexto DB
+                var cocheParaBorrado = db.Coches.Find(idSel);   // DB, buscar por ID
+
+                if (cocheParaBorrado != null)
                 {
-                    using var db = new AppDbContext();              // Contexto DB
+                    db.Coches.Remove(cocheParaBorrado);         // DB, marcar para borrado
+                    db.SaveChanges();                           // SQLite, guardar cambios
+                                                                // 
+                    Limpia_DatosCoche();                        // Limpiar TextBox 
+                    ComboCochesInit();                          // Actualizar interfaz
 
-                    var cocheParaBorrado = db.Coches.Find(idSel);   // DB, buscar por ID
-
-                    if (cocheParaBorrado != null)
-                    {
-                        db.Coches.Remove(cocheParaBorrado);         // DB, marcar para borrado
-                        db.SaveChanges();                           // SQLite, guardar cambios 
-                        ComboCochesInit();                          // Actualizar interfaz
-
-                        MostrarMensajeEstado("Coche borrado OK");
-                    }
-                    else
-                    {
-                        MostrarMensajeEstado("Coche NO existe");
-                    }
+                    MostrarMensajeEstado("Coche borrado OK");
                 }
-                catch (DbUpdateException)
+                else
                 {
-                    // Control de integridad referencial
-                    MessageBox.Show("No se puede eliminar el coche porque tiene inscripciones asociadas.\n" +
-                                    "Elimina primero las inscripciones vinculadas a este coche.",
-                                    "Error de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ocurrió un error inesperado al eliminar: {ex.Message}",
-                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MostrarMensajeEstado("Coche NO existe");
                 }
             }
-        }
-        else
-        {
-            MostrarMensajeEstado("Selecciona coche válido");
+            catch (DbUpdateException)
+            {
+                // Control de integridad referencial
+                MessageBox.Show("No se puede eliminar el coche porque tiene inscripciones asociadas.\n" +
+                                "Elimina primero las inscripciones vinculadas a este coche.",
+                                "Error de Integridad", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error inesperado al eliminar: {ex.Message}",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 
