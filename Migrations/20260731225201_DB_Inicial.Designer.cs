@@ -10,8 +10,8 @@ using rknRallySlotApp.Datos;
 namespace rknRallySlotApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260731031904_Inicial")]
-    partial class Inicial
+    [Migration("20260731225201_DB_Inicial")]
+    partial class DB_Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,25 @@ namespace rknRallySlotApp.Migrations
                     b.ToTable("Campeonatos");
                 });
 
+            modelBuilder.Entity("rknRallySlotApp.Modelos.Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Nombre")
+                        .IsUnique();
+
+                    b.ToTable("Categorias");
+                });
+
             modelBuilder.Entity("rknRallySlotApp.Modelos.Coche", b =>
                 {
                     b.Property<int>("Id")
@@ -68,12 +87,10 @@ namespace rknRallySlotApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Categoria")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Dorsal")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("IdCategoria")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("IdCoche")
@@ -89,6 +106,8 @@ namespace rknRallySlotApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdCategoria");
 
                     b.HasIndex("IdCoche");
 
@@ -149,6 +168,10 @@ namespace rknRallySlotApp.Migrations
                     b.Property<int>("NumEtapas")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("PowerStage")
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("TiempoMaximo")
                         .HasColumnType("INTEGER");
 
@@ -184,6 +207,12 @@ namespace rknRallySlotApp.Migrations
 
             modelBuilder.Entity("rknRallySlotApp.Modelos.Inscripcion", b =>
                 {
+                    b.HasOne("rknRallySlotApp.Modelos.Categoria", "Categoria")
+                        .WithMany("Inscripciones")
+                        .HasForeignKey("IdCategoria")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("rknRallySlotApp.Modelos.Coche", "Coche")
                         .WithMany("Inscripciones")
                         .HasForeignKey("IdCoche")
@@ -201,6 +230,8 @@ namespace rknRallySlotApp.Migrations
                         .HasForeignKey("IdPrueba")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Categoria");
 
                     b.Navigation("Coche");
 
@@ -234,6 +265,11 @@ namespace rknRallySlotApp.Migrations
             modelBuilder.Entity("rknRallySlotApp.Modelos.Campeonato", b =>
                 {
                     b.Navigation("Pruebas");
+                });
+
+            modelBuilder.Entity("rknRallySlotApp.Modelos.Categoria", b =>
+                {
+                    b.Navigation("Inscripciones");
                 });
 
             modelBuilder.Entity("rknRallySlotApp.Modelos.Coche", b =>

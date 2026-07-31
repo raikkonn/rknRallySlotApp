@@ -7,6 +7,7 @@ public class AppDbContext : DbContext
 {
     // Tablas mapeadas en SQLite
     public DbSet<Campeonato> Campeonatos { get; set; } = null!;
+    public DbSet<Categoria> Categorias { get; set; } = null!;
     public DbSet<Coche> Coches { get; set; } = null!;
     public DbSet<Inscripcion> Inscripciones { get; set; } = null!;
     public DbSet<Piloto> Pilotos { get; set; } = null!;
@@ -23,7 +24,9 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // REGLA 1: Campeonato -> Nombre obligatorio y único
+        // ==========================================
+        // REGLA: Campeonato -> Nombre obligatorio y único
+        // ==========================================
         modelBuilder.Entity<Campeonato>(entity =>
         {
             entity.Property(c => c.Nombre)
@@ -34,7 +37,83 @@ public class AppDbContext : DbContext
                   .IsUnique();
         });
 
-        // REGLA 2: Piloto -> Nombre y Alias obligatorios, Nombre y Alias único
+        // ==========================================
+        // REGLA: Categoria
+        // ==========================================
+        modelBuilder.Entity<Categoria>(entity =>
+        {
+            // Nombre obligatorio
+            entity.Property(c => c.Nombre)
+                  .IsRequired()
+                  .HasMaxLength(30);
+
+            // Índice ÚNICO en toda la tabla para el Nombre
+            entity.HasIndex(c => c.Nombre)
+                  .IsUnique();
+        });
+
+        // ==========================================
+        // REGLA: Coche -> Modelo obligatorio
+        // ==========================================
+        modelBuilder.Entity<Coche>(entity =>
+        {
+            entity.Property(c => c.Modelo)
+                  .IsRequired()
+                  .HasMaxLength(30);
+
+            entity.Property(c => c.Marca)
+                  .HasMaxLength(25);
+        });
+
+        // ==========================================
+        // REGLA: Inscripcion -> Atributos obligatorios, Dorsal único PARA ESA prueba y FKs explícitas
+        // ==========================================
+        modelBuilder.Entity<Inscripcion>(entity =>
+        {
+            entity.Property(i => i.IdPrueba)
+                  .IsRequired();
+
+            entity.Property(i => i.IdPiloto)
+                  .IsRequired();
+
+            entity.Property(i => i.IdCoche)
+                  .IsRequired();
+
+            entity.Property(i => i.IdCategoria)
+                  .IsRequired();
+
+            entity.Property(i => i.Dorsal)
+                  .IsRequired();
+
+            // Índice compuesto: No puede haber dos dorsales iguales en la misma prueba
+            entity.HasIndex(i => new { i.IdPrueba, i.Dorsal })
+                  .IsUnique();
+
+            // Relaciones explícitas para evitar columnas duplicadas en la BD
+            entity.HasOne(i => i.Prueba)
+                  .WithMany(p => p.Inscripciones)
+                  .HasForeignKey(i => i.IdPrueba)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(i => i.Piloto)
+                  .WithMany(p => p.Inscripciones)
+                  .HasForeignKey(i => i.IdPiloto)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(i => i.Coche)
+                  .WithMany(c => c.Inscripciones)
+                  .HasForeignKey(i => i.IdCoche)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(i => i.Categoria)
+                  .WithMany(c => c.Inscripciones)
+                  .HasForeignKey(i => i.IdCategoria)
+                  .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // ==========================================
+        // REGLA: Piloto -> Nombre y Alias obligatorios, Nombre y Alias único
+        // ==========================================
         modelBuilder.Entity<Piloto>(entity =>
         {
             entity.Property(p => p.Nombre)
@@ -55,18 +134,9 @@ public class AppDbContext : DbContext
                   .HasMaxLength(30);
         });
 
-        // REGLA 3: Coche -> Modelo obligatorio
-        modelBuilder.Entity<Coche>(entity =>
-        {
-            entity.Property(c => c.Modelo)
-                  .IsRequired()
-                  .HasMaxLength(30);
-
-            entity.Property(c => c.Marca)
-                  .HasMaxLength(25);
-        });
-
-        // REGLA 4: Prueba -> Todos obligatorios, Nombre único PARA ESE campeonato y FK explícita
+        // ==========================================
+        // REGLA: Prueba -> Nombre único PARA ESE campeonato y FK explícita
+        // ==========================================
         modelBuilder.Entity<Prueba>(entity =>
         {
             entity.Property(p => p.Nombre)
@@ -85,56 +155,24 @@ public class AppDbContext : DbContext
             entity.Property(p => p.IdCampeonato)
                   .IsRequired();
 
+            entity.Property(p => p.PowerStage)
+                  .HasMaxLength(10)
+                  .IsRequired(false);
+
             // Índice compuesto: El nombre no se puede repetir dentro del mismo campeonato
-            entity.HasIndex(p => new { p.IdCampeonato, p.Nombre }).IsUnique();
+            entity.HasIndex(p => new { p.IdCampeonato, p.Nombre })
+                  .IsUnique();
 
             // Relación explícita con Campeonato
             entity.HasOne(p => p.Campeonato)
-                  .WithMany(c => c.Pruebas) // Asumiendo que Campeonato tiene ICollection<Prueba> Pruebas
+                  .WithMany(c => c.Pruebas) 
                   .HasForeignKey(p => p.IdCampeonato)
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // REGLA 5: Inscripcion -> Atributos obligatorios, Dorsal único PARA ESA prueba y FKs explícitas
-        modelBuilder.Entity<Inscripcion>(entity =>
-        {
-            entity.Property(i => i.IdPrueba)
-                  .IsRequired();
-
-            entity.Property(i => i.IdPiloto)
-                  .IsRequired();
-
-            entity.Property(i => i.IdCoche)
-                  .IsRequired();
-
-            entity.Property(i => i.Dorsal)
-                  .IsRequired();
-
-            entity.Property(i => i.Categoria)
-                  .IsRequired()
-                  .HasMaxLength(25);
-
-            // Índice compuesto: No puede haber dos dorsales iguales en la misma prueba
-            entity.HasIndex(i => new { i.IdPrueba, i.Dorsal }).IsUnique();
-
-            // Relaciones explícitas para evitar columnas duplicadas en la BD
-            entity.HasOne(i => i.Prueba)
-                  .WithMany(p => p.Inscripciones)
-                  .HasForeignKey(i => i.IdPrueba)
-                  .OnDelete(DeleteBehavior.Cascade);
-
-            entity.HasOne(i => i.Piloto)
-                  .WithMany(p => p.Inscripciones)
-                  .HasForeignKey(i => i.IdPiloto)
-                  .OnDelete(DeleteBehavior.Restrict);
-
-            entity.HasOne(i => i.Coche)
-                  .WithMany(c => c.Inscripciones)
-                  .HasForeignKey(i => i.IdCoche)
-                  .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        // REGLA 6: TiempoTramo -> Clave primaria compuesta por tres campos
+        // ==========================================
+        // REGLA: TiempoTramo -> Clave primaria compuesta por tres campos
+        // ==========================================
         modelBuilder.Entity<TiempoTramo>(entity =>
         {
             // Clave primaria compuesta (IdInscripcion + Etapa + Tramo)
