@@ -70,9 +70,6 @@ namespace rknRallySlotApp.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("CocheId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Dorsal")
                         .HasColumnType("INTEGER");
 
@@ -85,22 +82,14 @@ namespace rknRallySlotApp.Migrations
                     b.Property<int>("IdPrueba")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("PilotoId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("PruebaId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("Verificado")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CocheId");
+                    b.HasIndex("IdCoche");
 
-                    b.HasIndex("PilotoId");
-
-                    b.HasIndex("PruebaId");
+                    b.HasIndex("IdPiloto");
 
                     b.HasIndex("IdPrueba", "Dorsal")
                         .IsUnique();
@@ -182,15 +171,10 @@ namespace rknRallySlotApp.Migrations
                     b.Property<int>("Tramo")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("InscripcionId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<decimal>("Tiempo")
                         .HasColumnType("TEXT");
 
                     b.HasKey("IdInscripcion", "Etapa", "Tramo");
-
-                    b.HasIndex("InscripcionId");
 
                     b.ToTable("TiemposTramos");
                 });
@@ -199,15 +183,21 @@ namespace rknRallySlotApp.Migrations
                 {
                     b.HasOne("rknRallySlotApp.Modelos.Coche", "Coche")
                         .WithMany("Inscripciones")
-                        .HasForeignKey("CocheId");
+                        .HasForeignKey("IdCoche")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("rknRallySlotApp.Modelos.Piloto", "Piloto")
                         .WithMany("Inscripciones")
-                        .HasForeignKey("PilotoId");
+                        .HasForeignKey("IdPiloto")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("rknRallySlotApp.Modelos.Prueba", "Prueba")
                         .WithMany("Inscripciones")
-                        .HasForeignKey("PruebaId");
+                        .HasForeignKey("IdPrueba")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Coche");
 
@@ -231,7 +221,9 @@ namespace rknRallySlotApp.Migrations
                 {
                     b.HasOne("rknRallySlotApp.Modelos.Inscripcion", "Inscripcion")
                         .WithMany("Tiempos")
-                        .HasForeignKey("InscripcionId");
+                        .HasForeignKey("IdInscripcion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Inscripcion");
                 });

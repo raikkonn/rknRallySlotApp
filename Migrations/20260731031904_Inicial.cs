@@ -5,7 +5,7 @@
 namespace rknRallySlotApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,8 +30,8 @@ namespace rknRallySlotApp.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Marca = table.Column<string>(type: "TEXT", nullable: false),
-                    Modelo = table.Column<string>(type: "TEXT", nullable: false)
+                    Marca = table.Column<string>(type: "TEXT", maxLength: 25, nullable: false),
+                    Modelo = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,9 +45,8 @@ namespace rknRallySlotApp.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nombre = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    Abreviado = table.Column<string>(type: "TEXT", maxLength: 3, nullable: false),
-                    Escuderia = table.Column<string>(type: "TEXT", nullable: false),
-                    Palmares = table.Column<string>(type: "TEXT", nullable: false)
+                    Alias = table.Column<string>(type: "TEXT", maxLength: 3, nullable: false),
+                    Escuderia = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,20 +60,20 @@ namespace rknRallySlotApp.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     IdCampeonato = table.Column<int>(type: "INTEGER", nullable: false),
-                    Nombre = table.Column<string>(type: "TEXT", nullable: false),
+                    Nombre = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     NumEtapas = table.Column<int>(type: "INTEGER", nullable: false),
                     TramosPorEtapa = table.Column<int>(type: "INTEGER", nullable: false),
-                    TiempoMaximo = table.Column<decimal>(type: "TEXT", nullable: false),
-                    CampeonatoId = table.Column<int>(type: "INTEGER", nullable: true)
+                    TiempoMaximo = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pruebas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pruebas_Campeonatos_CampeonatoId",
-                        column: x => x.CampeonatoId,
+                        name: "FK_Pruebas_Campeonatos_IdCampeonato",
+                        column: x => x.IdCampeonato,
                         principalTable: "Campeonatos",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,30 +86,30 @@ namespace rknRallySlotApp.Migrations
                     IdPiloto = table.Column<int>(type: "INTEGER", nullable: false),
                     IdCoche = table.Column<int>(type: "INTEGER", nullable: false),
                     Dorsal = table.Column<int>(type: "INTEGER", nullable: false),
-                    Categoria = table.Column<string>(type: "TEXT", nullable: false),
-                    Verificado = table.Column<bool>(type: "INTEGER", nullable: false),
-                    PruebaId = table.Column<int>(type: "INTEGER", nullable: true),
-                    PilotoId = table.Column<int>(type: "INTEGER", nullable: true),
-                    CocheId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Categoria = table.Column<string>(type: "TEXT", maxLength: 25, nullable: false),
+                    Verificado = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Inscripciones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Inscripciones_Coches_CocheId",
-                        column: x => x.CocheId,
+                        name: "FK_Inscripciones_Coches_IdCoche",
+                        column: x => x.IdCoche,
                         principalTable: "Coches",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Inscripciones_Pilotos_PilotoId",
-                        column: x => x.PilotoId,
+                        name: "FK_Inscripciones_Pilotos_IdPiloto",
+                        column: x => x.IdPiloto,
                         principalTable: "Pilotos",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Inscripciones_Pruebas_PruebaId",
-                        column: x => x.PruebaId,
+                        name: "FK_Inscripciones_Pruebas_IdPrueba",
+                        column: x => x.IdPrueba,
                         principalTable: "Pruebas",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -120,17 +119,17 @@ namespace rknRallySlotApp.Migrations
                     IdInscripcion = table.Column<int>(type: "INTEGER", nullable: false),
                     Etapa = table.Column<int>(type: "INTEGER", nullable: false),
                     Tramo = table.Column<int>(type: "INTEGER", nullable: false),
-                    Tiempo = table.Column<decimal>(type: "TEXT", nullable: false),
-                    InscripcionId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Tiempo = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TiemposTramos", x => new { x.IdInscripcion, x.Etapa, x.Tramo });
                     table.ForeignKey(
-                        name: "FK_TiemposTramos_Inscripciones_InscripcionId",
-                        column: x => x.InscripcionId,
+                        name: "FK_TiemposTramos_Inscripciones_IdInscripcion",
+                        column: x => x.IdInscripcion,
                         principalTable: "Inscripciones",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -140,9 +139,14 @@ namespace rknRallySlotApp.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inscripciones_CocheId",
+                name: "IX_Inscripciones_IdCoche",
                 table: "Inscripciones",
-                column: "CocheId");
+                column: "IdCoche");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inscripciones_IdPiloto",
+                table: "Inscripciones",
+                column: "IdPiloto");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Inscripciones_IdPrueba_Dorsal",
@@ -151,19 +155,9 @@ namespace rknRallySlotApp.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inscripciones_PilotoId",
-                table: "Inscripciones",
-                column: "PilotoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Inscripciones_PruebaId",
-                table: "Inscripciones",
-                column: "PruebaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pilotos_Abreviado",
+                name: "IX_Pilotos_Alias",
                 table: "Pilotos",
-                column: "Abreviado",
+                column: "Alias",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -173,20 +167,10 @@ namespace rknRallySlotApp.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pruebas_CampeonatoId",
-                table: "Pruebas",
-                column: "CampeonatoId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Pruebas_IdCampeonato_Nombre",
                 table: "Pruebas",
                 columns: new[] { "IdCampeonato", "Nombre" },
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TiemposTramos_InscripcionId",
-                table: "TiemposTramos",
-                column: "InscripcionId");
         }
 
         /// <inheritdoc />

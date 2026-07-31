@@ -1,5 +1,4 @@
-﻿using rknRallySlotApp.Modelos;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace rknRallySlotApp.Modelos
 {
@@ -16,7 +15,6 @@ namespace rknRallySlotApp.Modelos
         public int TiempoMaximo { get; set; } = 300;
 
         // Relaciones
-
         // Indicar a EF Core que esta relación usa "IdCampeonato"
         [ForeignKey(nameof(IdCampeonato))]
         public Campeonato? Campeonato { get; set; }

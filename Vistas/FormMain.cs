@@ -198,15 +198,15 @@ public partial class FormMain : Form
 
             // Obtenemos la lista de coches desde DB
             var listaCoches = db.Coches
-                .Select(c => new { c.Id, strLista = $"{c.Modelo} [{c.Marca}]" })
+                .Select(c => new { c.Id, c.DescripcionCompleta })
                 .ToList();
 
             // Agregamos un elemento "comodín" al final de la lista
-            listaCoches.Add(new { Id = -5, strLista = "- Añadir nuevo -" });
+            listaCoches.Add(new { Id = -5, DescripcionCompleta = "- Añadir nuevo -" });
 
             // Asignamos la lista al ComboBox
             comboCoches.DataSource = listaCoches;
-            comboCoches.DisplayMember = "strLista";
+            comboCoches.DisplayMember = "DescripcionCompleta";
             comboCoches.ValueMember = "Id";
         }
         finally
