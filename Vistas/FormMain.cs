@@ -6,7 +6,10 @@ namespace rknRallySlotApp.Vistas;
 
 public partial class FormMain : Form
 {
+    #region Miembros Privados, Publicos y Constructor
+    //-------------------------------------------------------------------------
     private readonly ToolTip _toolTip = new();
+
     public int? IdCampeonatoSeleccionado = null;    // ID del campeonato seleccionado (null con selección vacía)
     public int? IdPruebaSeleccionada = null;        // ID de la prueba seleccionada (null con selección vacía)
     public int? IdPilotoSeleccionado = null;        // ID del piloto seleccionado (null con selección vacía)
@@ -18,15 +21,17 @@ public partial class FormMain : Form
         BotonesInit();
         ConfigurarToolTips();
 
-        // inicializamos los ComboBox al cargar el formulario
+        // inicializamos los ComboBox
         ComboCampeonatosInit();
         ComboPruebasInit();
         ComboPilotosInit();
         ComboCochesInit();
     }
+    //-------------------------------------------------------------------------
+    #endregion
 
-    #region Botones Init
-
+    #region Init Botones y Tooltips
+    //-------------------------------------------------------------------------
     private void BotonesInit()
     {
         botonNuevoCampeonato.Image = Properties.Resources.new_b.Zoom(botonNuevoCampeonato.Width - 5, botonNuevoCampeonato.Height - 5);
@@ -76,47 +81,11 @@ public partial class FormMain : Form
         _toolTip.SetToolTip(botonEditaCoche, "Modificar Coche");
         _toolTip.SetToolTip(botonBorraCoche, "Borrar Coche");
     }
-
+    //-------------------------------------------------------------------------
     #endregion
 
     #region ComboBox Init
-
-    private void ControlesEnableDisable()
-    {
-        // Evaluamos el estado de cada ComboBox de forma individual con nombres únicos
-        bool hayCampeonato = comboCampeonatos.SelectedValue is int idCamp && idCamp > 0;
-        bool hayPrueba = comboPruebas.SelectedValue is int idPrueba && idPrueba > 0;
-        bool hayPiloto = comboPilotos.SelectedValue is int idPiloto && idPiloto > 0;
-        bool hayCoche = comboCoches.SelectedValue is int idCoche && idCoche > 0;
-
-        // Asignamos los estados a los comboBoxes
-        comboCampeonatos.Enabled = true;            // Siempre habilitado
-        comboPruebas.Enabled = hayCampeonato;       // Habilitado solo si hay campeonato seleccionado
-        comboPilotos.Enabled =  true;               // Siempre habilitado
-        comboCoches.Enabled = true;                 // Siempre habilitado
-
-        // Asignamos los estados a los botones
-        // Campeonatos
-        botonNuevoCampeonato.Enabled = true;
-        botonEditaCampeonato.Enabled = hayCampeonato;
-        botonBorraCampeonato.Enabled = hayCampeonato;
-
-        // Pruebas (Nueva Prueba depende de Campeonato, Edición/Borrado de Prueba)
-        botonNuevaPrueba.Enabled = hayCampeonato;
-        botonEditaPrueba.Enabled = hayPrueba;
-        botonBorraPrueba.Enabled = hayPrueba;
-
-        // Pilotos
-        botonNuevoPiloto.Enabled = true;
-        botonEditaPiloto.Enabled = hayPiloto;
-        botonBorraPiloto.Enabled = hayPiloto;
-
-        // Coches
-        botonNuevoCoche.Enabled = true;
-        botonEditaCoche.Enabled = hayCoche;
-        botonBorraCoche.Enabled = hayCoche;
-    }
-
+    //-------------------------------------------------------------------------
     private void ComboCampeonatosInit()
     {
         // Desconectamos el evento para evitar que se dispare durante la inicialización
@@ -138,26 +107,24 @@ public partial class FormMain : Form
             comboCampeonatos.DataSource = listaCampeonatos;
             comboCampeonatos.DisplayMember = "Nombre";
             comboCampeonatos.ValueMember = "Id";
-
-            // Dejar Selección Vacia
-            comboCampeonatos.SelectedIndex = -1;
-            ControlesEnableDisable();
         }
         finally
         {
             // Reconectamos el evento después de la inicialización
             comboCampeonatos.SelectedIndexChanged += ComboCampeonatos_SelectedIndexChanged;
+            // Dejar Selección Vacia
+            comboCampeonatos.SelectedIndex = -1;    
         }
     }
 
     private void ComboPruebasInit()
     {
-        if (IdCampeonatoSeleccionado == null)
+        if (comboCampeonatos.SelectedValue is not int idCto || idCto <= 0)    //SIN Campeonato válido seleccionado salir
         {
-            comboPruebas.DataSource = null; // Limpiamos el ComboBox si no hay campeonato seleccionado
-            ControlesEnableDisable();
+            comboPruebas.DataSource = null;     // Limpiamos el ComboBox 
+            comboPruebas.SelectedIndex = -1;    // Dejar Selección Vacia
             return;
-        } 
+        }
 
         // Desconectamos el evento para evitar que se dispare durante la inicialización
         comboPruebas.SelectedIndexChanged -= ComboPruebas_SelectedIndexChanged;
@@ -166,9 +133,9 @@ public partial class FormMain : Form
         {
             using var db = new AppDbContext();
 
-            // Obtenemos la lista de pruebas desde la base de datos
+            // Obtenemos la lista de pruebas desde DB filtrando por el campeonato seleccionado
             var listaPruebas = db.Pruebas
-                .Where(p => p.IdCampeonato == IdCampeonatoSeleccionado)
+                .Where(p => p.IdCampeonato == idCto)
                 .Select(p => new { p.Id, p.Nombre })
                 .ToList();
 
@@ -179,14 +146,13 @@ public partial class FormMain : Form
             comboPruebas.DataSource = listaPruebas;
             comboPruebas.DisplayMember = "Nombre";
             comboPruebas.ValueMember = "Id";
-
-            // Dejar Selección Vacia
-            comboPruebas.SelectedIndex = -1;
-            ControlesEnableDisable();
         }
         finally
         {
+            // Reconectamos el evento después de la inicialización
             comboPruebas.SelectedIndexChanged += ComboPruebas_SelectedIndexChanged;
+            // Dejar Selección Vacia
+            comboPruebas.SelectedIndex = -1;
         }
     }
 
@@ -199,8 +165,8 @@ public partial class FormMain : Form
         {
             using var db = new AppDbContext();
 
-            // Obtenemos la lista de pilotos desde la base de datos
-            var listaPilotos = db.Pilotos               
+            // Obtenemos la lista de pilotos desde DB
+            var listaPilotos = db.Pilotos
                 .Select(p => new { p.Id, p.Nombre })
                 .ToList();
 
@@ -211,14 +177,13 @@ public partial class FormMain : Form
             comboPilotos.DataSource = listaPilotos;
             comboPilotos.DisplayMember = "Nombre";
             comboPilotos.ValueMember = "Id";
-
-            // Dejar Selección Vacia
-            comboPilotos.SelectedIndex = -1;
-            ControlesEnableDisable();
         }
         finally
         {
+            // Reconectamos el evento después de la inicialización
             comboPilotos.SelectedIndexChanged += ComboPilotos_SelectedIndexChanged;
+            // Dejar Selección Vacia
+            comboPilotos.SelectedIndex = -1;
         }
     }
 
@@ -231,139 +196,52 @@ public partial class FormMain : Form
         {
             using var db = new AppDbContext();
 
-            // Obtenemos la lista de coches desde la base de datos
+            // Obtenemos la lista de coches desde DB
             var listaCoches = db.Coches
-                .Select(c => new { c.Id, c.Modelo })
+                .Select(c => new { c.Id, strLista = $"{c.Modelo} [{c.Marca}]" })
                 .ToList();
 
             // Agregamos un elemento "comodín" al final de la lista
-            listaCoches.Add(new { Id = -5, Modelo = "- Añadir nuevo -" });
+            listaCoches.Add(new { Id = -5, strLista = "- Añadir nuevo -" });
 
             // Asignamos la lista al ComboBox
             comboCoches.DataSource = listaCoches;
-            comboCoches.DisplayMember = "Modelo";
+            comboCoches.DisplayMember = "strLista";
             comboCoches.ValueMember = "Id";
-
-            // Dejar Selección Vacia
-            comboCoches.SelectedIndex = -1;
-            ControlesEnableDisable();
         }
         finally
         {
+            // Reconectamos el evento después de la inicialización
             comboCoches.SelectedIndexChanged += ComboCoches_SelectedIndexChanged;
+            // Dejar Selección Vacia
+            comboCoches.SelectedIndex = -1;
         }
     }
 
+    private void DataGridInscripcionInit()
+    {
+        using var db = new AppDbContext();
+
+        // Hacemos la consulta trayendo datos de ambas tablas gracias a la relación
+        var listaGrid = db.Inscripciones
+            .Select(i => new
+            {
+                i.Dorsal,
+                Piloto = i.NombrePiloto,
+                i.Coche,
+                Cat = i.Categoria,
+                Verif = i.Verificado
+            })
+            .ToList();
+
+        // Vinculamos el resultado al DataGridView
+        DataGridInscripcion.DataSource = listaGrid;
+    }
+    //-------------------------------------------------------------------------
     #endregion
 
-    #region comboBox SelectedIndexChanged Events    
-
-    private void ComboCampeonatos_SelectedIndexChanged(object? sender, EventArgs e)
-    {
-        if (comboCampeonatos.SelectedValue is int idSel)
-        {
-            if (idSel > 0)                              // ID es válido 
-            {
-                IdCampeonatoSeleccionado = idSel;       // Guardamos el ID del campeonato seleccionado en miembro público
-                Rellena_DatosCampeonato();              // Consultamos la DB para rellenar el TextBox de puntuaciones
-                ComboPruebasInit();                     // Inicializamos el ComboBox de pruebas para el campeonato seleccionado
-            }
-            else if (idSel == -5)                       // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
-            {
-                botonNuevoCampeonato.PerformClick();    // Simulamos click en el botón de nuevo campeonato      
-            }
-            else                                        // ID inválido, limpiar selecciones y TextBox
-            {
-                comboCampeonatos.SelectedIndex = -1;    // Limpiamos la selección del ComboBox de campeonatos
-                comboPruebas.SelectedIndex = -1;        // Limpiamos la selección del ComboBox de pruebas
-
-                IdCampeonatoSeleccionado = null;        // Limpiamos el ID del campeonato seleccionado
-                IdPruebaSeleccionada = null;            // Limpiamos el ID de la prueba seleccionada
-
-                Limpia_DatosCampeonato();               // Limpiamos el TextBox de puntuaciones
-                Limpia_DatosPrueba();                   // Limpiamos los TextBox de datos de la prueba
-            }
-        }
-
-        ControlesEnableDisable();                       // Actualizamos los controles después de la operación
-    }
-
-    private void ComboPruebas_SelectedIndexChanged(object? sender, EventArgs e)
-    {
-        if (comboPruebas.SelectedValue is int idSel)
-        {
-            if (idSel > 0)                          // si ID es válido 
-            {
-                IdPruebaSeleccionada = idSel;       // Guardamos el ID de la prueba seleccionada en miembro público
-                Rellena_DatosPrueba();              // Consultamos la DB para rellenar los TextBox de datos de la prueba
-            }
-            else if (idSel == -5)                   // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
-            {
-                botonNuevaPrueba.PerformClick();    // Simulamos click en el botón de nueva prueba      
-            }
-            else                                    // ID inválido, limpiar seleccines y TextBox
-            {
-                comboPruebas.SelectedIndex = -1;    // Limpiamos la selección del ComboBox de pruebas
-                IdPruebaSeleccionada = null;        // Limpiamos el ID de la prueba seleccionada
-                Limpia_DatosPrueba();               // Limpiamos los TextBox de datos de la prueba
-            }
-
-            ControlesEnableDisable();               // Actualizamos los controles después de la operación
-        }
-    }
-
-    private void ComboPilotos_SelectedIndexChanged(object? sender, EventArgs e)
-    {
-        if (comboPilotos.SelectedValue is int idSel)
-        {
-            if (idSel > 0)                          // si ID es válido 
-            {
-                IdPilotoSeleccionado = idSel;       // Guardamos el ID del piloto seleccionado en miembro público
-                Rellena_DatosPiloto();              // Consultamos la DB para rellenar los TextBox de datos del piloto
-            }
-            else if (idSel == -5)                   // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
-            {
-                botonNuevoPiloto.PerformClick();    // Simulamos click en el botón de nuevo piloto      
-            }
-            else                                    // ID inválido, limpiar seleccines y TextBox
-            {
-                comboPilotos.SelectedIndex = -1;    // Limpiamos la selección del ComboBox de pilotos
-                IdPilotoSeleccionado = null;        // Limpiamos el ID del piloto seleccionado
-                Limpia_DatosPiloto();               // Limpiamos los TextBox de datos del piloto
-            }
-
-            ControlesEnableDisable();               // Actualizamos los controles después de la operación
-        }
-    }
-
-    private void ComboCoches_SelectedIndexChanged(object? sender, EventArgs e)
-    {
-        if (comboCoches.SelectedValue is int idSel)
-        {
-            if (idSel > 0)                          // si ID es válido 
-            {
-                IdCocheSeleccionado = idSel;       // Guardamos el ID del coche seleccionado en miembro público
-                Rellena_DatosCoche();              // Consultamos la DB para rellenar los TextBox de datos del coche
-            }
-            else if (idSel == -5)                   // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
-            {
-                botonNuevoCoche.PerformClick();    // Simulamos click en el botón de nuevo coche      
-            }
-            else                                    // ID inválido, limpiar seleccines y TextBox
-            {
-                comboCoches.SelectedIndex = -1;    // Limpiamos la selección del ComboBox de coches
-                IdCocheSeleccionado = null;        // Limpiamos el ID del coche seleccionado
-                Limpia_DatosCoche();               // Limpiamos los TextBox de datos del coche
-            }
-
-            ControlesEnableDisable();               // Actualizamos los controles después de la operación
-        }
-    }
-
-    #endregion
-
-    #region Rellenar TextBox
-
+    #region Rellenar y Limpiar TextBox
+    //-------------------------------------------------------------------------
     private void Rellena_DatosCampeonato()
     {
         using var db = new AppDbContext();
@@ -441,10 +319,6 @@ public partial class FormMain : Form
         tboxMarca.Text = string.IsNullOrEmpty(marca) ? String.Empty : marca;
     }
 
-    #endregion
-
-    #region Limpiar TextBox
-
     private void Limpia_DatosCampeonato()
     {
         tboxPuntuaciones.Clear();
@@ -467,21 +341,162 @@ public partial class FormMain : Form
     {
         tboxMarca.Clear();
     }
-
+    //-------------------------------------------------------------------------
     #endregion
 
-    #region Botones Nuevo Click
+    #region SelectedIndexChanged Events    
+    //-------------------------------------------------------------------------
+    private void Controles_EnableAndDisable()
+    {
+        // Evaluamos el estado de cada ComboBox de forma individual con nombres únicos
+        bool hayCampeonato = comboCampeonatos.SelectedValue is int idCto && idCto > 0;
+        bool hayPrueba = comboPruebas.SelectedValue is int idPrueba && idPrueba > 0;
+        bool hayPiloto = comboPilotos.SelectedValue is int idPiloto && idPiloto > 0;
+        bool hayCoche = comboCoches.SelectedValue is int idCoche && idCoche > 0;
 
+        // Estados comboBox
+        comboCampeonatos.Enabled = true;            // Siempre habilitado
+        comboPruebas.Enabled = hayCampeonato;       // Habilitado solo si hay campeonato seleccionado
+        comboPilotos.Enabled = true;                // Siempre habilitado
+        comboCoches.Enabled = true;                 // Siempre habilitado
+
+        // Asignamos los estados a los botones
+        // Campeonato
+        botonNuevoCampeonato.Enabled = true;
+        botonEditaCampeonato.Enabled = hayCampeonato;
+        botonBorraCampeonato.Enabled = hayCampeonato;
+
+        // Prueba (Nueva Prueba depende de Campeonato, Edición/Borrado de Prueba)
+        botonNuevaPrueba.Enabled = hayCampeonato;
+        botonEditaPrueba.Enabled = hayPrueba;
+        botonBorraPrueba.Enabled = hayPrueba;
+
+        // Piloto
+        botonNuevoPiloto.Enabled = true;
+        botonEditaPiloto.Enabled = hayPiloto;
+        botonBorraPiloto.Enabled = hayPiloto;
+
+        // Coche
+        botonNuevoCoche.Enabled = true;
+        botonEditaCoche.Enabled = hayCoche;
+        botonBorraCoche.Enabled = hayCoche;
+    }
+
+    private void ComboCampeonatos_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (comboCampeonatos.SelectedValue is int idSel)
+        {
+            if (idSel > 0)                              // Selección Válida 
+            {
+                IdCampeonatoSeleccionado = idSel;       // guardar ID en miembro público
+                Rellena_DatosCampeonato();              // consulta DB para rellenar TextBox
+                ComboPruebasInit();                     // Init ComboBox Pruebas para Campeonato seleccionado
+            }
+            else                                        // ID inválido, limpiar selecciones y TextBox
+            {
+                comboCampeonatos.SelectedIndex = -1;    // Limpiar selección Campeonatos
+                IdCampeonatoSeleccionado = null;        // Limpiar ID Campeonato 
+                Limpia_DatosCampeonato();               // Limpiar TextBox datos Campeonato
+
+                comboPruebas.SelectedIndex = -1;        // Limpiar selección Pruebas
+                IdPruebaSeleccionada = null;            // Limpiar ID Prueba 
+                Limpia_DatosPrueba();                   // Limpiar TextBox datos Prueba
+
+                if (idSel == -5)                        // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
+                {
+                    botonNuevoCampeonato.PerformClick();    // Simulamos click en el botón de NUEVO Campeonato      
+                }
+            }
+        }
+        Controles_EnableAndDisable();                   // Actualizamos los controles después de la operación
+    }
+
+    private void ComboPruebas_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (comboPruebas.SelectedValue is int idSel)
+        {
+            if (idSel > 0)                              // Selección Válida 
+            {
+                IdPruebaSeleccionada = idSel;           // guardar ID en miembro público
+                Rellena_DatosPrueba();                  // consulta DB para rellenar TextBox
+            }
+            else                                        // ID inválido, limpiar selecciones y TextBox
+            {
+                comboPruebas.SelectedIndex = -1;        // Limpiar selección Pruebas
+                IdPruebaSeleccionada = null;            // Limpiar ID Prueba 
+                Limpia_DatosPrueba();                   // Limpiar TextBox datos Prueba
+
+                if (idSel == -5)                        // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
+                {
+                    botonNuevaPrueba.PerformClick();    // Simulamos click en el botón de NUEVA Prueba      
+                }
+            }
+        }
+        Controles_EnableAndDisable();                   // Actualizamos los controles después de la operación
+    }
+
+    private void ComboPilotos_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (comboPilotos.SelectedValue is int idSel)
+        {
+            if (idSel > 0)                              // Selección Válida 
+            {
+                IdPilotoSeleccionado = idSel;           // guardar ID en miembro público
+                Rellena_DatosPiloto();                  // consulta DB para rellenar TextBox
+            }
+            else                                        // ID inválido, limpiar selecciones y TextBox
+            {
+                comboPilotos.SelectedIndex = -1;        // Limpiar selección Pilotos
+                IdPilotoSeleccionado = null;            // Limpiar ID Piloto 
+                Limpia_DatosPiloto();                   // Limpiar TextBox datos Piloto
+
+                if (idSel == -5)                        // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
+                {
+                    botonNuevoPiloto.PerformClick();    // Simulamos click en el botón de NUEVO Piloto      
+                }
+            }
+        }
+        Controles_EnableAndDisable();                   // Actualizamos los controles después de la operación
+    }
+
+    private void ComboCoches_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (comboCoches.SelectedValue is int idSel)
+        {
+            if (idSel > 0)                              // Selección Válida 
+            {
+                IdCocheSeleccionado = idSel;            // guardar ID en miembro público
+                Rellena_DatosCoche();                   // consulta DB para rellenar TextBox
+            }
+            else                                        // ID inválido, limpiar selecciones y TextBox
+            {
+                comboCoches.SelectedIndex = -1;         // Limpiar selección Coches
+                IdCocheSeleccionado = null;             // Limpiar ID Coche 
+                Limpia_DatosCoche();                    // Limpiar TextBox datos Coche
+
+                if (idSel == -5)                        // opcion "- Añadir nuevo -" seleccionada, abrir formulario de alta
+                {
+                    botonNuevoCoche.PerformClick();     // Simulamos click en el botón de NUEVO Coche      
+                }
+            }
+        }
+        Controles_EnableAndDisable();                   // Actualizamos los controles después de la operación
+    }
+    //-------------------------------------------------------------------------
+    #endregion
+
+    #region Botones Nuevo
+    //-------------------------------------------------------------------------
     private void BotonNuevoCampeonato_Click(object sender, EventArgs e)
     {
         // Guardamos los valores actuales por si el usuario cancela la operación
-        var valorCampeonatoSiCancela = (comboCampeonatos.SelectedValue is int idCto && idCto > 0) ? idCto : -1 ;
+        var valorCtoSiCancela = (comboCampeonatos.SelectedValue is int idCto && idCto > 0) ? idCto : -1 ;
         var valorPruebaSiCancela = (comboPruebas.SelectedValue is int idPrueba && idPrueba > 0) ? idPrueba : -1;
 
-        comboCampeonatos.SelectedIndex = -1;                        // Limpiar la selección para el ALTA y evitar confusión 
-        comboPruebas.SelectedIndex = -1;                            // Limpiar la selección para el ALTA y evitar confusión 
-        Limpia_DatosCampeonato();                                   // Limpiar TextBox
-        Limpia_DatosPrueba();                                       // Limpiar TextBox 
+        comboCampeonatos.SelectedIndex = -1;    // Limpiar la selección para el ALTA y evitar confusión 
+        Limpia_DatosCampeonato();               // Limpiar TextBox
+        comboPruebas.SelectedIndex = -1;        // Limpiar la selección para el ALTA y evitar confusión 
+        Limpia_DatosPrueba();                   // Limpiar TextBox 
 
         using var formAlta = new FormCampeonato("Nuevo Campeonato");
 
@@ -496,22 +511,19 @@ public partial class FormMain : Form
         }
         else
         {
-            comboCampeonatos.SelectedValue = valorCampeonatoSiCancela;   // Restauramos el valor anterior si el usuario cancela
-            comboPruebas.SelectedValue = valorPruebaSiCancela ;          // Restauramos el valor anterior si el usuario cancela
-
+            comboCampeonatos.SelectedValue = valorCtoSiCancela;             // Restauramos el valor anterior si el usuario cancela
+            comboPruebas.SelectedValue = valorPruebaSiCancela ;             // Restauramos el valor anterior si el usuario cancela
             MostrarMensajeEstado("Operacion Cancelada");
         }
-
-        ControlesEnableDisable();                                           // Actualizamos los controles después de la operación
     }
 
     private void BotonNuevaPrueba_Click(object sender, EventArgs e)
     {
-        // Guardamos el valor actual por si el usuario cancela la operación
-        var valorSiCancela = (comboPruebas.SelectedValue is int idSel && idSel > 0) ? idSel : -1;
+        // Guardamos los valores actuales por si el usuario cancela la operación
+        var valorPruebaSiCancela = (comboPruebas.SelectedValue is int idPrueba && idPrueba > 0) ? idPrueba : -1;
 
-        comboPruebas.SelectedIndex = -1;                        // Limpiar la selección para el ALTA y evitar confusión
-        ControlesEnableDisable();                               // Actualizar los controles después de la operación
+        comboPruebas.SelectedIndex = -1;    // Limpiar la selección para el ALTA y evitar confusión 
+        Limpia_DatosPrueba();               // Limpiar TextBox 
 
         using var formAlta = new FormPrueba("Nueva Prueba");
 
@@ -526,20 +538,18 @@ public partial class FormMain : Form
         }
         else
         {
-            comboPruebas.SelectedValue = valorSiCancela;       // Restauramos el valor anterior si el usuario cancela
+            comboPruebas.SelectedValue = valorPruebaSiCancela;       // Restauramos el valor anterior si el usuario cancela
             MostrarMensajeEstado("Operacion Cancelada");
         }
-
-        ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
     }
 
     private void BotonNuevoPiloto_Click(object sender, EventArgs e)
     {
         // Guardamos el valor actual por si el usuario cancela la operación
-        var valorSiCancela = (comboPilotos.SelectedValue is int idSel && idSel > 0) ? idSel : -1;
+        var valorPilotoSiCancela = (comboPilotos.SelectedValue is int idPiloto && idPiloto > 0) ? idPiloto : -1;
 
-        comboPilotos.SelectedIndex = -1;                        // Limpiar la selección para el ALTA y evitar confusión
-        ControlesEnableDisable();                               // Actualizar los controles después de la operación
+        comboPilotos.SelectedIndex = -1;    // Limpiar la selección para el ALTA y evitar confusión
+        Limpia_DatosPiloto();               // Limpiar TextBox 
 
         using var formAlta = new FormPiloto("Nuevo Piloto");
 
@@ -554,20 +564,18 @@ public partial class FormMain : Form
         }
         else
         {
-            comboPilotos.SelectedValue = valorSiCancela;             // Restauramos el valor anterior si el usuario cancela
+            comboPilotos.SelectedValue = valorPilotoSiCancela;          // Restauramos el valor anterior si el usuario cancela
             MostrarMensajeEstado("Operacion Cancelada");
         }
-
-        ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
     }
 
     private void BotonNuevoCoche_Click(object sender, EventArgs e)
     {
         // Guardamos el valor actual por si el usuario cancela la operación
-        var valorSiCancela = (comboCoches.SelectedValue is int idSel && idSel > 0) ? idSel : -1;
+        var valorCocheSiCancela = (comboCoches.SelectedValue is int idCoche && idCoche > 0) ? idCoche : -1;
 
-        comboCoches.SelectedIndex = -1;                         // Limpiar la selección para el ALTA y evitar confusión 
-        ControlesEnableDisable();                               // Actualizar los controles después de la operación
+        comboCoches.SelectedIndex = -1;     // Limpiar la selección para el ALTA y evitar confusión 
+        Limpia_DatosCoche();                // Limpiar TextBox 
 
         using var formAlta = new FormCoche("Nuevo Coche");
 
@@ -582,17 +590,15 @@ public partial class FormMain : Form
         }
         else
         {
-            comboCoches.SelectedValue = valorSiCancela;              // Restauramos el valor anterior si el usuario cancela
+            comboCoches.SelectedValue = valorCocheSiCancela;            // Restauramos el valor anterior si el usuario cancela
             MostrarMensajeEstado("Operacion Cancelada");
         }
-
-        ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
     }
-
+    //-------------------------------------------------------------------------
     #endregion
 
-    #region Botones Editar Click
-
+    #region Botones Editar 
+    //-------------------------------------------------------------------------
     private void BotonEditaCampeonato_Click(object sender, EventArgs e)
     {
         using var formEdicion = new FormCampeonato("Modificar Campeonato", comboCampeonatos.SelectedValue);
@@ -603,12 +609,10 @@ public partial class FormMain : Form
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
             var valorPruebaPorsi = (comboPruebas.SelectedValue is int idPrueba && idPrueba > 0) ? idPrueba : -1;
-            Limpia_DatosPrueba();                                           // Limpiamos los TextBox de datos de la prueba
 
             ComboCampeonatosInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
             comboCampeonatos.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos el campeonato editado o ninguno si es null
             comboPruebas.SelectedValue = valorPruebaPorsi;                  // Restauramos la selección de prueba anterior
-            ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
             MostrarMensajeEstado("Campeonato modificado OK");
         }
     }
@@ -624,7 +628,6 @@ public partial class FormMain : Form
         {
             ComboPruebasInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
             comboPruebas.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos la prueba editada o ninguna si es null
-            ControlesEnableDisable();                                   // Actualizamos los controles después de la operación
             MostrarMensajeEstado("Prueba modificada OK");
         }
     }
@@ -640,7 +643,6 @@ public partial class FormMain : Form
         {
             ComboPilotosInit();                                             // Si el usuario guardó con éxito, refrescamos este combo
             comboPilotos.SelectedValue = formEdicion.IdSelected ?? -1;      // seleccionamos el piloto editado o ninguno si es null
-            ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
             MostrarMensajeEstado("Piloto modificado OK");
         }
     }
@@ -656,19 +658,18 @@ public partial class FormMain : Form
         {
             ComboCochesInit();                                              // Si el usuario guardó con éxito, refrescamos este combo
             comboCoches.SelectedValue = formEdicion.IdSelected ?? -1;       // seleccionamos el coche editado o ninguno si es null
-            ControlesEnableDisable();                                       // Actualizamos los controles después de la operación
             MostrarMensajeEstado("Coche modificado OK");
         }
     }
-
+    //-------------------------------------------------------------------------
     #endregion
 
-    #region Botones Borrar Click
-
+    #region Botones Borrar 
+    //-------------------------------------------------------------------------
     private void BotonBorraCampeonato_Click(object sender, EventArgs e)
     {
         // Validar ID campeonato seleccionado en ComboBox
-        if (!(comboCampeonatos.SelectedValue is int idSel && idSel > 0))
+        if (comboCampeonatos.SelectedValue is not int idSel || idSel <= 0)
         {
             MostrarMensajeEstado("Selecciona campeonato válido");
             return;  
@@ -695,9 +696,9 @@ public partial class FormMain : Form
                     db.SaveChanges();                           // SQLite, guardar cambios 
 
                     Limpia_DatosCampeonato();                   // Limpiar TextBox 
-                    Limpia_DatosPrueba();                       // Limpiar TextBox 
-
                     ComboCampeonatosInit();                     // Actualizar interfaz
+
+                    Limpia_DatosPrueba();                       // Limpiar TextBox 
                     ComboPruebasInit();                         // Actualizar interfaz
 
                     MostrarMensajeEstado("Campeonato borrado OK");
@@ -725,7 +726,7 @@ public partial class FormMain : Form
     private void BotonBorraPrueba_Click(object sender, EventArgs e)
     {
         // Validar ID prueba seleccionado en ComboBox
-        if (!(comboPruebas.SelectedValue is int idSel && idSel > 0))
+        if (comboPruebas.SelectedValue is not int idSel || idSel <= 0)
         {
             MostrarMensajeEstado("Selecciona prueba válida");
             return;
@@ -779,7 +780,7 @@ public partial class FormMain : Form
     private void BotonBorraPiloto_Click(object sender, EventArgs e)
     {
         // Validar ID piloto seleccionado en ComboBox
-        if (!(comboPilotos.SelectedValue is int idSel && idSel > 0))
+        if (comboPilotos.SelectedValue is not int idSel || idSel <= 0)
         {
             MostrarMensajeEstado("Selecciona piloto válido");
             return;
@@ -798,7 +799,7 @@ public partial class FormMain : Form
             try
             {
                 using var db = new AppDbContext();                  // Contexto DB
-                var pilotoParaBorrado = db.Pilotos.Find(idSel);    // DB, buscar por ID
+                var pilotoParaBorrado = db.Pilotos.Find(idSel);     // DB, buscar por ID
 
                 if (pilotoParaBorrado != null)
                 {
@@ -833,7 +834,7 @@ public partial class FormMain : Form
     private void BotonBorraCoche_Click(object sender, EventArgs e)
     {
         // Validar ID coche seleccionado en ComboBox
-        if (!(comboCoches.SelectedValue is int idSel && idSel > 0))
+        if (comboCoches.SelectedValue is not int idSel || idSel <= 0)
         {
             MostrarMensajeEstado("Selecciona coche válido");
             return;
@@ -883,31 +884,11 @@ public partial class FormMain : Form
             }
         }
     }
-
+    //-------------------------------------------------------------------------
     #endregion
 
-    private void DataGridInscripcionInit()
-    {
-        using var db = new AppDbContext();
-
-        // Hacemos la consulta trayendo datos de ambas tablas gracias a la relación
-        var listaGrid = db.Inscripciones
-            .Select(i => new
-            {
-                i.Dorsal,
-                Piloto = i.NombrePiloto,
-                i.Coche,
-                Cat = i.Categoria,
-                Verif = i.Verificado
-            })
-            .ToList();
-
-        // Vinculamos el resultado al DataGridView
-        DataGridInscripcion.DataSource = listaGrid;
-    }
-
     #region otros
-
+    //-------------------------------------------------------------------------
     private CancellationTokenSource? _ctsMensaje;
     public async void MostrarMensajeEstado(string msg, int ms = 4000)
     {
@@ -933,6 +914,6 @@ public partial class FormMain : Form
     {
         this.Close();
     }
-
+    //-------------------------------------------------------------------------
     #endregion
 }
