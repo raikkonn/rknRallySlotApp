@@ -113,7 +113,7 @@ public partial class FormMain : Form
             // Reconectamos el evento después de la inicialización
             comboCampeonatos.SelectedIndexChanged += ComboCampeonatos_SelectedIndexChanged;
             // Dejar Selección Vacia
-            comboCampeonatos.SelectedIndex = -1;    
+            comboCampeonatos.SelectedIndex = -1;
         }
     }
 
@@ -246,12 +246,12 @@ public partial class FormMain : Form
     {
         using var db = new AppDbContext();
 
-        var puntuaciones = db.Campeonatos
-                            .Where(c => c.Id == IdCampeonatoSeleccionado)
-                            .Select(c => c.SistemaPuntuacion)
-                            .FirstOrDefault();
+        var puntos = db.Campeonatos
+                     .Where(c => c.Id == IdCampeonatoSeleccionado)
+                     .Select(c => c.SistemaPuntuacion)
+                     .FirstOrDefault();
 
-        tboxPuntuaciones.Text = string.IsNullOrEmpty(puntuaciones) ? "NO definido" : puntuaciones;
+        tboxPuntuaciones.Text = puntos ?? "NO definido";
     }
 
     private void Rellena_DatosPrueba()
@@ -264,21 +264,21 @@ public partial class FormMain : Form
                             {
                                 p.NumEtapas,
                                 p.TramosPorEtapa,
-                                p.TiempoMaximo
+                                p.TiempoMaximo,
+                                p.PowerStage
                             })
                             .FirstOrDefault();
 
         if (prueba != null)
         {
-            tboxEtapas.Text = string.IsNullOrEmpty(prueba.NumEtapas.ToString()) ? "NO def." : prueba.NumEtapas.ToString();
-            tboxTramos.Text = string.IsNullOrEmpty(prueba.TramosPorEtapa.ToString()) ? "NO def." : prueba.TramosPorEtapa.ToString();
-            tboxTmax.Text = string.IsNullOrEmpty(prueba.TiempoMaximo.ToString()) ? "NO def." : prueba.TiempoMaximo.ToString();
+            tboxEtapas.Text = prueba.NumEtapas.ToString() ?? "NO def.";
+            tboxTramos.Text = prueba.TramosPorEtapa.ToString() ?? "NO def.";
+            tboxTmax.Text = prueba.TiempoMaximo.ToString() ?? "NO def.";
+            tboxPwrStg.Text = prueba.PowerStage ?? string.Empty;
         }
         else
         {
-            tboxEtapas.Clear();
-            tboxTramos.Clear();
-            tboxTmax.Clear();
+            Limpia_DatosPrueba();
         }
     }
 
@@ -302,8 +302,7 @@ public partial class FormMain : Form
         }
         else
         {
-            tboxAlias.Clear();
-            tboxEscuderia.Clear();
+            Limpia_DatosPiloto();
         }
     }
 
@@ -316,7 +315,7 @@ public partial class FormMain : Form
                     .Select(c => c.Marca)
                     .FirstOrDefault();
 
-        tboxMarca.Text = string.IsNullOrEmpty(marca) ? String.Empty : marca;
+        tboxMarca.Text = marca ?? String.Empty;
     }
 
     private void Limpia_DatosCampeonato()
@@ -329,6 +328,7 @@ public partial class FormMain : Form
         tboxEtapas.Clear();
         tboxTramos.Clear();
         tboxTmax.Clear();
+        tboxPwrStg.Clear();
     }
 
     private void Limpia_DatosPiloto()
@@ -490,7 +490,7 @@ public partial class FormMain : Form
     private void BotonNuevoCampeonato_Click(object sender, EventArgs e)
     {
         // Guardamos los valores actuales por si el usuario cancela la operación
-        var valorCtoSiCancela = (comboCampeonatos.SelectedValue is int idCto && idCto > 0) ? idCto : -1 ;
+        var valorCtoSiCancela = (comboCampeonatos.SelectedValue is int idCto && idCto > 0) ? idCto : -1;
         var valorPruebaSiCancela = (comboPruebas.SelectedValue is int idPrueba && idPrueba > 0) ? idPrueba : -1;
 
         comboCampeonatos.SelectedIndex = -1;    // Limpiar la selección para el ALTA y evitar confusión 
@@ -501,7 +501,7 @@ public partial class FormMain : Form
         using var formAlta = new FormCampeonato("Nuevo Campeonato");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
+        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -512,7 +512,7 @@ public partial class FormMain : Form
         else
         {
             comboCampeonatos.SelectedValue = valorCtoSiCancela;             // Restauramos el valor anterior si el usuario cancela
-            comboPruebas.SelectedValue = valorPruebaSiCancela ;             // Restauramos el valor anterior si el usuario cancela
+            comboPruebas.SelectedValue = valorPruebaSiCancela;              // Restauramos el valor anterior si el usuario cancela
             MostrarMensajeEstado("Operacion Cancelada");
         }
     }
@@ -528,7 +528,7 @@ public partial class FormMain : Form
         using var formAlta = new FormPrueba("Nueva Prueba");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
+        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -554,7 +554,7 @@ public partial class FormMain : Form
         using var formAlta = new FormPiloto("Nuevo Piloto");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
+        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -604,7 +604,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormCampeonato("Modificar Campeonato", comboCampeonatos.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
+        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -622,7 +622,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormPrueba("Modificar Prueba", comboPruebas.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
+        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -635,9 +635,9 @@ public partial class FormMain : Form
     private void BotonEditaPiloto_Click(object sender, EventArgs e)
     {
         using var formEdicion = new FormPiloto("Modificar Piloto", comboPilotos.SelectedValue);
-        
+
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6,8));
+        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -672,7 +672,7 @@ public partial class FormMain : Form
         if (comboCampeonatos.SelectedValue is not int idSel || idSel <= 0)
         {
             MostrarMensajeEstado("Selecciona campeonato válido");
-            return;  
+            return;
         }
 
         // Confirmación usuario 
@@ -916,4 +916,5 @@ public partial class FormMain : Form
     }
     //-------------------------------------------------------------------------
     #endregion
+
 }

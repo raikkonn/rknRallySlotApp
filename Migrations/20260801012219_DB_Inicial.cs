@@ -77,7 +77,7 @@ namespace rknRallySlotApp.Migrations
                     NumEtapas = table.Column<int>(type: "INTEGER", nullable: false),
                     TramosPorEtapa = table.Column<int>(type: "INTEGER", nullable: false),
                     TiempoMaximo = table.Column<int>(type: "INTEGER", nullable: false),
-                    PowerStage = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true)
+                    PowerStage = table.Column<string>(type: "TEXT", maxLength: 30, nullable: true)
                 },
                 constraints: table =>
                 {

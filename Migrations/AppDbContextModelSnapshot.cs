@@ -166,7 +166,7 @@ namespace rknRallySlotApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PowerStage")
-                        .HasMaxLength(10)
+                        .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("TiempoMaximo")

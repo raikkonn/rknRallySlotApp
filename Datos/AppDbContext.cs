@@ -156,7 +156,7 @@ public class AppDbContext : DbContext
                   .IsRequired();
 
             entity.Property(p => p.PowerStage)
-                  .HasMaxLength(10)
+                  .HasMaxLength(30)
                   .IsRequired(false);
 
             // Índice compuesto: El nombre no se puede repetir dentro del mismo campeonato

@@ -10,7 +10,7 @@ using rknRallySlotApp.Datos;
 namespace rknRallySlotApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260731225201_DB_Inicial")]
+    [Migration("20260801012219_DB_Inicial")]
     partial class DB_Inicial
     {
         /// <inheritdoc />
@@ -169,7 +169,7 @@ namespace rknRallySlotApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PowerStage")
-                        .HasMaxLength(10)
+                        .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("TiempoMaximo")

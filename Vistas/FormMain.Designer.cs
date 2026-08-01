@@ -76,6 +76,8 @@
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             panel2 = new Panel();
+            tboxPwrStg = new TextBox();
+            label6 = new Label();
             ((System.ComponentModel.ISupportInitialize)DataGridInscripcion).BeginInit();
             menuMain.SuspendLayout();
             statusStripMain.SuspendLayout();
@@ -264,7 +266,7 @@
             botonBorraCoche.Enabled = false;
             botonBorraCoche.FlatStyle = FlatStyle.Flat;
             botonBorraCoche.ForeColor = Color.Transparent;
-            botonBorraCoche.Location = new Point(496, 76);
+            botonBorraCoche.Location = new Point(622, 76);
             botonBorraCoche.Name = "botonBorraCoche";
             botonBorraCoche.Size = new Size(35, 35);
             botonBorraCoche.TabIndex = 0;
@@ -296,7 +298,7 @@
             botonEditaCoche.Enabled = false;
             botonEditaCoche.FlatStyle = FlatStyle.Flat;
             botonEditaCoche.ForeColor = Color.Transparent;
-            botonEditaCoche.Location = new Point(455, 76);
+            botonEditaCoche.Location = new Point(581, 76);
             botonEditaCoche.Name = "botonEditaCoche";
             botonEditaCoche.Size = new Size(35, 35);
             botonEditaCoche.TabIndex = 0;
@@ -328,7 +330,7 @@
             botonNuevoCoche.Enabled = false;
             botonNuevoCoche.FlatStyle = FlatStyle.Flat;
             botonNuevoCoche.ForeColor = Color.Transparent;
-            botonNuevoCoche.Location = new Point(414, 76);
+            botonNuevoCoche.Location = new Point(540, 76);
             botonNuevoCoche.Name = "botonNuevoCoche";
             botonNuevoCoche.Size = new Size(35, 35);
             botonNuevoCoche.TabIndex = 0;
@@ -400,7 +402,9 @@
             // 
             // gBoxCampeonatoPrueba
             // 
+            gBoxCampeonatoPrueba.Controls.Add(tboxPwrStg);
             gBoxCampeonatoPrueba.Controls.Add(tboxTmax);
+            gBoxCampeonatoPrueba.Controls.Add(label6);
             gBoxCampeonatoPrueba.Controls.Add(tboxTramos);
             gBoxCampeonatoPrueba.Controls.Add(label5);
             gBoxCampeonatoPrueba.Controls.Add(tboxEtapas);
@@ -523,7 +527,7 @@
             botonBorraPrueba.Enabled = false;
             botonBorraPrueba.FlatStyle = FlatStyle.Flat;
             botonBorraPrueba.ForeColor = Color.Transparent;
-            botonBorraPrueba.Location = new Point(496, 76);
+            botonBorraPrueba.Location = new Point(622, 76);
             botonBorraPrueba.Name = "botonBorraPrueba";
             botonBorraPrueba.Size = new Size(35, 35);
             botonBorraPrueba.TabIndex = 0;
@@ -555,7 +559,7 @@
             botonEditaPrueba.Enabled = false;
             botonEditaPrueba.FlatStyle = FlatStyle.Flat;
             botonEditaPrueba.ForeColor = Color.Transparent;
-            botonEditaPrueba.Location = new Point(455, 76);
+            botonEditaPrueba.Location = new Point(581, 76);
             botonEditaPrueba.Name = "botonEditaPrueba";
             botonEditaPrueba.Size = new Size(35, 35);
             botonEditaPrueba.TabIndex = 0;
@@ -587,7 +591,7 @@
             botonNuevaPrueba.Enabled = false;
             botonNuevaPrueba.FlatStyle = FlatStyle.Flat;
             botonNuevaPrueba.ForeColor = Color.Transparent;
-            botonNuevaPrueba.Location = new Point(414, 76);
+            botonNuevaPrueba.Location = new Point(540, 76);
             botonNuevaPrueba.Name = "botonNuevaPrueba";
             botonNuevaPrueba.Size = new Size(35, 35);
             botonNuevaPrueba.TabIndex = 0;
@@ -699,6 +703,28 @@
             panel2.Size = new Size(1264, 36);
             panel2.TabIndex = 11;
             // 
+            // tboxPwrStg
+            // 
+            tboxPwrStg.BackColor = Color.FromArgb(52, 73, 94);
+            tboxPwrStg.BorderStyle = BorderStyle.FixedSingle;
+            tboxPwrStg.ForeColor = Color.White;
+            tboxPwrStg.Location = new Point(410, 84);
+            tboxPwrStg.Name = "tboxPwrStg";
+            tboxPwrStg.ReadOnly = true;
+            tboxPwrStg.Size = new Size(121, 23);
+            tboxPwrStg.TabIndex = 19;
+            tboxPwrStg.TabStop = false;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(410, 66);
+            label6.Name = "label6";
+            label6.Size = new Size(72, 15);
+            label6.TabIndex = 20;
+            label6.Text = "Power Stage";
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -782,5 +808,7 @@
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
         private Panel panel3;
+        private TextBox tboxPwrStg;
+        private Label label6;
     }
 }
