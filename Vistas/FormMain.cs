@@ -501,7 +501,7 @@ public partial class FormMain : Form
         using var formAlta = new FormCampeonato("Nuevo Campeonato");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
+        formAlta.Location = groupBox1.PointToScreen(new Point(6, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -528,7 +528,7 @@ public partial class FormMain : Form
         using var formAlta = new FormPrueba("Nueva Prueba");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
+        formAlta.Location = groupBox1.PointToScreen(new Point(6, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -554,7 +554,7 @@ public partial class FormMain : Form
         using var formAlta = new FormPiloto("Nuevo Piloto");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
+        formAlta.Location = groupBox1.PointToScreen(new Point(6, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -580,7 +580,7 @@ public partial class FormMain : Form
         using var formAlta = new FormCoche("Nuevo Coche");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
+        formAlta.Location = groupBox1.PointToScreen(new Point(6, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -604,7 +604,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormCampeonato("Modificar Campeonato", comboCampeonatos.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
+        formEdicion.Location = groupBox1.PointToScreen(new Point(6, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -622,7 +622,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormPrueba("Modificar Prueba", comboPruebas.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
+        formEdicion.Location = groupBox1.PointToScreen(new Point(6, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -637,7 +637,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormPiloto("Modificar Piloto", comboPilotos.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
+        formEdicion.Location = groupBox1.PointToScreen(new Point(6, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -652,7 +652,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormCoche("Modificar Coche", comboCoches.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = gBoxCampeonatoPrueba.PointToScreen(new Point(6, 8));
+        formEdicion.Location = groupBox1.PointToScreen(new Point(6, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {

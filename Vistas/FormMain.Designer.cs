@@ -36,7 +36,16 @@
             statusStripMain = new StatusStrip();
             labelStatus = new ToolStripStatusLabel();
             panel1 = new Panel();
-            gBoxPilotoCoche = new GroupBox();
+            groupBox4 = new GroupBox();
+            botonNuevaInscripcion = new Button();
+            checkVerificado = new CheckBox();
+            groupBox3 = new GroupBox();
+            botonBorraCategoria = new Button();
+            label7 = new Label();
+            botonEditaCategoria = new Button();
+            comboCategorias = new ComboBox();
+            botonNuevaCategoria = new Button();
+            groupBox2 = new GroupBox();
             tboxEscuderia = new TextBox();
             label12 = new Label();
             tboxMarca = new TextBox();
@@ -53,8 +62,10 @@
             label11 = new Label();
             comboCoches = new ComboBox();
             comboPilotos = new ComboBox();
-            gBoxCampeonatoPrueba = new GroupBox();
+            groupBox1 = new GroupBox();
+            tboxPwrStg = new TextBox();
             tboxTmax = new TextBox();
+            label6 = new Label();
             tboxTramos = new TextBox();
             label5 = new Label();
             tboxEtapas = new TextBox();
@@ -76,14 +87,14 @@
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             panel2 = new Panel();
-            tboxPwrStg = new TextBox();
-            label6 = new Label();
             ((System.ComponentModel.ISupportInitialize)DataGridInscripcion).BeginInit();
             menuMain.SuspendLayout();
             statusStripMain.SuspendLayout();
             panel1.SuspendLayout();
-            gBoxPilotoCoche.SuspendLayout();
-            gBoxCampeonatoPrueba.SuspendLayout();
+            groupBox4.SuspendLayout();
+            groupBox3.SuspendLayout();
+            groupBox2.SuspendLayout();
+            groupBox1.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -100,11 +111,11 @@
             DataGridInscripcion.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             DataGridInscripcion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DataGridInscripcion.Dock = DockStyle.Fill;
-            DataGridInscripcion.Location = new Point(0, 278);
+            DataGridInscripcion.Location = new Point(0, 275);
             DataGridInscripcion.Name = "DataGridInscripcion";
             DataGridInscripcion.ReadOnly = true;
             DataGridInscripcion.RowHeadersWidth = 15;
-            DataGridInscripcion.Size = new Size(1264, 428);
+            DataGridInscripcion.Size = new Size(1264, 431);
             DataGridInscripcion.TabIndex = 0;
             DataGridInscripcion.TabStop = false;
             // 
@@ -159,48 +170,176 @@
             // 
             panel1.AutoSize = true;
             panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            panel1.Controls.Add(gBoxPilotoCoche);
-            panel1.Controls.Add(gBoxCampeonatoPrueba);
+            panel1.Controls.Add(groupBox4);
+            panel1.Controls.Add(groupBox3);
+            panel1.Controls.Add(groupBox2);
+            panel1.Controls.Add(groupBox1);
             panel1.Controls.Add(panel3);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 24);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1264, 254);
+            panel1.Size = new Size(1264, 251);
             panel1.TabIndex = 10;
             // 
-            // gBoxPilotoCoche
+            // groupBox4
             // 
-            gBoxPilotoCoche.Controls.Add(tboxEscuderia);
-            gBoxPilotoCoche.Controls.Add(label12);
-            gBoxPilotoCoche.Controls.Add(tboxMarca);
-            gBoxPilotoCoche.Controls.Add(tboxAlias);
-            gBoxPilotoCoche.Controls.Add(label8);
-            gBoxPilotoCoche.Controls.Add(label9);
-            gBoxPilotoCoche.Controls.Add(botonBorraCoche);
-            gBoxPilotoCoche.Controls.Add(botonBorraPiloto);
-            gBoxPilotoCoche.Controls.Add(botonEditaCoche);
-            gBoxPilotoCoche.Controls.Add(botonEditaPiloto);
-            gBoxPilotoCoche.Controls.Add(botonNuevoCoche);
-            gBoxPilotoCoche.Controls.Add(botonNuevoPiloto);
-            gBoxPilotoCoche.Controls.Add(label10);
-            gBoxPilotoCoche.Controls.Add(label11);
-            gBoxPilotoCoche.Controls.Add(comboCoches);
-            gBoxPilotoCoche.Controls.Add(comboPilotos);
-            gBoxPilotoCoche.Location = new Point(3, 130);
-            gBoxPilotoCoche.Name = "gBoxPilotoCoche";
-            gBoxPilotoCoche.Size = new Size(667, 121);
-            gBoxPilotoCoche.TabIndex = 13;
-            gBoxPilotoCoche.TabStop = false;
+            groupBox4.Controls.Add(botonNuevaInscripcion);
+            groupBox4.Controls.Add(checkVerificado);
+            groupBox4.Location = new Point(701, 127);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(200, 121);
+            groupBox4.TabIndex = 24;
+            groupBox4.TabStop = false;
+            // 
+            // botonNuevaInscripcion
+            // 
+            botonNuevaInscripcion.BackColor = Color.FromArgb(52, 73, 94);
+            botonNuevaInscripcion.BackgroundImageLayout = ImageLayout.Zoom;
+            botonNuevaInscripcion.Cursor = Cursors.Hand;
+            botonNuevaInscripcion.Enabled = false;
+            botonNuevaInscripcion.FlatStyle = FlatStyle.Flat;
+            botonNuevaInscripcion.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            botonNuevaInscripcion.ForeColor = Color.FromArgb(255, 128, 0);
+            botonNuevaInscripcion.Location = new Point(10, 62);
+            botonNuevaInscripcion.Name = "botonNuevaInscripcion";
+            botonNuevaInscripcion.Size = new Size(180, 49);
+            botonNuevaInscripcion.TabIndex = 23;
+            botonNuevaInscripcion.TabStop = false;
+            botonNuevaInscripcion.Text = "Inscribir";
+            botonNuevaInscripcion.UseVisualStyleBackColor = false;
+            // 
+            // checkVerificado
+            // 
+            checkVerificado.Anchor = AnchorStyles.None;
+            checkVerificado.AutoSize = true;
+            checkVerificado.CheckAlign = ContentAlignment.MiddleRight;
+            checkVerificado.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            checkVerificado.ForeColor = Color.Red;
+            checkVerificado.Location = new Point(41, 24);
+            checkVerificado.Name = "checkVerificado";
+            checkVerificado.Size = new Size(117, 29);
+            checkVerificado.TabIndex = 0;
+            checkVerificado.TabStop = false;
+            checkVerificado.Text = "Verificado";
+            checkVerificado.TextAlign = ContentAlignment.MiddleRight;
+            checkVerificado.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(botonBorraCategoria);
+            groupBox3.Controls.Add(label7);
+            groupBox3.Controls.Add(botonEditaCategoria);
+            groupBox3.Controls.Add(comboCategorias);
+            groupBox3.Controls.Add(botonNuevaCategoria);
+            groupBox3.Location = new Point(701, 3);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(200, 121);
+            groupBox3.TabIndex = 14;
+            groupBox3.TabStop = false;
+            // 
+            // botonBorraCategoria
+            // 
+            botonBorraCategoria.BackColor = Color.FromArgb(52, 73, 94);
+            botonBorraCategoria.BackgroundImageLayout = ImageLayout.Zoom;
+            botonBorraCategoria.Cursor = Cursors.Hand;
+            botonBorraCategoria.Enabled = false;
+            botonBorraCategoria.FlatStyle = FlatStyle.Flat;
+            botonBorraCategoria.ForeColor = Color.Transparent;
+            botonBorraCategoria.Location = new Point(155, 76);
+            botonBorraCategoria.Name = "botonBorraCategoria";
+            botonBorraCategoria.Size = new Size(35, 35);
+            botonBorraCategoria.TabIndex = 21;
+            botonBorraCategoria.TabStop = false;
+            botonBorraCategoria.UseVisualStyleBackColor = false;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label7.ForeColor = Color.Lime;
+            label7.Location = new Point(10, 19);
+            label7.Name = "label7";
+            label7.Size = new Size(66, 17);
+            label7.TabIndex = 5;
+            label7.Text = "Categoría";
+            // 
+            // botonEditaCategoria
+            // 
+            botonEditaCategoria.BackColor = Color.FromArgb(52, 73, 94);
+            botonEditaCategoria.BackgroundImageLayout = ImageLayout.None;
+            botonEditaCategoria.Cursor = Cursors.Hand;
+            botonEditaCategoria.Enabled = false;
+            botonEditaCategoria.FlatStyle = FlatStyle.Flat;
+            botonEditaCategoria.ForeColor = Color.Transparent;
+            botonEditaCategoria.Location = new Point(114, 76);
+            botonEditaCategoria.Name = "botonEditaCategoria";
+            botonEditaCategoria.Size = new Size(35, 35);
+            botonEditaCategoria.TabIndex = 22;
+            botonEditaCategoria.TabStop = false;
+            botonEditaCategoria.UseVisualStyleBackColor = false;
+            // 
+            // comboCategorias
+            // 
+            comboCategorias.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            comboCategorias.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboCategorias.Enabled = false;
+            comboCategorias.Font = new Font("Segoe UI", 11F);
+            comboCategorias.FormattingEnabled = true;
+            comboCategorias.Location = new Point(10, 37);
+            comboCategorias.MaxLength = 50;
+            comboCategorias.Name = "comboCategorias";
+            comboCategorias.Size = new Size(180, 28);
+            comboCategorias.TabIndex = 5;
+            // 
+            // botonNuevaCategoria
+            // 
+            botonNuevaCategoria.BackColor = Color.FromArgb(52, 73, 94);
+            botonNuevaCategoria.BackgroundImageLayout = ImageLayout.Zoom;
+            botonNuevaCategoria.Cursor = Cursors.Hand;
+            botonNuevaCategoria.Enabled = false;
+            botonNuevaCategoria.FlatStyle = FlatStyle.Flat;
+            botonNuevaCategoria.ForeColor = Color.Transparent;
+            botonNuevaCategoria.Location = new Point(73, 76);
+            botonNuevaCategoria.Name = "botonNuevaCategoria";
+            botonNuevaCategoria.Size = new Size(35, 35);
+            botonNuevaCategoria.TabIndex = 23;
+            botonNuevaCategoria.TabStop = false;
+            botonNuevaCategoria.UseVisualStyleBackColor = false;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(tboxEscuderia);
+            groupBox2.Controls.Add(label12);
+            groupBox2.Controls.Add(tboxMarca);
+            groupBox2.Controls.Add(tboxAlias);
+            groupBox2.Controls.Add(label8);
+            groupBox2.Controls.Add(label9);
+            groupBox2.Controls.Add(botonBorraCoche);
+            groupBox2.Controls.Add(botonBorraPiloto);
+            groupBox2.Controls.Add(botonEditaCoche);
+            groupBox2.Controls.Add(botonEditaPiloto);
+            groupBox2.Controls.Add(botonNuevoCoche);
+            groupBox2.Controls.Add(botonNuevoPiloto);
+            groupBox2.Controls.Add(label10);
+            groupBox2.Controls.Add(label11);
+            groupBox2.Controls.Add(comboCoches);
+            groupBox2.Controls.Add(comboPilotos);
+            groupBox2.Location = new Point(3, 127);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(692, 121);
+            groupBox2.TabIndex = 13;
+            groupBox2.TabStop = false;
             // 
             // tboxEscuderia
             // 
             tboxEscuderia.BackColor = Color.FromArgb(52, 73, 94);
             tboxEscuderia.BorderStyle = BorderStyle.FixedSingle;
+            tboxEscuderia.Font = new Font("Segoe UI", 11F);
             tboxEscuderia.ForeColor = Color.White;
-            tboxEscuderia.Location = new Point(318, 38);
+            tboxEscuderia.Location = new Point(364, 38);
             tboxEscuderia.Name = "tboxEscuderia";
             tboxEscuderia.ReadOnly = true;
-            tboxEscuderia.Size = new Size(213, 23);
+            tboxEscuderia.Size = new Size(187, 27);
             tboxEscuderia.TabIndex = 0;
             tboxEscuderia.TabStop = false;
             // 
@@ -208,7 +347,7 @@
             // 
             label12.AutoSize = true;
             label12.ForeColor = Color.White;
-            label12.Location = new Point(318, 19);
+            label12.Location = new Point(364, 21);
             label12.Name = "label12";
             label12.Size = new Size(93, 15);
             label12.TabIndex = 0;
@@ -218,11 +357,12 @@
             // 
             tboxMarca.BackColor = Color.FromArgb(52, 73, 94);
             tboxMarca.BorderStyle = BorderStyle.FixedSingle;
+            tboxMarca.Font = new Font("Segoe UI", 11F);
             tboxMarca.ForeColor = Color.White;
-            tboxMarca.Location = new Point(272, 84);
+            tboxMarca.Location = new Point(303, 83);
             tboxMarca.Name = "tboxMarca";
             tboxMarca.ReadOnly = true;
-            tboxMarca.Size = new Size(132, 23);
+            tboxMarca.Size = new Size(248, 27);
             tboxMarca.TabIndex = 0;
             tboxMarca.TabStop = false;
             // 
@@ -230,11 +370,12 @@
             // 
             tboxAlias.BackColor = Color.FromArgb(52, 73, 94);
             tboxAlias.BorderStyle = BorderStyle.FixedSingle;
+            tboxAlias.Font = new Font("Segoe UI", 11F);
             tboxAlias.ForeColor = Color.White;
-            tboxAlias.Location = new Point(272, 37);
+            tboxAlias.Location = new Point(303, 37);
             tboxAlias.Name = "tboxAlias";
             tboxAlias.ReadOnly = true;
-            tboxAlias.Size = new Size(41, 23);
+            tboxAlias.Size = new Size(55, 27);
             tboxAlias.TabIndex = 0;
             tboxAlias.TabStop = false;
             // 
@@ -242,7 +383,7 @@
             // 
             label8.AutoSize = true;
             label8.ForeColor = Color.White;
-            label8.Location = new Point(272, 65);
+            label8.Location = new Point(303, 69);
             label8.Name = "label8";
             label8.Size = new Size(40, 15);
             label8.TabIndex = 0;
@@ -252,7 +393,7 @@
             // 
             label9.AutoSize = true;
             label9.ForeColor = Color.White;
-            label9.Location = new Point(272, 18);
+            label9.Location = new Point(303, 20);
             label9.Name = "label9";
             label9.Size = new Size(32, 15);
             label9.TabIndex = 0;
@@ -266,7 +407,7 @@
             botonBorraCoche.Enabled = false;
             botonBorraCoche.FlatStyle = FlatStyle.Flat;
             botonBorraCoche.ForeColor = Color.Transparent;
-            botonBorraCoche.Location = new Point(622, 76);
+            botonBorraCoche.Location = new Point(647, 76);
             botonBorraCoche.Name = "botonBorraCoche";
             botonBorraCoche.Size = new Size(35, 35);
             botonBorraCoche.TabIndex = 0;
@@ -282,7 +423,7 @@
             botonBorraPiloto.Enabled = false;
             botonBorraPiloto.FlatStyle = FlatStyle.Flat;
             botonBorraPiloto.ForeColor = Color.Transparent;
-            botonBorraPiloto.Location = new Point(622, 29);
+            botonBorraPiloto.Location = new Point(647, 29);
             botonBorraPiloto.Name = "botonBorraPiloto";
             botonBorraPiloto.Size = new Size(35, 35);
             botonBorraPiloto.TabIndex = 0;
@@ -298,7 +439,7 @@
             botonEditaCoche.Enabled = false;
             botonEditaCoche.FlatStyle = FlatStyle.Flat;
             botonEditaCoche.ForeColor = Color.Transparent;
-            botonEditaCoche.Location = new Point(581, 76);
+            botonEditaCoche.Location = new Point(606, 76);
             botonEditaCoche.Name = "botonEditaCoche";
             botonEditaCoche.Size = new Size(35, 35);
             botonEditaCoche.TabIndex = 0;
@@ -314,7 +455,7 @@
             botonEditaPiloto.Enabled = false;
             botonEditaPiloto.FlatStyle = FlatStyle.Flat;
             botonEditaPiloto.ForeColor = Color.Transparent;
-            botonEditaPiloto.Location = new Point(581, 29);
+            botonEditaPiloto.Location = new Point(606, 29);
             botonEditaPiloto.Name = "botonEditaPiloto";
             botonEditaPiloto.Size = new Size(35, 35);
             botonEditaPiloto.TabIndex = 0;
@@ -330,7 +471,7 @@
             botonNuevoCoche.Enabled = false;
             botonNuevoCoche.FlatStyle = FlatStyle.Flat;
             botonNuevoCoche.ForeColor = Color.Transparent;
-            botonNuevoCoche.Location = new Point(540, 76);
+            botonNuevoCoche.Location = new Point(565, 76);
             botonNuevoCoche.Name = "botonNuevoCoche";
             botonNuevoCoche.Size = new Size(35, 35);
             botonNuevoCoche.TabIndex = 0;
@@ -346,7 +487,7 @@
             botonNuevoPiloto.Enabled = false;
             botonNuevoPiloto.FlatStyle = FlatStyle.Flat;
             botonNuevoPiloto.ForeColor = Color.Transparent;
-            botonNuevoPiloto.Location = new Point(540, 29);
+            botonNuevoPiloto.Location = new Point(565, 29);
             botonNuevoPiloto.Name = "botonNuevoPiloto";
             botonNuevoPiloto.Size = new Size(35, 35);
             botonNuevoPiloto.TabIndex = 0;
@@ -357,20 +498,22 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.ForeColor = Color.White;
+            label10.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label10.ForeColor = Color.Lime;
             label10.Location = new Point(6, 65);
             label10.Name = "label10";
-            label10.Size = new Size(48, 15);
+            label10.Size = new Size(54, 17);
             label10.TabIndex = 0;
             label10.Text = "Modelo";
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.ForeColor = Color.White;
+            label11.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label11.ForeColor = Color.Lime;
             label11.Location = new Point(6, 18);
             label11.Name = "label11";
-            label11.Size = new Size(38, 15);
+            label11.Size = new Size(43, 17);
             label11.TabIndex = 0;
             label11.Text = "Piloto";
             // 
@@ -379,11 +522,12 @@
             comboCoches.AutoCompleteSource = AutoCompleteSource.CustomSource;
             comboCoches.DropDownStyle = ComboBoxStyle.DropDownList;
             comboCoches.Enabled = false;
+            comboCoches.Font = new Font("Segoe UI", 11F);
             comboCoches.FormattingEnabled = true;
             comboCoches.Location = new Point(6, 83);
             comboCoches.MaxLength = 50;
             comboCoches.Name = "comboCoches";
-            comboCoches.Size = new Size(260, 23);
+            comboCoches.Size = new Size(291, 28);
             comboCoches.TabIndex = 4;
             comboCoches.SelectedIndexChanged += ComboCoches_SelectedIndexChanged;
             // 
@@ -392,64 +536,90 @@
             comboPilotos.AutoCompleteSource = AutoCompleteSource.CustomSource;
             comboPilotos.DropDownStyle = ComboBoxStyle.DropDownList;
             comboPilotos.Enabled = false;
+            comboPilotos.Font = new Font("Segoe UI", 11F);
             comboPilotos.FormattingEnabled = true;
             comboPilotos.Location = new Point(6, 36);
             comboPilotos.MaxLength = 50;
             comboPilotos.Name = "comboPilotos";
-            comboPilotos.Size = new Size(260, 23);
+            comboPilotos.Size = new Size(291, 28);
             comboPilotos.TabIndex = 3;
             comboPilotos.SelectedIndexChanged += ComboPilotos_SelectedIndexChanged;
             // 
-            // gBoxCampeonatoPrueba
+            // groupBox1
             // 
-            gBoxCampeonatoPrueba.Controls.Add(tboxPwrStg);
-            gBoxCampeonatoPrueba.Controls.Add(tboxTmax);
-            gBoxCampeonatoPrueba.Controls.Add(label6);
-            gBoxCampeonatoPrueba.Controls.Add(tboxTramos);
-            gBoxCampeonatoPrueba.Controls.Add(label5);
-            gBoxCampeonatoPrueba.Controls.Add(tboxEtapas);
-            gBoxCampeonatoPrueba.Controls.Add(label4);
-            gBoxCampeonatoPrueba.Controls.Add(tboxPuntuaciones);
-            gBoxCampeonatoPrueba.Controls.Add(label3);
-            gBoxCampeonatoPrueba.Controls.Add(label1);
-            gBoxCampeonatoPrueba.Controls.Add(botonBorraPrueba);
-            gBoxCampeonatoPrueba.Controls.Add(botonBorraCampeonato);
-            gBoxCampeonatoPrueba.Controls.Add(botonEditaPrueba);
-            gBoxCampeonatoPrueba.Controls.Add(botonEditaCampeonato);
-            gBoxCampeonatoPrueba.Controls.Add(botonNuevaPrueba);
-            gBoxCampeonatoPrueba.Controls.Add(botonNuevoCampeonato);
-            gBoxCampeonatoPrueba.Controls.Add(label2);
-            gBoxCampeonatoPrueba.Controls.Add(lblCto);
-            gBoxCampeonatoPrueba.Controls.Add(comboPruebas);
-            gBoxCampeonatoPrueba.Controls.Add(comboCampeonatos);
-            gBoxCampeonatoPrueba.Location = new Point(3, 3);
-            gBoxCampeonatoPrueba.Name = "gBoxCampeonatoPrueba";
-            gBoxCampeonatoPrueba.Size = new Size(667, 121);
-            gBoxCampeonatoPrueba.TabIndex = 12;
-            gBoxCampeonatoPrueba.TabStop = false;
+            groupBox1.Controls.Add(tboxPwrStg);
+            groupBox1.Controls.Add(tboxTmax);
+            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(tboxTramos);
+            groupBox1.Controls.Add(label5);
+            groupBox1.Controls.Add(tboxEtapas);
+            groupBox1.Controls.Add(label4);
+            groupBox1.Controls.Add(tboxPuntuaciones);
+            groupBox1.Controls.Add(label3);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(botonBorraPrueba);
+            groupBox1.Controls.Add(botonBorraCampeonato);
+            groupBox1.Controls.Add(botonEditaPrueba);
+            groupBox1.Controls.Add(botonEditaCampeonato);
+            groupBox1.Controls.Add(botonNuevaPrueba);
+            groupBox1.Controls.Add(botonNuevoCampeonato);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(lblCto);
+            groupBox1.Controls.Add(comboPruebas);
+            groupBox1.Controls.Add(comboCampeonatos);
+            groupBox1.Location = new Point(3, 3);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(692, 121);
+            groupBox1.TabIndex = 12;
+            groupBox1.TabStop = false;
+            // 
+            // tboxPwrStg
+            // 
+            tboxPwrStg.BackColor = Color.FromArgb(52, 73, 94);
+            tboxPwrStg.BorderStyle = BorderStyle.FixedSingle;
+            tboxPwrStg.Font = new Font("Segoe UI", 11F);
+            tboxPwrStg.ForeColor = Color.White;
+            tboxPwrStg.Location = new Point(410, 84);
+            tboxPwrStg.Name = "tboxPwrStg";
+            tboxPwrStg.ReadOnly = true;
+            tboxPwrStg.Size = new Size(141, 27);
+            tboxPwrStg.TabIndex = 19;
+            tboxPwrStg.TabStop = false;
             // 
             // tboxTmax
             // 
             tboxTmax.BackColor = Color.FromArgb(52, 73, 94);
             tboxTmax.BorderStyle = BorderStyle.FixedSingle;
+            tboxTmax.Font = new Font("Segoe UI", 11F);
             tboxTmax.ForeColor = Color.White;
             tboxTmax.Location = new Point(364, 84);
             tboxTmax.Name = "tboxTmax";
             tboxTmax.ReadOnly = true;
-            tboxTmax.Size = new Size(40, 23);
+            tboxTmax.Size = new Size(40, 27);
             tboxTmax.TabIndex = 0;
             tboxTmax.TabStop = false;
             tboxTmax.TextAlign = HorizontalAlignment.Right;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(412, 68);
+            label6.Name = "label6";
+            label6.Size = new Size(72, 15);
+            label6.TabIndex = 20;
+            label6.Text = "Power Stage";
             // 
             // tboxTramos
             // 
             tboxTramos.BackColor = Color.FromArgb(52, 73, 94);
             tboxTramos.BorderStyle = BorderStyle.FixedSingle;
+            tboxTramos.Font = new Font("Segoe UI", 11F);
             tboxTramos.ForeColor = Color.White;
             tboxTramos.Location = new Point(318, 84);
             tboxTramos.Name = "tboxTramos";
             tboxTramos.ReadOnly = true;
-            tboxTramos.Size = new Size(40, 23);
+            tboxTramos.Size = new Size(40, 27);
             tboxTramos.TabIndex = 0;
             tboxTramos.TabStop = false;
             tboxTramos.TextAlign = HorizontalAlignment.Right;
@@ -458,7 +628,7 @@
             // 
             label5.AutoSize = true;
             label5.ForeColor = Color.White;
-            label5.Location = new Point(364, 65);
+            label5.Location = new Point(366, 67);
             label5.Name = "label5";
             label5.Size = new Size(44, 15);
             label5.TabIndex = 0;
@@ -468,11 +638,12 @@
             // 
             tboxEtapas.BackColor = Color.FromArgb(52, 73, 94);
             tboxEtapas.BorderStyle = BorderStyle.FixedSingle;
+            tboxEtapas.Font = new Font("Segoe UI", 11F);
             tboxEtapas.ForeColor = Color.White;
             tboxEtapas.Location = new Point(272, 84);
             tboxEtapas.Name = "tboxEtapas";
             tboxEtapas.ReadOnly = true;
-            tboxEtapas.Size = new Size(40, 23);
+            tboxEtapas.Size = new Size(40, 27);
             tboxEtapas.TabIndex = 0;
             tboxEtapas.TabStop = false;
             tboxEtapas.TextAlign = HorizontalAlignment.Right;
@@ -481,7 +652,7 @@
             // 
             label4.AutoSize = true;
             label4.ForeColor = Color.White;
-            label4.Location = new Point(316, 65);
+            label4.Location = new Point(318, 67);
             label4.Name = "label4";
             label4.Size = new Size(46, 15);
             label4.TabIndex = 0;
@@ -491,11 +662,12 @@
             // 
             tboxPuntuaciones.BackColor = Color.FromArgb(52, 73, 94);
             tboxPuntuaciones.BorderStyle = BorderStyle.FixedSingle;
+            tboxPuntuaciones.Font = new Font("Segoe UI", 11F);
             tboxPuntuaciones.ForeColor = Color.White;
             tboxPuntuaciones.Location = new Point(272, 37);
             tboxPuntuaciones.Name = "tboxPuntuaciones";
             tboxPuntuaciones.ReadOnly = true;
-            tboxPuntuaciones.Size = new Size(260, 23);
+            tboxPuntuaciones.Size = new Size(279, 27);
             tboxPuntuaciones.TabIndex = 0;
             tboxPuntuaciones.TabStop = false;
             // 
@@ -503,7 +675,7 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = Color.White;
-            label3.Location = new Point(272, 65);
+            label3.Location = new Point(271, 67);
             label3.Name = "label3";
             label3.Size = new Size(41, 15);
             label3.TabIndex = 0;
@@ -513,7 +685,7 @@
             // 
             label1.AutoSize = true;
             label1.ForeColor = Color.White;
-            label1.Location = new Point(272, 18);
+            label1.Location = new Point(272, 21);
             label1.Name = "label1";
             label1.Size = new Size(259, 15);
             label1.TabIndex = 0;
@@ -527,7 +699,7 @@
             botonBorraPrueba.Enabled = false;
             botonBorraPrueba.FlatStyle = FlatStyle.Flat;
             botonBorraPrueba.ForeColor = Color.Transparent;
-            botonBorraPrueba.Location = new Point(622, 76);
+            botonBorraPrueba.Location = new Point(647, 76);
             botonBorraPrueba.Name = "botonBorraPrueba";
             botonBorraPrueba.Size = new Size(35, 35);
             botonBorraPrueba.TabIndex = 0;
@@ -543,7 +715,7 @@
             botonBorraCampeonato.Enabled = false;
             botonBorraCampeonato.FlatStyle = FlatStyle.Flat;
             botonBorraCampeonato.ForeColor = Color.Transparent;
-            botonBorraCampeonato.Location = new Point(622, 29);
+            botonBorraCampeonato.Location = new Point(647, 29);
             botonBorraCampeonato.Name = "botonBorraCampeonato";
             botonBorraCampeonato.Size = new Size(35, 35);
             botonBorraCampeonato.TabIndex = 0;
@@ -559,7 +731,7 @@
             botonEditaPrueba.Enabled = false;
             botonEditaPrueba.FlatStyle = FlatStyle.Flat;
             botonEditaPrueba.ForeColor = Color.Transparent;
-            botonEditaPrueba.Location = new Point(581, 76);
+            botonEditaPrueba.Location = new Point(606, 76);
             botonEditaPrueba.Name = "botonEditaPrueba";
             botonEditaPrueba.Size = new Size(35, 35);
             botonEditaPrueba.TabIndex = 0;
@@ -575,7 +747,7 @@
             botonEditaCampeonato.Enabled = false;
             botonEditaCampeonato.FlatStyle = FlatStyle.Flat;
             botonEditaCampeonato.ForeColor = Color.Transparent;
-            botonEditaCampeonato.Location = new Point(581, 29);
+            botonEditaCampeonato.Location = new Point(606, 29);
             botonEditaCampeonato.Name = "botonEditaCampeonato";
             botonEditaCampeonato.Size = new Size(35, 35);
             botonEditaCampeonato.TabIndex = 0;
@@ -591,7 +763,7 @@
             botonNuevaPrueba.Enabled = false;
             botonNuevaPrueba.FlatStyle = FlatStyle.Flat;
             botonNuevaPrueba.ForeColor = Color.Transparent;
-            botonNuevaPrueba.Location = new Point(540, 76);
+            botonNuevaPrueba.Location = new Point(565, 76);
             botonNuevaPrueba.Name = "botonNuevaPrueba";
             botonNuevaPrueba.Size = new Size(35, 35);
             botonNuevaPrueba.TabIndex = 0;
@@ -607,7 +779,7 @@
             botonNuevoCampeonato.Enabled = false;
             botonNuevoCampeonato.FlatStyle = FlatStyle.Flat;
             botonNuevoCampeonato.ForeColor = Color.Transparent;
-            botonNuevoCampeonato.Location = new Point(540, 29);
+            botonNuevoCampeonato.Location = new Point(565, 29);
             botonNuevoCampeonato.Name = "botonNuevoCampeonato";
             botonNuevoCampeonato.Size = new Size(35, 35);
             botonNuevoCampeonato.TabIndex = 0;
@@ -618,20 +790,22 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.ForeColor = Color.White;
+            label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label2.ForeColor = Color.Lime;
             label2.Location = new Point(6, 65);
             label2.Name = "label2";
-            label2.Size = new Size(80, 15);
+            label2.Size = new Size(91, 17);
             label2.TabIndex = 0;
             label2.Text = "Prueba (Rally)";
             // 
             // lblCto
             // 
             lblCto.AutoSize = true;
-            lblCto.ForeColor = Color.White;
+            lblCto.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            lblCto.ForeColor = Color.Lime;
             lblCto.Location = new Point(6, 18);
             lblCto.Name = "lblCto";
-            lblCto.Size = new Size(76, 15);
+            lblCto.Size = new Size(86, 17);
             lblCto.TabIndex = 0;
             lblCto.Text = "Campeonato";
             // 
@@ -640,11 +814,12 @@
             comboPruebas.AutoCompleteSource = AutoCompleteSource.CustomSource;
             comboPruebas.DropDownStyle = ComboBoxStyle.DropDownList;
             comboPruebas.Enabled = false;
+            comboPruebas.Font = new Font("Segoe UI", 11F);
             comboPruebas.FormattingEnabled = true;
             comboPruebas.Location = new Point(6, 83);
             comboPruebas.MaxLength = 50;
             comboPruebas.Name = "comboPruebas";
-            comboPruebas.Size = new Size(260, 23);
+            comboPruebas.Size = new Size(260, 28);
             comboPruebas.TabIndex = 2;
             comboPruebas.SelectedIndexChanged += ComboPruebas_SelectedIndexChanged;
             // 
@@ -652,11 +827,12 @@
             // 
             comboCampeonatos.AutoCompleteSource = AutoCompleteSource.CustomSource;
             comboCampeonatos.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboCampeonatos.Font = new Font("Segoe UI", 11F);
             comboCampeonatos.FormattingEnabled = true;
             comboCampeonatos.Location = new Point(6, 36);
             comboCampeonatos.MaxLength = 50;
             comboCampeonatos.Name = "comboCampeonatos";
-            comboCampeonatos.Size = new Size(260, 23);
+            comboCampeonatos.Size = new Size(260, 28);
             comboCampeonatos.TabIndex = 1;
             comboCampeonatos.SelectedIndexChanged += ComboCampeonatos_SelectedIndexChanged;
             // 
@@ -667,7 +843,7 @@
             panel3.Dock = DockStyle.Right;
             panel3.Location = new Point(1083, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(181, 254);
+            panel3.Size = new Size(181, 251);
             panel3.TabIndex = 12;
             // 
             // pictureBox1
@@ -675,7 +851,7 @@
             pictureBox1.BackgroundImage = Properties.Resources.avslot_logo;
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox1.Dock = DockStyle.Bottom;
-            pictureBox1.Location = new Point(0, 130);
+            pictureBox1.Location = new Point(0, 127);
             pictureBox1.Margin = new Padding(50);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(181, 124);
@@ -703,28 +879,6 @@
             panel2.Size = new Size(1264, 36);
             panel2.TabIndex = 11;
             // 
-            // tboxPwrStg
-            // 
-            tboxPwrStg.BackColor = Color.FromArgb(52, 73, 94);
-            tboxPwrStg.BorderStyle = BorderStyle.FixedSingle;
-            tboxPwrStg.ForeColor = Color.White;
-            tboxPwrStg.Location = new Point(410, 84);
-            tboxPwrStg.Name = "tboxPwrStg";
-            tboxPwrStg.ReadOnly = true;
-            tboxPwrStg.Size = new Size(121, 23);
-            tboxPwrStg.TabIndex = 19;
-            tboxPwrStg.TabStop = false;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(410, 66);
-            label6.Name = "label6";
-            label6.Size = new Size(72, 15);
-            label6.TabIndex = 20;
-            label6.Text = "Power Stage";
-            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -749,10 +903,14 @@
             statusStripMain.ResumeLayout(false);
             statusStripMain.PerformLayout();
             panel1.ResumeLayout(false);
-            gBoxPilotoCoche.ResumeLayout(false);
-            gBoxPilotoCoche.PerformLayout();
-            gBoxCampeonatoPrueba.ResumeLayout(false);
-            gBoxCampeonatoPrueba.PerformLayout();
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -769,7 +927,7 @@
         private ToolStripMenuItem salirToolStripMenuItem;
         private Panel panel1;
         private Panel panel2;
-        private GroupBox gBoxPilotoCoche;
+        private GroupBox groupBox2;
         private TextBox tboxEscuderia;
         private Label label12;
         private TextBox tboxMarca;
@@ -786,7 +944,7 @@
         private Label label11;
         private ComboBox comboCoches;
         private ComboBox comboPilotos;
-        private GroupBox gBoxCampeonatoPrueba;
+        private GroupBox groupBox1;
         private TextBox tboxTmax;
         private TextBox tboxTramos;
         private Label label5;
@@ -810,5 +968,14 @@
         private Panel panel3;
         private TextBox tboxPwrStg;
         private Label label6;
+        private CheckBox checkVerificado;
+        private GroupBox groupBox3;
+        private Button botonBorraCategoria;
+        private Label label7;
+        private Button botonEditaCategoria;
+        private ComboBox comboCategorias;
+        private Button botonNuevaCategoria;
+        private GroupBox groupBox4;
+        private Button botonNuevaInscripcion;
     }
 }

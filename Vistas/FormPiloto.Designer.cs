@@ -46,7 +46,7 @@
             botonCancel.Cursor = Cursors.Hand;
             botonCancel.FlatStyle = FlatStyle.Flat;
             botonCancel.ForeColor = Color.Transparent;
-            botonCancel.Location = new Point(549, 155);
+            botonCancel.Location = new Point(583, 155);
             botonCancel.Name = "botonCancel";
             botonCancel.Size = new Size(35, 35);
             botonCancel.TabIndex = 0;
@@ -62,7 +62,7 @@
             botonSave.Enabled = false;
             botonSave.FlatStyle = FlatStyle.Flat;
             botonSave.ForeColor = Color.Transparent;
-            botonSave.Location = new Point(508, 155);
+            botonSave.Location = new Point(542, 155);
             botonSave.Name = "botonSave";
             botonSave.Size = new Size(35, 35);
             botonSave.TabIndex = 0;
@@ -74,31 +74,33 @@
             // 
             lblForm.AutoSize = true;
             lblForm.BorderStyle = BorderStyle.FixedSingle;
-            lblForm.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblForm.ForeColor = Color.White;
-            lblForm.Location = new Point(58, 42);
+            lblForm.Font = new Font("Segoe UI Black", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblForm.ForeColor = Color.FromArgb(255, 128, 0);
+            lblForm.Location = new Point(36, 43);
             lblForm.Name = "lblForm";
-            lblForm.Size = new Size(2, 27);
+            lblForm.Size = new Size(2, 30);
             lblForm.TabIndex = 9;
             // 
             // tboxEscuderia
             // 
             tboxEscuderia.BackColor = Color.White;
             tboxEscuderia.BorderStyle = BorderStyle.FixedSingle;
+            tboxEscuderia.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
             tboxEscuderia.ForeColor = Color.Black;
-            tboxEscuderia.Location = new Point(371, 114);
+            tboxEscuderia.Location = new Point(392, 114);
             tboxEscuderia.Name = "tboxEscuderia";
-            tboxEscuderia.Size = new Size(213, 23);
+            tboxEscuderia.Size = new Size(226, 27);
             tboxEscuderia.TabIndex = 3;
             tboxEscuderia.KeyDown += All_tbox_KeyDown;
             // 
             // label12
             // 
             label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             label12.ForeColor = Color.White;
-            label12.Location = new Point(371, 96);
+            label12.Location = new Point(392, 96);
             label12.Name = "label12";
-            label12.Size = new Size(93, 15);
+            label12.Size = new Size(105, 17);
             label12.TabIndex = 0;
             label12.Text = "Club / Escudería";
             // 
@@ -106,10 +108,11 @@
             // 
             tboxAlias.BackColor = Color.White;
             tboxAlias.BorderStyle = BorderStyle.FixedSingle;
+            tboxAlias.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
             tboxAlias.ForeColor = Color.Black;
             tboxAlias.Location = new Point(325, 114);
             tboxAlias.Name = "tboxAlias";
-            tboxAlias.Size = new Size(41, 23);
+            tboxAlias.Size = new Size(61, 27);
             tboxAlias.TabIndex = 2;
             tboxAlias.TextChanged += TboxAlias_TextChanged;
             tboxAlias.KeyDown += All_tbox_KeyDown;
@@ -118,20 +121,22 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.ForeColor = Color.White;
+            label9.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label9.ForeColor = Color.Lime;
             label9.Location = new Point(325, 96);
             label9.Name = "label9";
-            label9.Size = new Size(32, 15);
+            label9.Size = new Size(36, 17);
             label9.TabIndex = 0;
             label9.Text = "Alias";
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.ForeColor = Color.White;
-            label11.Location = new Point(59, 96);
+            label11.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label11.ForeColor = Color.Lime;
+            label11.Location = new Point(36, 96);
             label11.Name = "label11";
-            label11.Size = new Size(38, 15);
+            label11.Size = new Size(43, 17);
             label11.TabIndex = 0;
             label11.Text = "Piloto";
             // 
@@ -139,10 +144,11 @@
             // 
             tboxPiloto.BackColor = Color.White;
             tboxPiloto.BorderStyle = BorderStyle.FixedSingle;
+            tboxPiloto.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
             tboxPiloto.ForeColor = Color.Black;
-            tboxPiloto.Location = new Point(59, 114);
+            tboxPiloto.Location = new Point(36, 114);
             tboxPiloto.Name = "tboxPiloto";
-            tboxPiloto.Size = new Size(260, 23);
+            tboxPiloto.Size = new Size(283, 27);
             tboxPiloto.TabIndex = 1;
             tboxPiloto.TextChanged += TboxPiloto_TextChanged;
             tboxPiloto.KeyDown += All_tbox_KeyDown;

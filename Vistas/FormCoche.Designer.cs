@@ -72,21 +72,22 @@
             // 
             lblForm.AutoSize = true;
             lblForm.BorderStyle = BorderStyle.FixedSingle;
-            lblForm.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblForm.ForeColor = Color.White;
+            lblForm.Font = new Font("Segoe UI Black", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblForm.ForeColor = Color.FromArgb(255, 128, 0);
             lblForm.Location = new Point(58, 42);
             lblForm.Name = "lblForm";
-            lblForm.Size = new Size(2, 27);
+            lblForm.Size = new Size(2, 30);
             lblForm.TabIndex = 9;
             // 
             // tboxMarca
             // 
             tboxMarca.BackColor = Color.White;
             tboxMarca.BorderStyle = BorderStyle.FixedSingle;
+            tboxMarca.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
             tboxMarca.ForeColor = SystemColors.WindowText;
-            tboxMarca.Location = new Point(380, 110);
+            tboxMarca.Location = new Point(409, 110);
             tboxMarca.Name = "tboxMarca";
-            tboxMarca.Size = new Size(132, 23);
+            tboxMarca.Size = new Size(175, 27);
             tboxMarca.TabIndex = 2;
             tboxMarca.KeyDown += All_tbox_KeyDown;
             tboxMarca.Leave += TboxMarca_Leave;
@@ -94,20 +95,22 @@
             // label8
             // 
             label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             label8.ForeColor = Color.White;
-            label8.Location = new Point(380, 92);
+            label8.Location = new Point(409, 92);
             label8.Name = "label8";
-            label8.Size = new Size(40, 15);
+            label8.Size = new Size(45, 17);
             label8.TabIndex = 11;
             label8.Text = "Marca";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.ForeColor = Color.White;
-            label10.Location = new Point(114, 92);
+            label10.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label10.ForeColor = Color.Lime;
+            label10.Location = new Point(58, 92);
             label10.Name = "label10";
-            label10.Size = new Size(48, 15);
+            label10.Size = new Size(54, 17);
             label10.TabIndex = 12;
             label10.Text = "Modelo";
             // 
@@ -115,10 +118,11 @@
             // 
             tboxModelo.BackColor = Color.White;
             tboxModelo.BorderStyle = BorderStyle.FixedSingle;
+            tboxModelo.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
             tboxModelo.ForeColor = SystemColors.WindowText;
-            tboxModelo.Location = new Point(114, 110);
+            tboxModelo.Location = new Point(58, 110);
             tboxModelo.Name = "tboxModelo";
-            tboxModelo.Size = new Size(260, 23);
+            tboxModelo.Size = new Size(345, 27);
             tboxModelo.TabIndex = 1;
             tboxModelo.TextChanged += TboxCoche_TextChanged;
             tboxModelo.KeyDown += All_tbox_KeyDown;
