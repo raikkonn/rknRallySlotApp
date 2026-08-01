@@ -25,13 +25,13 @@ public partial class FormPrueba : Form
         }
         else
         {
-            TboxTextinit();
+            TboxTextInit();
         }
 
         Controles_EnableAndDisable();
     }
 
-    private void TboxTextinit()
+    private void TboxTextInit()
     {
         tbox_Prueba.Text = $"Rally [{DateTime.Now:yyyy-MMM-dd}]";
         tbox_nEtapas.Text = "3";
@@ -84,7 +84,7 @@ public partial class FormPrueba : Form
         }
         else // Si no se encuentra el registro o se pasa un ID no válido
         {
-            TboxTextinit();
+            TboxTextInit();
         }
     }
 
@@ -113,7 +113,6 @@ public partial class FormPrueba : Form
 
         if (idCampeonatoActual <= 0)
         {
-            System.Media.SystemSounds.Hand.Play();
             MessageBox.Show("No se ha seleccionado un campeonato válido.",
                             "Error",
                             MessageBoxButtons.OK,
@@ -163,7 +162,6 @@ public partial class FormPrueba : Form
 
         if (existe)
         {
-            System.Media.SystemSounds.Hand.Play();
             MessageBox.Show($"Ya existe un rally registrado como '{nombreLimpio}' para el Campeonato seleccionado.",
                             "Nombre Duplicado",
                             MessageBoxButtons.OK,
@@ -190,8 +188,6 @@ public partial class FormPrueba : Form
                 }
 
                 // Sobrescribimos sus propiedades. EF Core detecta estos cambios automáticamente.
-                // pruebaActual.IdCampeonato = idCampeonatoActual; Es EDICION, no se DEBE cambiar el campeonato de una prueba ya creada
-
                 pruebaActual.Nombre = nombreLimpio;
                 pruebaActual.NumEtapas = nEtapas;
                 pruebaActual.TramosPorEtapa = nTramos;
@@ -260,31 +256,7 @@ public partial class FormPrueba : Form
         }
     }
 
-    private void Tbox_nEtapas_Leave(object sender, EventArgs e)
-    {
-        if (!Helpers.EsEnteroValido(tbox_nEtapas.Text, out int nEtapas) || nEtapas <= 0)
-        {
-            System.Media.SystemSounds.Hand.Play(); 
-            (this.Owner as FormMain)?.MostrarMensajeEstado("El número de etapas debe ser un entero positivo.");
-            tbox_nEtapas.Focus();
-            tbox_nEtapas.SelectAll();
-            return;
-        }
-    }
-
-    private void Tbox_nTramos_Leave(object sender, EventArgs e)
-    {
-        if (!Helpers.EsEnteroValido(tbox_nTramos.Text, out int nTramos) || nTramos <= 0)
-        {
-            System.Media.SystemSounds.Hand.Play();
-            (this.Owner as FormMain)?.MostrarMensajeEstado("El número de tramos debe ser un entero positivo.");
-            tbox_nTramos.Focus();
-            tbox_nTramos.SelectAll();
-            return;
-        }
-    }
-
-    private void Tbox_PwrStg_Enter(object sender, EventArgs e)
+    private void PwrStgPorDefecto()
     {
         if (Helpers.EsEnteroValido(tbox_nEtapas.Text, out int nEtapas)
             && Helpers.EsEnteroValido(tbox_nTramos.Text, out int nTramos)
@@ -297,5 +269,38 @@ public partial class FormPrueba : Form
         {
             tbox_PwrStg.Text = string.Empty;
         }
+    }
+    
+    private void Tbox_nEtapas_Leave(object sender, EventArgs e)
+    {
+        if (!Helpers.EsEnteroValido(tbox_nEtapas.Text, out int nEtapas) || nEtapas <= 0)
+        {
+            System.Media.SystemSounds.Hand.Play();
+            (this.Owner as FormMain)?.MostrarMensajeEstado("El número de etapas debe ser un entero positivo.");
+            tbox_nEtapas.Focus();
+            tbox_nEtapas.SelectAll();
+            return;
+        }
+
+        PwrStgPorDefecto();
+    }
+
+    private void Tbox_nTramos_Leave(object sender, EventArgs e)
+    {
+        if (!Helpers.EsEnteroValido(tbox_nTramos.Text, out int nTramos) || nTramos <= 0)
+        {
+            System.Media.SystemSounds.Hand.Play();
+            (this.Owner as FormMain)?.MostrarMensajeEstado("El número de tramos debe ser un entero positivo.");
+            tbox_nTramos.Focus();
+            tbox_nTramos.SelectAll();
+            return;
+        }
+
+        PwrStgPorDefecto();
+    }
+
+    private void Tbox_PwrStg_Enter(object sender, EventArgs e)
+    {
+        PwrStgPorDefecto();
     }
 }

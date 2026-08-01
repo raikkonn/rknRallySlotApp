@@ -202,6 +202,7 @@
             tbox_PwrStg.Size = new Size(121, 23);
             tbox_PwrStg.TabIndex = 5;
             tbox_PwrStg.Enter += Tbox_PwrStg_Enter;
+            tbox_PwrStg.KeyDown += All_tbox_KeyDown;
             // 
             // label5
             // 

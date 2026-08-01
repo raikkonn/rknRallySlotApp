@@ -251,7 +251,7 @@ public partial class FormMain : Form
                      .Select(c => c.SistemaPuntuacion)
                      .FirstOrDefault();
 
-        tboxPuntuaciones.Text = puntos ?? "NO definido";
+        tboxPuntuaciones.Text = string.IsNullOrEmpty(puntos) ? "NO definido" : puntos;
     }
 
     private void Rellena_DatosPrueba()
