@@ -183,8 +183,10 @@
             // 
             // groupBox4
             // 
+            groupBox4.BackColor = Color.FromArgb(20, 80, 100);
             groupBox4.Controls.Add(botonNuevaInscripcion);
             groupBox4.Controls.Add(checkVerificado);
+            groupBox4.FlatStyle = FlatStyle.Flat;
             groupBox4.Location = new Point(701, 127);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(200, 121);
@@ -226,11 +228,13 @@
             // 
             // groupBox3
             // 
+            groupBox3.BackColor = Color.FromArgb(20, 80, 100);
             groupBox3.Controls.Add(botonBorraCategoria);
             groupBox3.Controls.Add(label7);
             groupBox3.Controls.Add(botonEditaCategoria);
             groupBox3.Controls.Add(comboCategorias);
             groupBox3.Controls.Add(botonNuevaCategoria);
+            groupBox3.FlatStyle = FlatStyle.Flat;
             groupBox3.Location = new Point(701, 3);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(200, 121);
@@ -308,6 +312,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.BackColor = Color.FromArgb(20, 80, 100);
             groupBox2.Controls.Add(tboxEscuderia);
             groupBox2.Controls.Add(label12);
             groupBox2.Controls.Add(tboxMarca);
@@ -324,6 +329,7 @@
             groupBox2.Controls.Add(label11);
             groupBox2.Controls.Add(comboCoches);
             groupBox2.Controls.Add(comboPilotos);
+            groupBox2.FlatStyle = FlatStyle.Flat;
             groupBox2.Location = new Point(3, 127);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(692, 121);
@@ -567,6 +573,8 @@
             groupBox1.Controls.Add(lblCto);
             groupBox1.Controls.Add(comboPruebas);
             groupBox1.Controls.Add(comboCampeonatos);
+            groupBox1.FlatStyle = FlatStyle.Flat;
+            groupBox1.ForeColor = Color.FromArgb(255, 128, 0);
             groupBox1.Location = new Point(3, 3);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(692, 121);
