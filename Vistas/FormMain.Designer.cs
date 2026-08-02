@@ -1,4 +1,6 @@
-﻿namespace rknRallySlotApp.Vistas
+﻿using rknRallySlotApp.Componentes;
+
+namespace rknRallySlotApp.Vistas
 {
     partial class FormMain
     {
@@ -36,16 +38,16 @@
             statusStripMain = new StatusStrip();
             labelStatus = new ToolStripStatusLabel();
             panel1 = new Panel();
-            groupBox4 = new GroupBox();
+            groupBox4 = new ColoredGroupBox();
             botonNuevaInscripcion = new Button();
             checkVerificado = new CheckBox();
-            groupBox3 = new GroupBox();
+            groupBox3 = new ColoredGroupBox();
             botonBorraCategoria = new Button();
             label7 = new Label();
             botonEditaCategoria = new Button();
             comboCategorias = new ComboBox();
             botonNuevaCategoria = new Button();
-            groupBox2 = new GroupBox();
+            groupBox2 = new ColoredGroupBox();
             tboxEscuderia = new TextBox();
             label12 = new Label();
             tboxMarca = new TextBox();
@@ -183,7 +185,8 @@
             // 
             // groupBox4
             // 
-            groupBox4.BackColor = Color.FromArgb(20, 80, 100);
+            groupBox4.BackColor = Color.FromArgb(44, 62, 80);
+            groupBox4.BorderColor = Color.FromArgb(255, 128, 0);
             groupBox4.Controls.Add(botonNuevaInscripcion);
             groupBox4.Controls.Add(checkVerificado);
             groupBox4.FlatStyle = FlatStyle.Flat;
@@ -201,7 +204,7 @@
             botonNuevaInscripcion.Enabled = false;
             botonNuevaInscripcion.FlatStyle = FlatStyle.Flat;
             botonNuevaInscripcion.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            botonNuevaInscripcion.ForeColor = Color.FromArgb(255, 128, 0);
+            botonNuevaInscripcion.ForeColor = Color.Lime;
             botonNuevaInscripcion.Location = new Point(10, 62);
             botonNuevaInscripcion.Name = "botonNuevaInscripcion";
             botonNuevaInscripcion.Size = new Size(180, 49);
@@ -228,7 +231,8 @@
             // 
             // groupBox3
             // 
-            groupBox3.BackColor = Color.FromArgb(20, 80, 100);
+            groupBox3.BackColor = Color.FromArgb(44, 62, 80);
+            groupBox3.BorderColor = Color.FromArgb(255, 128, 0);
             groupBox3.Controls.Add(botonBorraCategoria);
             groupBox3.Controls.Add(label7);
             groupBox3.Controls.Add(botonEditaCategoria);
@@ -312,7 +316,8 @@
             // 
             // groupBox2
             // 
-            groupBox2.BackColor = Color.FromArgb(20, 80, 100);
+            groupBox2.BackColor = Color.FromArgb(44, 62, 80);
+            groupBox2.BorderColor = Color.FromArgb(255, 128, 0);
             groupBox2.Controls.Add(tboxEscuderia);
             groupBox2.Controls.Add(label12);
             groupBox2.Controls.Add(tboxMarca);
@@ -574,7 +579,6 @@
             groupBox1.Controls.Add(comboPruebas);
             groupBox1.Controls.Add(comboCampeonatos);
             groupBox1.FlatStyle = FlatStyle.Flat;
-            groupBox1.ForeColor = Color.FromArgb(255, 128, 0);
             groupBox1.Location = new Point(3, 3);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(692, 121);
@@ -935,7 +939,7 @@
         private ToolStripMenuItem salirToolStripMenuItem;
         private Panel panel1;
         private Panel panel2;
-        private GroupBox groupBox2;
+        private ColoredGroupBox groupBox2;
         private TextBox tboxEscuderia;
         private Label label12;
         private TextBox tboxMarca;
@@ -977,13 +981,13 @@
         private TextBox tboxPwrStg;
         private Label label6;
         private CheckBox checkVerificado;
-        private GroupBox groupBox3;
+        private ColoredGroupBox groupBox3;
         private Button botonBorraCategoria;
         private Label label7;
         private Button botonEditaCategoria;
         private ComboBox comboCategorias;
         private Button botonNuevaCategoria;
-        private GroupBox groupBox4;
+        private ColoredGroupBox groupBox4;
         private Button botonNuevaInscripcion;
     }
 }
