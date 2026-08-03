@@ -37,7 +37,7 @@
             // 
             // botonCancel
             // 
-            botonCancel.BackColor = Color.FromArgb(52, 73, 94);
+            botonCancel.BackColor = Color.FromArgb(53, 53, 53);
             botonCancel.BackgroundImageLayout = ImageLayout.Zoom;
             botonCancel.Cursor = Cursors.Hand;
             botonCancel.FlatStyle = FlatStyle.Flat;
@@ -52,7 +52,7 @@
             // 
             // botonSave
             // 
-            botonSave.BackColor = Color.FromArgb(52, 73, 94);
+            botonSave.BackColor = Color.FromArgb(53, 53, 53);
             botonSave.BackgroundImageLayout = ImageLayout.None;
             botonSave.Cursor = Cursors.Hand;
             botonSave.Enabled = false;
@@ -79,7 +79,7 @@
             // 
             // botonColorCategoria
             // 
-            botonColorCategoria.BackColor = Color.FromArgb(52, 73, 94);
+            botonColorCategoria.BackColor = Color.FromArgb(53, 53, 53);
             botonColorCategoria.BackgroundImageLayout = ImageLayout.Zoom;
             botonColorCategoria.Cursor = Cursors.Hand;
             botonColorCategoria.FlatStyle = FlatStyle.Flat;
@@ -112,7 +112,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(52, 73, 94);
+            BackColor = Color.FromArgb(53, 53, 53);
             ClientSize = new Size(200, 136);
             ControlBox = false;
             Controls.Add(tboxCategoria);

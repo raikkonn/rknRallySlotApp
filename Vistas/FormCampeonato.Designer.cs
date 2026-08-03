@@ -75,7 +75,7 @@
             // 
             // botonCancel
             // 
-            botonCancel.BackColor = Color.FromArgb(52, 73, 94);
+            botonCancel.BackColor = Color.FromArgb(53, 53, 53);
             botonCancel.BackgroundImageLayout = ImageLayout.Zoom;
             botonCancel.Cursor = Cursors.Hand;
             botonCancel.FlatStyle = FlatStyle.Flat;
@@ -90,7 +90,7 @@
             // 
             // botonSave
             // 
-            botonSave.BackColor = Color.FromArgb(52, 73, 94);
+            botonSave.BackColor = Color.FromArgb(53, 53, 53);
             botonSave.BackgroundImageLayout = ImageLayout.None;
             botonSave.Cursor = Cursors.Hand;
             botonSave.Enabled = false;
@@ -143,7 +143,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(52, 73, 94);
+            BackColor = Color.FromArgb(53, 53, 53);
             ClientSize = new Size(664, 234);
             ControlBox = false;
             Controls.Add(lblPtos2);

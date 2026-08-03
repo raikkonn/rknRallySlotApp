@@ -108,7 +108,7 @@ namespace rknRallySlotApp.Vistas
             DataGridInscripcion.AllowUserToDeleteRows = false;
             DataGridInscripcion.AllowUserToOrderColumns = true;
             DataGridInscripcion.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            DataGridInscripcion.BackgroundColor = Color.FromArgb(52, 73, 94);
+            DataGridInscripcion.BackgroundColor = Color.FromArgb(40, 40, 40);
             DataGridInscripcion.CellBorderStyle = DataGridViewCellBorderStyle.None;
             DataGridInscripcion.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             DataGridInscripcion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -123,13 +123,13 @@ namespace rknRallySlotApp.Vistas
             // 
             // menuMain
             // 
+            menuMain.Font = new Font("Segoe UI", 9F);
             menuMain.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuMain.Location = new Point(0, 0);
             menuMain.Name = "menuMain";
             menuMain.Padding = new Padding(0);
-            menuMain.RenderMode = ToolStripRenderMode.Professional;
             menuMain.Size = new Size(1264, 24);
-            menuMain.TabIndex = 2;
+            menuMain.TabIndex = 0;
             menuMain.Text = "menuStrip1";
             // 
             // archivoToolStripMenuItem
@@ -146,12 +146,13 @@ namespace rknRallySlotApp.Vistas
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(96, 22);
+            salirToolStripMenuItem.Size = new Size(180, 22);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += SalirToolStripMenuItem_Click;
             // 
             // statusStripMain
             // 
+            statusStripMain.Font = new Font("Segoe UI", 12F);
             statusStripMain.GripMargin = new Padding(0);
             statusStripMain.Items.AddRange(new ToolStripItem[] { labelStatus });
             statusStripMain.Location = new Point(0, 706);
@@ -185,8 +186,8 @@ namespace rknRallySlotApp.Vistas
             // 
             // groupBox4
             // 
-            groupBox4.BackColor = Color.FromArgb(44, 62, 80);
-            groupBox4.BorderColor = Color.FromArgb(168, 0, 240);
+            groupBox4.BackColor = Color.FromArgb(40, 40, 40);
+            groupBox4.BorderColor = Color.FromArgb(123, 113, 197);
             groupBox4.Controls.Add(botonNuevaInscripcion);
             groupBox4.Controls.Add(checkVerificado);
             groupBox4.FlatStyle = FlatStyle.Flat;
@@ -198,7 +199,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevaInscripcion
             // 
-            botonNuevaInscripcion.BackColor = Color.FromArgb(52, 73, 94);
+            botonNuevaInscripcion.BackColor = Color.FromArgb(53, 53, 53);
             botonNuevaInscripcion.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevaInscripcion.Cursor = Cursors.Hand;
             botonNuevaInscripcion.Enabled = false;
@@ -231,8 +232,8 @@ namespace rknRallySlotApp.Vistas
             // 
             // groupBoxCate
             // 
-            groupBoxCate.BackColor = Color.FromArgb(44, 62, 80);
-            groupBoxCate.BorderColor = Color.FromArgb(168, 0, 240);
+            groupBoxCate.BackColor = Color.FromArgb(40, 40, 40);
+            groupBoxCate.BorderColor = Color.FromArgb(123, 113, 197);
             groupBoxCate.Controls.Add(botonBorraCategoria);
             groupBoxCate.Controls.Add(label7);
             groupBoxCate.Controls.Add(botonEditaCategoria);
@@ -247,7 +248,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonBorraCategoria
             // 
-            botonBorraCategoria.BackColor = Color.FromArgb(52, 73, 94);
+            botonBorraCategoria.BackColor = Color.FromArgb(53, 53, 53);
             botonBorraCategoria.BackgroundImageLayout = ImageLayout.Zoom;
             botonBorraCategoria.Cursor = Cursors.Hand;
             botonBorraCategoria.Enabled = false;
@@ -274,7 +275,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonEditaCategoria
             // 
-            botonEditaCategoria.BackColor = Color.FromArgb(52, 73, 94);
+            botonEditaCategoria.BackColor = Color.FromArgb(53, 53, 53);
             botonEditaCategoria.BackgroundImageLayout = ImageLayout.None;
             botonEditaCategoria.Cursor = Cursors.Hand;
             botonEditaCategoria.Enabled = false;
@@ -306,7 +307,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevaCategoria
             // 
-            botonNuevaCategoria.BackColor = Color.FromArgb(52, 73, 94);
+            botonNuevaCategoria.BackColor = Color.FromArgb(53, 53, 53);
             botonNuevaCategoria.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevaCategoria.Cursor = Cursors.Hand;
             botonNuevaCategoria.Enabled = false;
@@ -322,8 +323,8 @@ namespace rknRallySlotApp.Vistas
             // 
             // groupBox2
             // 
-            groupBox2.BackColor = Color.FromArgb(44, 62, 80);
-            groupBox2.BorderColor = Color.FromArgb(168, 0, 240);
+            groupBox2.BackColor = Color.FromArgb(40, 40, 40);
+            groupBox2.BorderColor = Color.FromArgb(123, 113, 197);
             groupBox2.Controls.Add(tboxEscuderia);
             groupBox2.Controls.Add(label12);
             groupBox2.Controls.Add(tboxMarca);
@@ -349,7 +350,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // tboxEscuderia
             // 
-            tboxEscuderia.BackColor = Color.FromArgb(52, 73, 94);
+            tboxEscuderia.BackColor = Color.FromArgb(53, 53, 53);
             tboxEscuderia.BorderStyle = BorderStyle.FixedSingle;
             tboxEscuderia.Font = new Font("Segoe UI", 11F);
             tboxEscuderia.ForeColor = Color.White;
@@ -372,7 +373,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // tboxMarca
             // 
-            tboxMarca.BackColor = Color.FromArgb(52, 73, 94);
+            tboxMarca.BackColor = Color.FromArgb(53, 53, 53);
             tboxMarca.BorderStyle = BorderStyle.FixedSingle;
             tboxMarca.Font = new Font("Segoe UI", 11F);
             tboxMarca.ForeColor = Color.White;
@@ -385,7 +386,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // tboxAlias
             // 
-            tboxAlias.BackColor = Color.FromArgb(52, 73, 94);
+            tboxAlias.BackColor = Color.FromArgb(53, 53, 53);
             tboxAlias.BorderStyle = BorderStyle.FixedSingle;
             tboxAlias.Font = new Font("Segoe UI", 11F);
             tboxAlias.ForeColor = Color.White;
@@ -418,7 +419,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonBorraCoche
             // 
-            botonBorraCoche.BackColor = Color.FromArgb(52, 73, 94);
+            botonBorraCoche.BackColor = Color.FromArgb(53, 53, 53);
             botonBorraCoche.BackgroundImageLayout = ImageLayout.Zoom;
             botonBorraCoche.Cursor = Cursors.Hand;
             botonBorraCoche.Enabled = false;
@@ -434,7 +435,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonBorraPiloto
             // 
-            botonBorraPiloto.BackColor = Color.FromArgb(52, 73, 94);
+            botonBorraPiloto.BackColor = Color.FromArgb(53, 53, 53);
             botonBorraPiloto.BackgroundImageLayout = ImageLayout.Zoom;
             botonBorraPiloto.Cursor = Cursors.Hand;
             botonBorraPiloto.Enabled = false;
@@ -450,7 +451,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonEditaCoche
             // 
-            botonEditaCoche.BackColor = Color.FromArgb(52, 73, 94);
+            botonEditaCoche.BackColor = Color.FromArgb(53, 53, 53);
             botonEditaCoche.BackgroundImageLayout = ImageLayout.Zoom;
             botonEditaCoche.Cursor = Cursors.Hand;
             botonEditaCoche.Enabled = false;
@@ -466,7 +467,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonEditaPiloto
             // 
-            botonEditaPiloto.BackColor = Color.FromArgb(52, 73, 94);
+            botonEditaPiloto.BackColor = Color.FromArgb(53, 53, 53);
             botonEditaPiloto.BackgroundImageLayout = ImageLayout.None;
             botonEditaPiloto.Cursor = Cursors.Hand;
             botonEditaPiloto.Enabled = false;
@@ -482,7 +483,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevoCoche
             // 
-            botonNuevoCoche.BackColor = Color.FromArgb(52, 73, 94);
+            botonNuevoCoche.BackColor = Color.FromArgb(53, 53, 53);
             botonNuevoCoche.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevoCoche.Cursor = Cursors.Hand;
             botonNuevoCoche.Enabled = false;
@@ -498,7 +499,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevoPiloto
             // 
-            botonNuevoPiloto.BackColor = Color.FromArgb(52, 73, 94);
+            botonNuevoPiloto.BackColor = Color.FromArgb(53, 53, 53);
             botonNuevoPiloto.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevoPiloto.Cursor = Cursors.Hand;
             botonNuevoPiloto.Enabled = false;
@@ -566,6 +567,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // groupBoxCto
             // 
+            groupBoxCto.BackColor = Color.FromArgb(40, 40, 40);
             groupBoxCto.Controls.Add(tboxPwrStg);
             groupBoxCto.Controls.Add(tboxTmax);
             groupBoxCto.Controls.Add(label6);
@@ -595,7 +597,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // tboxPwrStg
             // 
-            tboxPwrStg.BackColor = Color.FromArgb(52, 73, 94);
+            tboxPwrStg.BackColor = Color.FromArgb(53, 53, 53);
             tboxPwrStg.BorderStyle = BorderStyle.FixedSingle;
             tboxPwrStg.Font = new Font("Segoe UI", 11F);
             tboxPwrStg.ForeColor = Color.White;
@@ -608,7 +610,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // tboxTmax
             // 
-            tboxTmax.BackColor = Color.FromArgb(52, 73, 94);
+            tboxTmax.BackColor = Color.FromArgb(53, 53, 53);
             tboxTmax.BorderStyle = BorderStyle.FixedSingle;
             tboxTmax.Font = new Font("Segoe UI", 11F);
             tboxTmax.ForeColor = Color.White;
@@ -632,7 +634,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // tboxTramos
             // 
-            tboxTramos.BackColor = Color.FromArgb(52, 73, 94);
+            tboxTramos.BackColor = Color.FromArgb(53, 53, 53);
             tboxTramos.BorderStyle = BorderStyle.FixedSingle;
             tboxTramos.Font = new Font("Segoe UI", 11F);
             tboxTramos.ForeColor = Color.White;
@@ -656,7 +658,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // tboxEtapas
             // 
-            tboxEtapas.BackColor = Color.FromArgb(52, 73, 94);
+            tboxEtapas.BackColor = Color.FromArgb(53, 53, 53);
             tboxEtapas.BorderStyle = BorderStyle.FixedSingle;
             tboxEtapas.Font = new Font("Segoe UI", 11F);
             tboxEtapas.ForeColor = Color.White;
@@ -680,7 +682,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // tboxPuntuaciones
             // 
-            tboxPuntuaciones.BackColor = Color.FromArgb(52, 73, 94);
+            tboxPuntuaciones.BackColor = Color.FromArgb(53, 53, 53);
             tboxPuntuaciones.BorderStyle = BorderStyle.FixedSingle;
             tboxPuntuaciones.Font = new Font("Segoe UI", 11F);
             tboxPuntuaciones.ForeColor = Color.White;
@@ -713,7 +715,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonBorraPrueba
             // 
-            botonBorraPrueba.BackColor = Color.FromArgb(52, 73, 94);
+            botonBorraPrueba.BackColor = Color.FromArgb(53, 53, 53);
             botonBorraPrueba.BackgroundImageLayout = ImageLayout.Zoom;
             botonBorraPrueba.Cursor = Cursors.Hand;
             botonBorraPrueba.Enabled = false;
@@ -729,7 +731,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonBorraCampeonato
             // 
-            botonBorraCampeonato.BackColor = Color.FromArgb(52, 73, 94);
+            botonBorraCampeonato.BackColor = Color.FromArgb(53, 53, 53);
             botonBorraCampeonato.BackgroundImageLayout = ImageLayout.Zoom;
             botonBorraCampeonato.Cursor = Cursors.Hand;
             botonBorraCampeonato.Enabled = false;
@@ -745,7 +747,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonEditaPrueba
             // 
-            botonEditaPrueba.BackColor = Color.FromArgb(52, 73, 94);
+            botonEditaPrueba.BackColor = Color.FromArgb(53, 53, 53);
             botonEditaPrueba.BackgroundImageLayout = ImageLayout.Zoom;
             botonEditaPrueba.Cursor = Cursors.Hand;
             botonEditaPrueba.Enabled = false;
@@ -761,7 +763,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonEditaCampeonato
             // 
-            botonEditaCampeonato.BackColor = Color.FromArgb(52, 73, 94);
+            botonEditaCampeonato.BackColor = Color.FromArgb(53, 53, 53);
             botonEditaCampeonato.BackgroundImageLayout = ImageLayout.None;
             botonEditaCampeonato.Cursor = Cursors.Hand;
             botonEditaCampeonato.Enabled = false;
@@ -777,7 +779,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevaPrueba
             // 
-            botonNuevaPrueba.BackColor = Color.FromArgb(52, 73, 94);
+            botonNuevaPrueba.BackColor = Color.FromArgb(53, 53, 53);
             botonNuevaPrueba.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevaPrueba.Cursor = Cursors.Hand;
             botonNuevaPrueba.Enabled = false;
@@ -793,7 +795,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevoCampeonato
             // 
-            botonNuevoCampeonato.BackColor = Color.FromArgb(52, 73, 94);
+            botonNuevoCampeonato.BackColor = Color.FromArgb(53, 53, 53);
             botonNuevoCampeonato.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevoCampeonato.Cursor = Cursors.Hand;
             botonNuevoCampeonato.Enabled = false;
@@ -905,7 +907,7 @@ namespace rknRallySlotApp.Vistas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(44, 62, 80);
+            BackColor = Color.FromArgb(28, 28, 28);
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(1264, 728);
             Controls.Add(panel2);
