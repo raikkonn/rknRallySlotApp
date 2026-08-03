@@ -219,7 +219,7 @@ namespace rknRallySlotApp.Vistas
             checkVerificado.AutoSize = true;
             checkVerificado.CheckAlign = ContentAlignment.MiddleRight;
             checkVerificado.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            checkVerificado.ForeColor = Color.FromArgb(255, 128, 0);
+            checkVerificado.ForeColor = Color.Lime;
             checkVerificado.Location = new Point(41, 24);
             checkVerificado.Name = "checkVerificado";
             checkVerificado.Size = new Size(117, 29);
@@ -229,7 +229,7 @@ namespace rknRallySlotApp.Vistas
             checkVerificado.TextAlign = ContentAlignment.MiddleRight;
             checkVerificado.UseVisualStyleBackColor = true;
             // 
-            // groupBox3
+            // groupBoxCate
             // 
             groupBoxCate.BackColor = Color.FromArgb(44, 62, 80);
             groupBoxCate.BorderColor = Color.FromArgb(168, 0, 240);
@@ -239,9 +239,9 @@ namespace rknRallySlotApp.Vistas
             groupBoxCate.Controls.Add(comboCategorias);
             groupBoxCate.Controls.Add(botonNuevaCategoria);
             groupBoxCate.FlatStyle = FlatStyle.Flat;
-            groupBoxCate.Location = new Point(701, 3);
-            groupBoxCate.Name = "groupBox3";
-            groupBoxCate.Size = new Size(200, 121);
+            groupBoxCate.Location = new Point(701, 7);
+            groupBoxCate.Name = "groupBoxCate";
+            groupBoxCate.Size = new Size(200, 117);
             groupBoxCate.TabIndex = 14;
             groupBoxCate.TabStop = false;
             // 
@@ -253,7 +253,7 @@ namespace rknRallySlotApp.Vistas
             botonBorraCategoria.Enabled = false;
             botonBorraCategoria.FlatStyle = FlatStyle.Flat;
             botonBorraCategoria.ForeColor = Color.Transparent;
-            botonBorraCategoria.Location = new Point(155, 76);
+            botonBorraCategoria.Location = new Point(155, 72);
             botonBorraCategoria.Name = "botonBorraCategoria";
             botonBorraCategoria.Size = new Size(35, 35);
             botonBorraCategoria.TabIndex = 21;
@@ -266,7 +266,7 @@ namespace rknRallySlotApp.Vistas
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             label7.ForeColor = Color.Lime;
-            label7.Location = new Point(10, 19);
+            label7.Location = new Point(10, 14);
             label7.Name = "label7";
             label7.Size = new Size(66, 17);
             label7.TabIndex = 5;
@@ -280,7 +280,7 @@ namespace rknRallySlotApp.Vistas
             botonEditaCategoria.Enabled = false;
             botonEditaCategoria.FlatStyle = FlatStyle.Flat;
             botonEditaCategoria.ForeColor = Color.Transparent;
-            botonEditaCategoria.Location = new Point(114, 76);
+            botonEditaCategoria.Location = new Point(114, 72);
             botonEditaCategoria.Name = "botonEditaCategoria";
             botonEditaCategoria.Size = new Size(35, 35);
             botonEditaCategoria.TabIndex = 22;
@@ -291,11 +291,12 @@ namespace rknRallySlotApp.Vistas
             // comboCategorias
             // 
             comboCategorias.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            comboCategorias.BackColor = Color.FromArgb(192, 255, 192);
             comboCategorias.DropDownStyle = ComboBoxStyle.DropDownList;
             comboCategorias.Enabled = false;
             comboCategorias.Font = new Font("Segoe UI", 11F);
             comboCategorias.FormattingEnabled = true;
-            comboCategorias.Location = new Point(10, 37);
+            comboCategorias.Location = new Point(10, 32);
             comboCategorias.MaxLength = 50;
             comboCategorias.Name = "comboCategorias";
             comboCategorias.Size = new Size(180, 28);
@@ -310,7 +311,7 @@ namespace rknRallySlotApp.Vistas
             botonNuevaCategoria.Enabled = false;
             botonNuevaCategoria.FlatStyle = FlatStyle.Flat;
             botonNuevaCategoria.ForeColor = Color.Transparent;
-            botonNuevaCategoria.Location = new Point(73, 76);
+            botonNuevaCategoria.Location = new Point(73, 72);
             botonNuevaCategoria.Name = "botonNuevaCategoria";
             botonNuevaCategoria.Size = new Size(35, 35);
             botonNuevaCategoria.TabIndex = 23;
@@ -535,6 +536,7 @@ namespace rknRallySlotApp.Vistas
             // comboCoches
             // 
             comboCoches.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            comboCoches.BackColor = Color.FromArgb(192, 255, 192);
             comboCoches.DropDownStyle = ComboBoxStyle.DropDownList;
             comboCoches.Enabled = false;
             comboCoches.Font = new Font("Segoe UI", 11F);
@@ -549,6 +551,7 @@ namespace rknRallySlotApp.Vistas
             // comboPilotos
             // 
             comboPilotos.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            comboPilotos.BackColor = Color.FromArgb(192, 255, 192);
             comboPilotos.DropDownStyle = ComboBoxStyle.DropDownList;
             comboPilotos.Enabled = false;
             comboPilotos.Font = new Font("Segoe UI", 11F);
@@ -560,7 +563,7 @@ namespace rknRallySlotApp.Vistas
             comboPilotos.TabIndex = 3;
             comboPilotos.SelectedIndexChanged += ComboPilotos_SelectedIndexChanged;
             // 
-            // groupBox1
+            // groupBoxCto
             // 
             groupBoxCto.Controls.Add(tboxPwrStg);
             groupBoxCto.Controls.Add(tboxTmax);
@@ -584,7 +587,7 @@ namespace rknRallySlotApp.Vistas
             groupBoxCto.Controls.Add(comboCampeonatos);
             groupBoxCto.FlatStyle = FlatStyle.Flat;
             groupBoxCto.Location = new Point(3, 3);
-            groupBoxCto.Name = "groupBox1";
+            groupBoxCto.Name = "groupBoxCto";
             groupBoxCto.Size = new Size(692, 121);
             groupBoxCto.TabIndex = 12;
             groupBoxCto.TabStop = false;
@@ -828,6 +831,7 @@ namespace rknRallySlotApp.Vistas
             // comboPruebas
             // 
             comboPruebas.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            comboPruebas.BackColor = Color.FromArgb(192, 255, 192);
             comboPruebas.DropDownStyle = ComboBoxStyle.DropDownList;
             comboPruebas.Enabled = false;
             comboPruebas.Font = new Font("Segoe UI", 11F);
@@ -842,6 +846,7 @@ namespace rknRallySlotApp.Vistas
             // comboCampeonatos
             // 
             comboCampeonatos.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            comboCampeonatos.BackColor = Color.FromArgb(192, 255, 192);
             comboCampeonatos.DropDownStyle = ComboBoxStyle.DropDownList;
             comboCampeonatos.Font = new Font("Segoe UI", 11F);
             comboCampeonatos.FormattingEnabled = true;

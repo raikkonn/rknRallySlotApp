@@ -143,7 +143,7 @@
             Controls.Add(botonCancel);
             Controls.Add(botonSave);
             ForeColor = SystemColors.WindowText;
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "FormCoche";
             StartPosition = FormStartPosition.CenterParent;
             ResumeLayout(false);

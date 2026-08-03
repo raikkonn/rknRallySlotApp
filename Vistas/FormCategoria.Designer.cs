@@ -43,7 +43,7 @@
             botonCancel.Cursor = Cursors.Hand;
             botonCancel.FlatStyle = FlatStyle.Flat;
             botonCancel.ForeColor = Color.Transparent;
-            botonCancel.Location = new Point(157, 76);
+            botonCancel.Location = new Point(157, 87);
             botonCancel.Name = "botonCancel";
             botonCancel.Size = new Size(35, 35);
             botonCancel.TabIndex = 0;
@@ -59,7 +59,7 @@
             botonSave.Enabled = false;
             botonSave.FlatStyle = FlatStyle.Flat;
             botonSave.ForeColor = Color.Transparent;
-            botonSave.Location = new Point(116, 76);
+            botonSave.Location = new Point(116, 87);
             botonSave.Name = "botonSave";
             botonSave.Size = new Size(35, 35);
             botonSave.TabIndex = 0;
@@ -70,13 +70,13 @@
             // lblForm
             // 
             lblForm.AutoSize = true;
-            lblForm.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            lblForm.BorderStyle = BorderStyle.FixedSingle;
+            lblForm.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold);
             lblForm.ForeColor = Color.FromArgb(255, 128, 0);
-            lblForm.Location = new Point(10, 11);
+            lblForm.Location = new Point(8, 11);
             lblForm.Name = "lblForm";
-            lblForm.Size = new Size(95, 25);
+            lblForm.Size = new Size(2, 23);
             lblForm.TabIndex = 10;
-            lblForm.Text = "Categoría";
             // 
             // colorDialogCategoria
             // 
@@ -91,7 +91,7 @@
             botonColorCategoria.FlatStyle = FlatStyle.Flat;
             botonColorCategoria.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             botonColorCategoria.ForeColor = Color.Lime;
-            botonColorCategoria.Location = new Point(8, 76);
+            botonColorCategoria.Location = new Point(8, 87);
             botonColorCategoria.Name = "botonColorCategoria";
             botonColorCategoria.Size = new Size(93, 35);
             botonColorCategoria.TabIndex = 12;
@@ -106,19 +106,20 @@
             tboxCategoria.BorderStyle = BorderStyle.FixedSingle;
             tboxCategoria.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
             tboxCategoria.ForeColor = Color.Black;
-            tboxCategoria.Location = new Point(8, 39);
+            tboxCategoria.Location = new Point(8, 44);
             tboxCategoria.Name = "tboxCategoria";
             tboxCategoria.Size = new Size(184, 27);
             tboxCategoria.TabIndex = 13;
             tboxCategoria.TextChanged += TboxCategoria_TextChanged;
             tboxCategoria.KeyDown += All_tbox_KeyDown;
+            tboxCategoria.Leave += TboxCategoria_Leave;
             // 
             // FormCategoria
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(52, 73, 94);
-            ClientSize = new Size(200, 121);
+            ClientSize = new Size(200, 136);
             ControlBox = false;
             Controls.Add(tboxCategoria);
             Controls.Add(botonColorCategoria);
@@ -126,7 +127,7 @@
             Controls.Add(botonCancel);
             Controls.Add(botonSave);
             ForeColor = SystemColors.WindowText;
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Location = new Point(701, 3);
             Name = "FormCategoria";
             StartPosition = FormStartPosition.Manual;

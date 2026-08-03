@@ -87,6 +87,13 @@ public partial class FormCategoria : Form
         ControlesEnableDisable();
     }
 
+    private void TboxCategoria_Leave(object sender, EventArgs e)
+    {
+        // Saneado texto
+        string categoriaLimpia = TxtTools.TrimAndClean(tboxCategoria.Text).ToUpper();
+        tboxCategoria.Text = categoriaLimpia;
+    }
+
     private void BotonCancel_Click(object sender, EventArgs e)
     {
         this.DialogResult = DialogResult.Cancel;
@@ -103,7 +110,7 @@ public partial class FormCategoria : Form
         }
 
         // Saneado texto
-        string categoriaLimpia = TxtTools.TrimCleanAndTitle(tboxCategoria.Text);
+        string categoriaLimpia = TxtTools.TrimAndClean(tboxCategoria.Text).ToUpper();
         tboxCategoria.Text = categoriaLimpia;
 
         using var db = new AppDbContext();

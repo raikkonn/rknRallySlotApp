@@ -246,7 +246,7 @@
             Controls.Add(botonSave);
             Controls.Add(lblPrueba);
             ForeColor = SystemColors.WindowText;
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "FormPrueba";
             StartPosition = FormStartPosition.CenterParent;
             ResumeLayout(false);

@@ -155,7 +155,7 @@
             Controls.Add(lblPtos1);
             Controls.Add(lblCto);
             ForeColor = SystemColors.WindowText;
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "FormCampeonato";
             StartPosition = FormStartPosition.CenterParent;
             ResumeLayout(false);

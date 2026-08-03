@@ -580,7 +580,7 @@ public partial class FormMain : Form
         using var formAlta = new FormCampeonato("Nuevo Campeonato");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = groupBoxCto.PointToScreen(new Point(6, 8));
+        formAlta.Location = groupBoxCto.PointToScreen(new Point(12, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -607,7 +607,7 @@ public partial class FormMain : Form
         using var formAlta = new FormPrueba("Nueva Prueba");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = groupBoxCto.PointToScreen(new Point(6, 8));
+        formAlta.Location = groupBoxCto.PointToScreen(new Point(12, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -633,7 +633,7 @@ public partial class FormMain : Form
         using var formAlta = new FormPiloto("Nuevo Piloto");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = groupBoxCto.PointToScreen(new Point(6, 8));
+        formAlta.Location = groupBoxCto.PointToScreen(new Point(12, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -659,7 +659,7 @@ public partial class FormMain : Form
         using var formAlta = new FormCoche("Nuevo Coche");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = groupBoxCto.PointToScreen(new Point(6, 8));
+        formAlta.Location = groupBoxCto.PointToScreen(new Point(12, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -684,7 +684,7 @@ public partial class FormMain : Form
         using var formAlta = new FormCategoria("Nueva Categoria");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = groupBoxCate.PointToScreen(new Point(6, 8));
+        formAlta.Location = groupBoxCate.PointToScreen(new Point(0, 0));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -709,7 +709,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormCampeonato("Modificar Campeonato", comboCampeonatos.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = groupBoxCto.PointToScreen(new Point(6, 8));
+        formEdicion.Location = groupBoxCto.PointToScreen(new Point(12, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -727,7 +727,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormPrueba("Modificar Prueba", comboPruebas.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = groupBoxCto.PointToScreen(new Point(6, 8));
+        formEdicion.Location = groupBoxCto.PointToScreen(new Point(12, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -742,7 +742,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormPiloto("Modificar Piloto", comboPilotos.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = groupBoxCto.PointToScreen(new Point(6, 8));
+        formEdicion.Location = groupBoxCto.PointToScreen(new Point(12, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -757,7 +757,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormCoche("Modificar Coche", comboCoches.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = groupBoxCto.PointToScreen(new Point(6, 8));
+        formEdicion.Location = groupBoxCto.PointToScreen(new Point(12, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -772,7 +772,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormCategoria("Modificar Categoria", comboCategorias.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = groupBoxCate.PointToScreen(new Point(6, 8));
+        formEdicion.Location = groupBoxCate.PointToScreen(new Point(0, 0));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
