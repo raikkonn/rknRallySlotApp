@@ -31,7 +31,6 @@
             botonCancel = new Button();
             botonSave = new Button();
             lblForm = new Label();
-            colorDialogCategoria = new ColorDialog();
             botonColorCategoria = new Button();
             tboxCategoria = new TextBox();
             SuspendLayout();
@@ -77,11 +76,6 @@
             lblForm.Name = "lblForm";
             lblForm.Size = new Size(2, 23);
             lblForm.TabIndex = 10;
-            // 
-            // colorDialogCategoria
-            // 
-            colorDialogCategoria.AnyColor = true;
-            colorDialogCategoria.Color = Color.White;
             // 
             // botonColorCategoria
             // 
@@ -139,7 +133,6 @@
         private Button botonCancel;
         private Button botonSave;
         private Label lblForm;
-        private ColorDialog colorDialogCategoria;
         private Button botonColorCategoria;
         private TextBox tboxCategoria;
     }

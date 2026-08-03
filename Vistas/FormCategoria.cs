@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using rknRallySlotApp.Componentes;
 using rknRallySlotApp.Datos;
 using rknRallySlotApp.Modelos;
 using rknRallySlotApp.Utilidades;
@@ -209,21 +210,16 @@ public partial class FormCategoria : Form
 
     private void BotonColorCategoria_Click(object sender, EventArgs e)
     {
-        // Configurar un color inicial preseleccionado en el diálogo
-        colorDialogCategoria.Color = tboxCategoria.BackColor;
+        using ColorDialog dlg = new();
+        dlg.Color = tboxCategoria.BackColor;        // Configurar un color inicial preseleccionado
 
-        // Mostrar la ventana de diálogo y verificar si el usuario hizo clic en "Aceptar"
-        if (colorDialogCategoria.ShowDialog() == DialogResult.OK)
+        if (dlg.ShowDialog() == DialogResult.OK)    // Mostrar diálogo y verificar si clic en "Aceptar"
         {
-            // Obtener el color seleccionado por el usuario
-            Color colorElegido = colorDialogCategoria.Color;
+            ColorSelected = dlg.Color;              // El color elegido pasa a la variable global pública
 
-            // Aplicación visual en la UI
-            tboxCategoria.BackColor = colorElegido;
-            tboxCategoria.ForeColor = ColorTools.GetBestContrast(colorElegido); // Ajusta el color del texto para que sea legible
-
-            // El color elegido pasa a la variable global pública
-            ColorSelected = colorElegido;
+            // Aplicación en la UI
+            tboxCategoria.BackColor = ColorSelected;
+            tboxCategoria.ForeColor = ColorTools.GetBestContrast(ColorSelected);    // Mejora legiblilidad
         }
     }
 }

@@ -454,7 +454,7 @@ public partial class FormMain : Form
         botonBorraCategoria.Enabled = hayCategoria;
 
         // Inscripción
-        botonNuevaInscripcion.Enabled = hayCampeonato && hayPrueba && hayPiloto && hayCoche && hayCategoria;
+        botonNuevaInscripcion.Enabled = hayPrueba && hayPiloto && hayCoche && hayCategoria;
     }
 
     private void ComboCampeonatos_SelectedIndexChanged(object? sender, EventArgs e)
