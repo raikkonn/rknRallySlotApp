@@ -5,7 +5,9 @@ namespace rknRallySlotApp.Datos;
 
 public class AppDbContext : DbContext
 {
-    // Tablas mapeadas en SQLite
+    // ==========================================
+    #region SQLite Mapeo Tablas
+
     public DbSet<Campeonato> Campeonatos { get; set; } = null!;
     public DbSet<Categoria> Categorias { get; set; } = null!;
     public DbSet<Coche> Coches { get; set; } = null!;
@@ -14,9 +16,12 @@ public class AppDbContext : DbContext
     public DbSet<Prueba> Pruebas { get; set; } = null!;
     public DbSet<TiempoTramo> TiemposTramos { get; set; } = null!;
 
+    #endregion
+    // ==========================================
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // Configura el nombre del archivo de base de datos local
+        // Configura nombre archivo DB local
         optionsBuilder.UseSqlite(Properties.Settings.Default.DbConexString);
     }
 
@@ -187,4 +192,3 @@ public class AppDbContext : DbContext
         });
     }
 }
-

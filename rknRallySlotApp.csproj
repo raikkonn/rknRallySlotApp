@@ -43,6 +43,9 @@
     <Compile Update="Vistas\FormCoche.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Vistas\FormCategoria.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\FormPiloto.cs">
       <SubType>Form</SubType>
     </Compile>

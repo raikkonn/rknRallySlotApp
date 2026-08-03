@@ -41,7 +41,7 @@ namespace rknRallySlotApp.Vistas
             groupBox4 = new ColoredGroupBox();
             botonNuevaInscripcion = new Button();
             checkVerificado = new CheckBox();
-            groupBox3 = new ColoredGroupBox();
+            groupBoxCate = new ColoredGroupBox();
             botonBorraCategoria = new Button();
             label7 = new Label();
             botonEditaCategoria = new Button();
@@ -64,7 +64,7 @@ namespace rknRallySlotApp.Vistas
             label11 = new Label();
             comboCoches = new ComboBox();
             comboPilotos = new ComboBox();
-            groupBox1 = new GroupBox();
+            groupBoxCto = new GroupBox();
             tboxPwrStg = new TextBox();
             tboxTmax = new TextBox();
             label6 = new Label();
@@ -94,9 +94,9 @@ namespace rknRallySlotApp.Vistas
             statusStripMain.SuspendLayout();
             panel1.SuspendLayout();
             groupBox4.SuspendLayout();
-            groupBox3.SuspendLayout();
+            groupBoxCate.SuspendLayout();
             groupBox2.SuspendLayout();
-            groupBox1.SuspendLayout();
+            groupBoxCto.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -173,9 +173,9 @@ namespace rknRallySlotApp.Vistas
             panel1.AutoSize = true;
             panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panel1.Controls.Add(groupBox4);
-            panel1.Controls.Add(groupBox3);
+            panel1.Controls.Add(groupBoxCate);
             panel1.Controls.Add(groupBox2);
-            panel1.Controls.Add(groupBox1);
+            panel1.Controls.Add(groupBoxCto);
             panel1.Controls.Add(panel3);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 24);
@@ -186,7 +186,7 @@ namespace rknRallySlotApp.Vistas
             // groupBox4
             // 
             groupBox4.BackColor = Color.FromArgb(44, 62, 80);
-            groupBox4.BorderColor = Color.FromArgb(255, 128, 0);
+            groupBox4.BorderColor = Color.FromArgb(168, 0, 240);
             groupBox4.Controls.Add(botonNuevaInscripcion);
             groupBox4.Controls.Add(checkVerificado);
             groupBox4.FlatStyle = FlatStyle.Flat;
@@ -219,7 +219,7 @@ namespace rknRallySlotApp.Vistas
             checkVerificado.AutoSize = true;
             checkVerificado.CheckAlign = ContentAlignment.MiddleRight;
             checkVerificado.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            checkVerificado.ForeColor = Color.Red;
+            checkVerificado.ForeColor = Color.FromArgb(255, 128, 0);
             checkVerificado.Location = new Point(41, 24);
             checkVerificado.Name = "checkVerificado";
             checkVerificado.Size = new Size(117, 29);
@@ -231,19 +231,19 @@ namespace rknRallySlotApp.Vistas
             // 
             // groupBox3
             // 
-            groupBox3.BackColor = Color.FromArgb(44, 62, 80);
-            groupBox3.BorderColor = Color.FromArgb(255, 128, 0);
-            groupBox3.Controls.Add(botonBorraCategoria);
-            groupBox3.Controls.Add(label7);
-            groupBox3.Controls.Add(botonEditaCategoria);
-            groupBox3.Controls.Add(comboCategorias);
-            groupBox3.Controls.Add(botonNuevaCategoria);
-            groupBox3.FlatStyle = FlatStyle.Flat;
-            groupBox3.Location = new Point(701, 3);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(200, 121);
-            groupBox3.TabIndex = 14;
-            groupBox3.TabStop = false;
+            groupBoxCate.BackColor = Color.FromArgb(44, 62, 80);
+            groupBoxCate.BorderColor = Color.FromArgb(168, 0, 240);
+            groupBoxCate.Controls.Add(botonBorraCategoria);
+            groupBoxCate.Controls.Add(label7);
+            groupBoxCate.Controls.Add(botonEditaCategoria);
+            groupBoxCate.Controls.Add(comboCategorias);
+            groupBoxCate.Controls.Add(botonNuevaCategoria);
+            groupBoxCate.FlatStyle = FlatStyle.Flat;
+            groupBoxCate.Location = new Point(701, 3);
+            groupBoxCate.Name = "groupBox3";
+            groupBoxCate.Size = new Size(200, 121);
+            groupBoxCate.TabIndex = 14;
+            groupBoxCate.TabStop = false;
             // 
             // botonBorraCategoria
             // 
@@ -259,6 +259,7 @@ namespace rknRallySlotApp.Vistas
             botonBorraCategoria.TabIndex = 21;
             botonBorraCategoria.TabStop = false;
             botonBorraCategoria.UseVisualStyleBackColor = false;
+            botonBorraCategoria.Click += BotonBorraCategoria_Click;
             // 
             // label7
             // 
@@ -285,6 +286,7 @@ namespace rknRallySlotApp.Vistas
             botonEditaCategoria.TabIndex = 22;
             botonEditaCategoria.TabStop = false;
             botonEditaCategoria.UseVisualStyleBackColor = false;
+            botonEditaCategoria.Click += BotonEditaCategoria_Click;
             // 
             // comboCategorias
             // 
@@ -298,6 +300,7 @@ namespace rknRallySlotApp.Vistas
             comboCategorias.Name = "comboCategorias";
             comboCategorias.Size = new Size(180, 28);
             comboCategorias.TabIndex = 5;
+            comboCategorias.SelectedIndexChanged += ComboCategorias_SelectedIndexChanged;
             // 
             // botonNuevaCategoria
             // 
@@ -313,11 +316,12 @@ namespace rknRallySlotApp.Vistas
             botonNuevaCategoria.TabIndex = 23;
             botonNuevaCategoria.TabStop = false;
             botonNuevaCategoria.UseVisualStyleBackColor = false;
+            botonNuevaCategoria.Click += BotonNuevaCategoria_Click;
             // 
             // groupBox2
             // 
             groupBox2.BackColor = Color.FromArgb(44, 62, 80);
-            groupBox2.BorderColor = Color.FromArgb(255, 128, 0);
+            groupBox2.BorderColor = Color.FromArgb(168, 0, 240);
             groupBox2.Controls.Add(tboxEscuderia);
             groupBox2.Controls.Add(label12);
             groupBox2.Controls.Add(tboxMarca);
@@ -558,32 +562,32 @@ namespace rknRallySlotApp.Vistas
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(tboxPwrStg);
-            groupBox1.Controls.Add(tboxTmax);
-            groupBox1.Controls.Add(label6);
-            groupBox1.Controls.Add(tboxTramos);
-            groupBox1.Controls.Add(label5);
-            groupBox1.Controls.Add(tboxEtapas);
-            groupBox1.Controls.Add(label4);
-            groupBox1.Controls.Add(tboxPuntuaciones);
-            groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(botonBorraPrueba);
-            groupBox1.Controls.Add(botonBorraCampeonato);
-            groupBox1.Controls.Add(botonEditaPrueba);
-            groupBox1.Controls.Add(botonEditaCampeonato);
-            groupBox1.Controls.Add(botonNuevaPrueba);
-            groupBox1.Controls.Add(botonNuevoCampeonato);
-            groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(lblCto);
-            groupBox1.Controls.Add(comboPruebas);
-            groupBox1.Controls.Add(comboCampeonatos);
-            groupBox1.FlatStyle = FlatStyle.Flat;
-            groupBox1.Location = new Point(3, 3);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(692, 121);
-            groupBox1.TabIndex = 12;
-            groupBox1.TabStop = false;
+            groupBoxCto.Controls.Add(tboxPwrStg);
+            groupBoxCto.Controls.Add(tboxTmax);
+            groupBoxCto.Controls.Add(label6);
+            groupBoxCto.Controls.Add(tboxTramos);
+            groupBoxCto.Controls.Add(label5);
+            groupBoxCto.Controls.Add(tboxEtapas);
+            groupBoxCto.Controls.Add(label4);
+            groupBoxCto.Controls.Add(tboxPuntuaciones);
+            groupBoxCto.Controls.Add(label3);
+            groupBoxCto.Controls.Add(label1);
+            groupBoxCto.Controls.Add(botonBorraPrueba);
+            groupBoxCto.Controls.Add(botonBorraCampeonato);
+            groupBoxCto.Controls.Add(botonEditaPrueba);
+            groupBoxCto.Controls.Add(botonEditaCampeonato);
+            groupBoxCto.Controls.Add(botonNuevaPrueba);
+            groupBoxCto.Controls.Add(botonNuevoCampeonato);
+            groupBoxCto.Controls.Add(label2);
+            groupBoxCto.Controls.Add(lblCto);
+            groupBoxCto.Controls.Add(comboPruebas);
+            groupBoxCto.Controls.Add(comboCampeonatos);
+            groupBoxCto.FlatStyle = FlatStyle.Flat;
+            groupBoxCto.Location = new Point(3, 3);
+            groupBoxCto.Name = "groupBox1";
+            groupBoxCto.Size = new Size(692, 121);
+            groupBoxCto.TabIndex = 12;
+            groupBoxCto.TabStop = false;
             // 
             // tboxPwrStg
             // 
@@ -917,12 +921,12 @@ namespace rknRallySlotApp.Vistas
             panel1.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
-            groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
+            groupBoxCate.ResumeLayout(false);
+            groupBoxCate.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
+            groupBoxCto.ResumeLayout(false);
+            groupBoxCto.PerformLayout();
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -956,7 +960,7 @@ namespace rknRallySlotApp.Vistas
         private Label label11;
         private ComboBox comboCoches;
         private ComboBox comboPilotos;
-        private GroupBox groupBox1;
+        private GroupBox groupBoxCto;
         private TextBox tboxTmax;
         private TextBox tboxTramos;
         private Label label5;
@@ -981,7 +985,7 @@ namespace rknRallySlotApp.Vistas
         private TextBox tboxPwrStg;
         private Label label6;
         private CheckBox checkVerificado;
-        private ColoredGroupBox groupBox3;
+        private ColoredGroupBox groupBoxCate;
         private Button botonBorraCategoria;
         private Label label7;
         private Button botonEditaCategoria;
