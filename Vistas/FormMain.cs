@@ -1087,7 +1087,60 @@ public partial class FormMain : Form
     {
         this.Close();
     }
+
+    private void ComboCategorias_DrawItem(object sender, DrawItemEventArgs e)
+    {
+        // Si no hay elementos en el combo, salimos
+        if (e.Index < 0) return;
+        if (sender is not ComboBox combo) return;
+
+        // 1. Obtener de forma segura el texto del elemento
+        string texto = combo.GetItemText(combo.Items[e.Index]) ?? string.Empty;
+
+        // 2. Comprobar si el elemento está seleccionado en la lista Y el combo está desplegado
+        bool esItemResaltado = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+        bool estaDesplegado = combo.DroppedDown;
+
+        // Definir colores según el estado
+        Color colorFondo;
+        Color colorTexto;
+
+        if (!estaDesplegado)                    // && e.Index == combo.SelectedIndex
+        {
+            colorFondo = combo.BackColor;       // Fondo deseado
+            colorTexto = combo.ForeColor;       // Color del texto
+        }
+        else if (estaDesplegado && esItemResaltado)
+        {
+            // Estilo cuando pasas el ratón por encima en la lista desplegada
+            colorFondo = Color.FromArgb(0, 122, 204);       // Azul clásico de selección
+            colorTexto = Color.White;                       // Texto blanco obligado
+        }
+        else
+        {
+            // La lista y su contenido cuando el ratón NO está sobre el elemento (Fondo normal de la lista)
+            colorFondo = Color.FromArgb(192, 255, 192);     // Fondo "menta"
+            colorTexto = Color.Black;                       // Color del texto
+        }
+
+        // 3. Pintar el fondo del ítem
+        using (SolidBrush brushFondo = new(colorFondo))
+        {
+            e.Graphics.FillRectangle(brushFondo, e.Bounds);
+        }
+
+        // 4. Dibujar el texto de forma segura con la fuente correcta
+        Font fuenteSegura = e.Font ?? combo.Font ?? this.Font;
+        using (SolidBrush brushTexto = new(colorTexto))
+        {
+            // Ajustamos ligeramente la posición Y para centrar el texto verticalmente
+            float posY = e.Bounds.Y + (e.Bounds.Height - fuenteSegura.Height) / 2f;
+            e.Graphics.DrawString(texto, fuenteSegura, brushTexto, e.Bounds.X + 4, posY);
+        }
+
+        // 5. Dibujar el rectángulo de foco si lo requiere el sistema
+        e.DrawFocusRectangle();
+    }
     //-------------------------------------------------------------------------
     #endregion
-
 }
