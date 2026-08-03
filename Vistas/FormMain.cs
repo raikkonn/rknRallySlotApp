@@ -364,6 +364,19 @@ public partial class FormMain : Form
         tboxMarca.Text = marca ?? String.Empty;
     }
 
+    private void Colorear_Categoria()
+    {
+        using var db = new AppDbContext();
+
+        var colorFondo = db.Categorias
+                        .Where(c => c.Id == IdCategoriaSeleccionada)
+                        .Select(c => c.ColorHex)
+                        .FirstOrDefault();
+
+        comboCategorias.BackColor = ColorTranslator.FromHtml(colorFondo ?? "#FFFFFF");
+        comboCategorias.ForeColor = ColorTools.GetBestContrast(comboCategorias.BackColor);
+    }
+
     private void Limpia_DatosCampeonato()
     {
         tboxPuntuaciones.Clear();
@@ -386,6 +399,12 @@ public partial class FormMain : Form
     private void Limpia_DatosCoche()
     {
         tboxMarca.Clear();
+    }
+
+    private void Limpiar_Color_Categoria()
+    {
+        comboCategorias.BackColor = SystemColors.Window;
+        comboCategorias.ForeColor = SystemColors.WindowText;
     }
     //-------------------------------------------------------------------------
     #endregion
@@ -546,11 +565,13 @@ public partial class FormMain : Form
             if (idSel > 0)                              // Selección Válida 
             {
                 IdCategoriaSeleccionada = idSel;        // guardar ID en miembro público
+                Colorear_Categoria();                   // consulta DB para colorear comboBox Categorías
             }
-            else                                        // ID inválido, limpiar selecciones y TextBox si hubiera
+            else                                        // ID inválido, limpiar selecciones y Colores
             {
                 comboCategorias.SelectedIndex = -1;     // Limpiar selección Categorías
                 IdCategoriaSeleccionada = null;         // Limpiar ID Categoría 
+                Limpiar_Color_Categoria();              // Limpiar Color comboBox Categorías
 
                 if (idSel == -5)                        // opcion "- Añadir nueva -" seleccionada, abrir formulario de alta
                 {

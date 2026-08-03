@@ -291,12 +291,10 @@ namespace rknRallySlotApp.Vistas
             // comboCategorias
             // 
             comboCategorias.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            comboCategorias.BackColor = Color.FromArgb(192, 0, 192);
             comboCategorias.DrawMode = DrawMode.OwnerDrawFixed;
             comboCategorias.DropDownStyle = ComboBoxStyle.DropDownList;
             comboCategorias.Enabled = false;
             comboCategorias.Font = new Font("Segoe UI", 11F);
-            comboCategorias.ForeColor = Color.White;
             comboCategorias.FormattingEnabled = true;
             comboCategorias.Location = new Point(10, 32);
             comboCategorias.MaxLength = 50;
