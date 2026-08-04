@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace rknRallySlotApp.Componentes;
+namespace rknRallySlotApp.Utilidades;
 
 public class ColoredGroupBox : GroupBox
 {

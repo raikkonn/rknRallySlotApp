@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using rknRallySlotApp.Componentes;
 using rknRallySlotApp.Datos;
 using rknRallySlotApp.Modelos;
 using rknRallySlotApp.Utilidades;
@@ -50,6 +49,11 @@ public partial class FormMain : Form
         ComboPilotosInit();
         ComboCochesInit();
         ComboCategoriasInit();
+
+        // inicializamos el DataGridView
+        dataGridInscripcion.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        dataGridInscripcion.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        dataGridInscripcion.AllowUserToResizeColumns = true;
     }
     //-------------------------------------------------------------------------
     #endregion
@@ -314,13 +318,30 @@ public partial class FormMain : Form
                 Verif = i.Verificado,
                 ColorFila = string.IsNullOrWhiteSpace(i.Categoria?.ColorHex) ? "#FFFFFF" : i.Categoria.ColorHex
             })
-            .ToList();
+            .ToDataTable();
 
         // Vinculamos el resultado al DataGridView
         dataGridInscripcion.DataSource = listaGrid;
 
         // Ocultamos la columna del color para que no se vea en la interfaz visual
         dataGridInscripcion.Columns["ColorFila"]?.Visible = false;
+        
+        // Alineamos columnas Dorsal y Alias al centro
+        dataGridInscripcion.Columns["Dorsal"]?.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridInscripcion.Columns["Alias"]?.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+        // autoajustamos el tamaño de las columnas para que se vean todos los datos
+        dataGridInscripcion.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+        // Desactivar el estilo visual por defecto del sistema operativo para las cabeceras
+        dataGridInscripcion.EnableHeadersVisualStyles = false;
+
+        // Igualar el color de "selección" de la cabecera con su color normal
+        dataGridInscripcion.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridInscripcion.ColumnHeadersDefaultCellStyle.BackColor;
+        dataGridInscripcion.ColumnHeadersDefaultCellStyle.SelectionForeColor = dataGridInscripcion.ColumnHeadersDefaultCellStyle.ForeColor;
+
+        // Visualizar encabezado de fila
+        dataGridInscripcion.RowHeadersVisible = true;
     }
     //-------------------------------------------------------------------------
     #endregion
@@ -1317,4 +1338,3 @@ public partial class FormMain : Form
     }
     #endregion
 }
-

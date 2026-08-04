@@ -1,4 +1,4 @@
-﻿namespace rknRallySlotApp.Componentes;
+﻿namespace rknRallySlotApp.Utilidades;
 
 public class MyColorTable(Color backColor, Color hoverColor, Color borderColor) : ProfessionalColorTable
 {
