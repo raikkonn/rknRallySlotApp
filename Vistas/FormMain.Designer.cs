@@ -30,6 +30,10 @@ namespace rknRallySlotApp.Vistas
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             DataGridInscripcion = new DataGridView();
             menuMain = new MenuStrip();
@@ -107,16 +111,49 @@ namespace rknRallySlotApp.Vistas
             DataGridInscripcion.AllowUserToAddRows = false;
             DataGridInscripcion.AllowUserToDeleteRows = false;
             DataGridInscripcion.AllowUserToOrderColumns = true;
+            DataGridInscripcion.AllowUserToResizeRows = false;
             DataGridInscripcion.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             DataGridInscripcion.BackgroundColor = Color.FromArgb(40, 40, 40);
-            DataGridInscripcion.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            DataGridInscripcion.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            DataGridInscripcion.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            DataGridInscripcion.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(40, 40, 40);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            DataGridInscripcion.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             DataGridInscripcion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            DataGridInscripcion.DefaultCellStyle = dataGridViewCellStyle2;
             DataGridInscripcion.Dock = DockStyle.Fill;
+            DataGridInscripcion.EditMode = DataGridViewEditMode.EditOnF2;
+            DataGridInscripcion.EnableHeadersVisualStyles = false;
+            DataGridInscripcion.GridColor = Color.White;
             DataGridInscripcion.Location = new Point(0, 275);
             DataGridInscripcion.Name = "DataGridInscripcion";
             DataGridInscripcion.ReadOnly = true;
+            DataGridInscripcion.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            DataGridInscripcion.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            DataGridInscripcion.RowHeadersVisible = false;
             DataGridInscripcion.RowHeadersWidth = 15;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle4.ForeColor = Color.White;
+            DataGridInscripcion.RowsDefaultCellStyle = dataGridViewCellStyle4;
             DataGridInscripcion.Size = new Size(1264, 431);
             DataGridInscripcion.TabIndex = 0;
             DataGridInscripcion.TabStop = false;
@@ -149,7 +186,7 @@ namespace rknRallySlotApp.Vistas
             salirToolStripMenuItem.ForeColor = Color.White;
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
             salirToolStripMenuItem.Padding = new Padding(0);
-            salirToolStripMenuItem.Size = new Size(180, 24);
+            salirToolStripMenuItem.Size = new Size(110, 24);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += SalirToolStripMenuItem_Click;
             // 
@@ -216,6 +253,7 @@ namespace rknRallySlotApp.Vistas
             botonNuevaInscripcion.TabStop = false;
             botonNuevaInscripcion.Text = "Inscribir";
             botonNuevaInscripcion.UseVisualStyleBackColor = false;
+            botonNuevaInscripcion.Click += BotonNuevaInscripcion_Click;
             // 
             // checkVerificado
             // 

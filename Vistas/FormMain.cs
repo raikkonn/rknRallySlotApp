@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using rknRallySlotApp.Componentes;
 using rknRallySlotApp.Datos;
+using rknRallySlotApp.Modelos;
 using rknRallySlotApp.Utilidades;
 
 namespace rknRallySlotApp.Vistas;
@@ -287,23 +288,36 @@ public partial class FormMain : Form
 
     private void DataGridInscripcionInit()
     {
+        int idPruebaActual = IdPruebaSeleccionada ?? 0;
+
         using var db = new AppDbContext();
 
-        // Hacemos la consulta trayendo datos de ambas tablas gracias a la relación
         var listaGrid = db.Inscripciones
+
+            // 1. OBLIGAMOS a EF Core a traer los datos relacionados (Eager Loading)
+            .Include(i => i.Piloto)
+            .Include(i => i.Coche)
+            .Include(i => i.Categoria)
+
+            .Where(i => i.IdPrueba == idPruebaActual)
+
+            // 2. PASAMOS a memoria para evaluar las propiedades [NotMapped] sin errores de traducción SQL
+            .AsEnumerable()
+
             .Select(i => new
             {
-                i.Dorsal,
-                Piloto = i.NombrePiloto,
-                i.Coche,
-                Cat = i.Categoria,
+                Dorsal = i.Dorsal,
+                Alias = i.AliasPiloto,          // Ahora sí tiene datos gracias al Include
+                Piloto = i.NombrePiloto,        // Ahora sí tiene datos gracias al Include
+                Coche = i.DescripcionCoche,     // Usamos tu propiedad [NotMapped] que ya formatea "Modelo [Marca]"
+                Cat = i.Categoria?.Nombre ?? string.Empty, // Extraemos el texto del nombre explícitamente, no el objeto
                 Verif = i.Verificado
             })
             .ToList();
 
         // Vinculamos el resultado al DataGridView
         DataGridInscripcion.DataSource = listaGrid;
-    }
+    }    
     //-------------------------------------------------------------------------
     #endregion
 
@@ -504,7 +518,8 @@ public partial class FormMain : Form
                 }
             }
         }
-        Controles_EnableAndDisable();                   // Actualizamos los controles después de la operación
+        Controles_EnableAndDisable();       // Actualizamos los controles después de la operación
+        DataGridInscripcionInit();          // consulta DB para rellenar DataGridView Inscripciones
     }
 
     private void ComboPruebas_SelectedIndexChanged(object? sender, EventArgs e)
@@ -528,7 +543,8 @@ public partial class FormMain : Form
                 }
             }
         }
-        Controles_EnableAndDisable();                   // Actualizamos los controles después de la operación
+        Controles_EnableAndDisable();       // Actualizamos los controles después de la operación
+        DataGridInscripcionInit();          // consulta DB para rellenar DataGridView Inscripciones
     }
 
     private void ComboPilotos_SelectedIndexChanged(object? sender, EventArgs e)
@@ -741,6 +757,79 @@ public partial class FormMain : Form
         }
     }
 
+    private void BotonNuevaInscripcion_Click(object sender, EventArgs e)
+    {
+        bool hayPrueba = IdPruebaSeleccionada.HasValue && IdPruebaSeleccionada.Value > 0;
+        bool hayPiloto = IdPilotoSeleccionado.HasValue && IdPilotoSeleccionado.Value > 0;
+        bool hayCoche = IdCocheSeleccionado.HasValue && IdCocheSeleccionado.Value > 0;
+        bool hayCategoria = IdCategoriaSeleccionada.HasValue && IdCategoriaSeleccionada.Value > 0;
+
+        if (!hayPrueba || !hayPiloto || !hayCoche || !hayCategoria)
+        {
+            MessageBox.Show("Por favor, seleccione todos los campos requeridos.",
+                            "Campos Incompletos",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+            return;
+        }
+
+        // Variables locales con los IDs seleccionados
+        int idPruebaActual = IdPruebaSeleccionada!.Value;
+        int idPilotoActual = IdPilotoSeleccionado!.Value;
+        int idCocheActual = IdCocheSeleccionado!.Value;
+        int idCategoriaActual = IdCategoriaSeleccionada!.Value;
+        bool verificadoActual = checkVerificado.Checked;
+
+        // DBContext para realizar las operaciones de base de datos
+        using var db = new AppDbContext();
+
+        // Comprobamos si ya existe una inscripción para ese piloto en esa prueba
+        bool yaInscrito = db.Inscripciones.Any(i =>
+            i.IdPrueba == idPruebaActual &&
+            i.IdPiloto == idPilotoActual
+        );
+
+        if (yaInscrito)
+        {
+            MessageBox.Show(
+                "Este piloto ya se encuentra inscrito en esta prueba.",
+                "Aviso de Inscripción Duplicada",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            );
+            return; // Cancelamos el proceso de alta
+        }
+
+        // Obtenemos el dorsal más alto registrado para esta prueba específica
+        int maxDorsal = db.Inscripciones
+            .Where(i => i.IdPrueba == idPruebaActual)
+            .Select(i => (int?)i.Dorsal)    // Proyectamos a int? (nullable) por seguridad
+            .Max() ?? 0;                    // Si devuelve null (no hay inscripciones), asigna 0 por defecto
+
+        try
+        {
+            Inscripcion inscripcionActual = new()
+            {
+                IdPrueba = idPruebaActual,
+                IdPiloto = idPilotoActual,
+                IdCoche = idCocheActual,
+                IdCategoria = idCategoriaActual,
+                Dorsal = maxDorsal + 1,                 // Asignamos el siguiente dorsal disponible
+                Verificado = verificadoActual
+            };
+
+            db.Inscripciones.Add(inscripcionActual);    // Añadir registro nuevo (INSERT)
+            db.SaveChanges();                           // ALTA en fichero DB
+            DataGridInscripcionInit();                  // Refrescamos el DataGridView para mostrar la nueva inscripción
+        }
+        catch (DbUpdateException ex)
+        {
+            MessageBox.Show($"Error al guardar en la base de datos: {ex.Message}",
+                            "Error de Persistencia",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+        }
+    }
     //-------------------------------------------------------------------------
     #endregion
 
