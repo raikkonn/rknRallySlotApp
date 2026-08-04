@@ -123,6 +123,23 @@ public partial class FormCoche : Form
 
         using var db = new AppDbContext();
 
+        // Comprueba si DUPLICA: si existen MODELO y MARCA y en DB excluyendo el coche en edición    
+        bool existeCoche = db.Coches.Any(c =>
+            (c.Modelo.ToLower() == modeloLimpio.ToLower())
+            && (c.Marca.ToLower() == marcaLimpia.ToLower())
+            && (!IdSelected.HasValue || c.Id != IdSelected.Value));
+
+        if (existeCoche)
+        {
+            MessageBox.Show($"Coche '{modeloLimpio} - [{marcaLimpia}]' ya registrado.",
+                            "Coche Duplicado",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+            tboxModelo.Focus();
+            tboxModelo.SelectAll();
+            return;
+        }
+
         try
         {
             Coche? cocheActual;

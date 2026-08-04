@@ -2,6 +2,7 @@
 using rknRallySlotApp.Datos;
 using rknRallySlotApp.Modelos;
 using rknRallySlotApp.Utilidades;
+using System.ComponentModel;
 
 namespace rknRallySlotApp.Vistas;
 
@@ -44,11 +45,11 @@ public partial class FormMain : Form
         ConfigurarToolTips();
 
         // inicializamos los ComboBox
-        ComboCampeonatosInit();
-        ComboPruebasInit();
-        ComboPilotosInit();
-        ComboCochesInit();
-        ComboCategoriasInit();
+        ComboCampeonatos_Init();
+        ComboPruebas_Init();
+        ComboPilotos_Init();
+        ComboCoches_Init();
+        ComboCategorias_Init();
 
         // inicializamos el DataGridView
         dataGridInscripcion.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -127,7 +128,7 @@ public partial class FormMain : Form
 
     #region ComboBox Inits
     //-------------------------------------------------------------------------
-    private void ComboCampeonatosInit()
+    private void ComboCampeonatos_Init()
     {
         // Desconectamos el evento para evitar que se dispare durante la inicialización
         comboCampeonatos.SelectedIndexChanged -= ComboCampeonatos_SelectedIndexChanged;
@@ -139,6 +140,7 @@ public partial class FormMain : Form
             // Obtenemos la lista de campeonatos desde la base de datos
             var listaCampeonatos = db.Campeonatos
                 .Select(c => new { c.Id, c.Nombre })
+                .OrderBy(c => c.Nombre)
                 .ToList();
 
             // Agregamos un elemento "comodín" al final de la lista
@@ -158,9 +160,9 @@ public partial class FormMain : Form
         }
     }
 
-    private void ComboPruebasInit()
+    private void ComboPruebas_Init()
     {
-        if (comboCampeonatos.SelectedValue is not int idCto || idCto <= 0)    //SIN Campeonato válido seleccionado salir
+        if (comboCampeonatos.SelectedValue is not int idCto || idCto <= 0)    //SIN Campeonato válido salir
         {
             comboPruebas.DataSource = null;     // Limpiamos el ComboBox 
             comboPruebas.SelectedIndex = -1;    // Dejar Selección Vacia
@@ -178,6 +180,7 @@ public partial class FormMain : Form
             var listaPruebas = db.Pruebas
                 .Where(p => p.IdCampeonato == idCto)
                 .Select(p => new { p.Id, p.Nombre })
+                .OrderBy(p => p.Nombre)
                 .ToList();
 
             // Agregamos un elemento "comodín" al final de la lista
@@ -197,7 +200,7 @@ public partial class FormMain : Form
         }
     }
 
-    private void ComboPilotosInit()
+    private void ComboPilotos_Init()
     {
         // Desconectamos el evento para evitar que se dispare durante la inicialización
         comboPilotos.SelectedIndexChanged -= ComboPilotos_SelectedIndexChanged;
@@ -209,6 +212,7 @@ public partial class FormMain : Form
             // Obtenemos la lista de pilotos desde DB
             var listaPilotos = db.Pilotos
                 .Select(p => new { p.Id, p.Nombre })
+                .OrderBy(p => p.Nombre)
                 .ToList();
 
             // Agregamos un elemento "comodín" al final de la lista
@@ -228,7 +232,7 @@ public partial class FormMain : Form
         }
     }
 
-    private void ComboCochesInit()
+    private void ComboCoches_Init()
     {
         // Desconectamos el evento para evitar que se dispare durante la inicialización
         comboCoches.SelectedIndexChanged -= ComboCoches_SelectedIndexChanged;
@@ -239,6 +243,9 @@ public partial class FormMain : Form
 
             // Obtenemos la lista de coches desde DB
             var listaCoches = db.Coches
+                .OrderBy(c => c.Modelo)
+                .ThenBy(c => c.Marca)
+                .AsEnumerable()             // Pasamos a memoria para poder usar propiedades [NotMapped] si es necesario
                 .Select(c => new { c.Id, c.DescripcionCompleta })
                 .ToList();
 
@@ -259,7 +266,7 @@ public partial class FormMain : Form
         }
     }
 
-    private void ComboCategoriasInit()
+    private void ComboCategorias_Init()
     {
         // Desconectamos el evento para evitar que se dispare durante la inicialización
         comboCategorias.SelectedIndexChanged -= ComboCategorias_SelectedIndexChanged;
@@ -271,6 +278,7 @@ public partial class FormMain : Form
             // Obtenemos la lista de coches desde DB
             var listaCategorias = db.Categorias
                 .Select(c => new { c.Id, c.Nombre })
+                .OrderBy(c => c.Nombre)
                 .ToList();
 
             // Agregamos un elemento "comodín" al final de la lista
@@ -314,8 +322,8 @@ public partial class FormMain : Form
                 Alias = i.AliasPiloto,          // Ahora sí tiene datos gracias al Include
                 Piloto = i.NombrePiloto,        // Ahora sí tiene datos gracias al Include
                 Coche = i.DescripcionCoche,     // Usamos tu propiedad [NotMapped] que ya formatea "Modelo [Marca]"
-                Cat = i.Categoria?.Nombre ?? string.Empty, // Extraemos el texto del nombre explícitamente, no el objeto
-                Verif = i.Verificado,
+                Categoria = i.Categoria?.Nombre ?? string.Empty, // Extraemos el texto del nombre explícitamente, no el objeto
+                Verificado = i.Verificado,
                 ColorFila = string.IsNullOrWhiteSpace(i.Categoria?.ColorHex) ? "#FFFFFF" : i.Categoria.ColorHex
             })
             .ToDataTable();
@@ -342,6 +350,9 @@ public partial class FormMain : Form
 
         // Visualizar encabezado de fila
         dataGridInscripcion.RowHeadersVisible = true;
+
+        // Ordenamiento inicial por Categoria ascendente
+        dataGridInscripcion.Sort(dataGridInscripcion.Columns["Categoria"]!, ListSortDirection.Ascending);
     }
     //-------------------------------------------------------------------------
     #endregion
@@ -530,7 +541,7 @@ public partial class FormMain : Form
                 IdPruebaSeleccionada = null;            // Limpiar ID Prueba 
                 Limpia_DatosPrueba();                   // Limpiar TextBox datos Prueba
 
-                ComboPruebasInit();                     // Init ComboBox Pruebas para Campeonato seleccionado
+                ComboPruebas_Init();                     // Init ComboBox Pruebas para Campeonato seleccionado
             }
             else                                        // ID inválido, limpiar selecciones y TextBox
             {
@@ -672,7 +683,7 @@ public partial class FormMain : Form
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
-            ComboCampeonatosInit();                                         // Si el usuario guardó con éxito, refrescamos combo
+            ComboCampeonatos_Init();                                         // Si el usuario guardó con éxito, refrescamos combo
             comboCampeonatos.SelectedValue = formAlta.IdSelected ?? -1;     // seleccionamos el nuevo campeonato creado
             MostrarMensajeEstado("Campeonato creado OK");
         }
@@ -699,7 +710,7 @@ public partial class FormMain : Form
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
-            ComboPruebasInit();                                         // Si el usuario guardó con éxito, refrescamos combo
+            ComboPruebas_Init();                                         // Si el usuario guardó con éxito, refrescamos combo
             comboPruebas.SelectedValue = formAlta.IdSelected ?? -1;     // seleccionamos la nueva prueba creada
             MostrarMensajeEstado("Prueba creada OK");
         }
@@ -725,7 +736,7 @@ public partial class FormMain : Form
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
-            ComboPilotosInit();                                         // Si el usuario guardó con éxito, refrescamos combo
+            ComboPilotos_Init();                                         // Si el usuario guardó con éxito, refrescamos combo
             comboPilotos.SelectedValue = formAlta.IdSelected ?? -1;     // seleccionamos el nuevo piloto creado
             MostrarMensajeEstado("Piloto creado OK");
         }
@@ -751,7 +762,7 @@ public partial class FormMain : Form
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
-            ComboCochesInit();                                          // Si el usuario guardó con éxito, refrescamos combo
+            ComboCoches_Init();                                          // Si el usuario guardó con éxito, refrescamos combo
             comboCoches.SelectedValue = formAlta.IdSelected ?? -1;      // seleccionamos el nuevo coche creado
             MostrarMensajeEstado("Coche creado OK");
         }
@@ -776,7 +787,7 @@ public partial class FormMain : Form
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
-            ComboCategoriasInit();                                          // Si el usuario guardó con éxito, refrescamos combo
+            ComboCategorias_Init();                                          // Si el usuario guardó con éxito, refrescamos combo
             comboCategorias.SelectedValue = formAlta.IdSelected ?? -1;      // seleccionamos la nueva categoria creada
             MostrarMensajeEstado("Categoria creada OK");
         }
@@ -876,7 +887,7 @@ public partial class FormMain : Form
         {
             var valorPruebaPorsi = (comboPruebas.SelectedValue is int idPrueba && idPrueba > 0) ? idPrueba : -1;
 
-            ComboCampeonatosInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
+            ComboCampeonatos_Init();                                         // Si el usuario guardó con éxito, refrescamos este combo
             comboCampeonatos.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos el campeonato editado o ninguno si es null
             comboPruebas.SelectedValue = valorPruebaPorsi;                  // Restauramos la selección de prueba anterior
             MostrarMensajeEstado("Campeonato modificado OK");
@@ -892,7 +903,7 @@ public partial class FormMain : Form
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
-            ComboPruebasInit();                                         // Si el usuario guardó con éxito, refrescamos este combo
+            ComboPruebas_Init();                                         // Si el usuario guardó con éxito, refrescamos este combo
             comboPruebas.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos la prueba editada o ninguna si es null
             MostrarMensajeEstado("Prueba modificada OK");
         }
@@ -907,9 +918,10 @@ public partial class FormMain : Form
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
-            ComboPilotosInit();                                             // Si el usuario guardó con éxito, refrescamos este combo
+            ComboPilotos_Init();                                             // Si el usuario guardó con éxito, refrescamos este combo
             comboPilotos.SelectedValue = formEdicion.IdSelected ?? -1;      // seleccionamos el piloto editado o ninguno si es null
             MostrarMensajeEstado("Piloto modificado OK");
+            DataGridInscripcionInit();
         }
     }
 
@@ -922,9 +934,10 @@ public partial class FormMain : Form
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
-            ComboCochesInit();                                              // Si el usuario guardó con éxito, refrescamos este combo
+            ComboCoches_Init();                                              // Si el usuario guardó con éxito, refrescamos este combo
             comboCoches.SelectedValue = formEdicion.IdSelected ?? -1;       // seleccionamos el coche editado o ninguno si es null
             MostrarMensajeEstado("Coche modificado OK");
+            DataGridInscripcionInit();
         }
     }
 
@@ -937,7 +950,7 @@ public partial class FormMain : Form
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
-            ComboCategoriasInit();                                             // Si el usuario guardó con éxito, refrescamos este combo
+            ComboCategorias_Init();                                             // Si el usuario guardó con éxito, refrescamos este combo
             comboCategorias.SelectedValue = formEdicion.IdSelected ?? -1;      // seleccionamos la categoria editada o ninguna si es null
             MostrarMensajeEstado("Categoria modificada OK");
             DataGridInscripcionInit();
@@ -978,10 +991,10 @@ public partial class FormMain : Form
                     db.SaveChanges();                           // SQLite, guardar cambios 
 
                     Limpia_DatosCampeonato();                   // Limpiar TextBox 
-                    ComboCampeonatosInit();                     // Actualizar interfaz
+                    ComboCampeonatos_Init();                     // Actualizar interfaz
 
                     Limpia_DatosPrueba();                       // Limpiar TextBox 
-                    ComboPruebasInit();                         // Actualizar interfaz
+                    ComboPruebas_Init();                         // Actualizar interfaz
 
                     MostrarMensajeEstado("Campeonato borrado OK");
                 }
@@ -1035,7 +1048,7 @@ public partial class FormMain : Form
                     db.SaveChanges();                           // SQLite, guardar cambios 
 
                     Limpia_DatosPrueba();                       // Limpiar TextBox 
-                    ComboPruebasInit();                         // Actualizar interfaz
+                    ComboPruebas_Init();                         // Actualizar interfaz
 
                     MostrarMensajeEstado("Prueba borrada OK");
                 }
@@ -1089,7 +1102,7 @@ public partial class FormMain : Form
                     db.SaveChanges();                               // SQLite, guardar cambios 
 
                     Limpia_DatosPiloto();                           // Limpiar TextBox 
-                    ComboPilotosInit();                             // Actualizar interfaz
+                    ComboPilotos_Init();                             // Actualizar interfaz
 
                     MostrarMensajeEstado("Piloto borrado OK");
                 }
@@ -1143,7 +1156,7 @@ public partial class FormMain : Form
                     db.SaveChanges();                           // SQLite, guardar cambios
                                                                 // 
                     Limpia_DatosCoche();                        // Limpiar TextBox 
-                    ComboCochesInit();                          // Actualizar interfaz
+                    ComboCoches_Init();                          // Actualizar interfaz
 
                     MostrarMensajeEstado("Coche borrado OK");
                 }
@@ -1196,7 +1209,7 @@ public partial class FormMain : Form
                     db.Categorias.Remove(categoriaParaBorrado);     // DB, marcar para borrado
                     db.SaveChanges();                               // SQLite, guardar cambios
 
-                    ComboCategoriasInit();                          // Actualizar interfaz
+                    ComboCategorias_Init();                          // Actualizar interfaz
 
                     MostrarMensajeEstado("Categoria borrada OK");
                 }
@@ -1335,6 +1348,12 @@ public partial class FormMain : Form
             }
         }
         dataGridInscripcion.ClearSelection();   // Limpiamos selección por defecto 
+    }
+
+    private void DataGridInscripcion_Sorted(object sender, EventArgs e)
+    {
+        // Elimina la selección automática impuesta al terminar de ordenar por columna
+        dataGridInscripcion.ClearSelection();
     }
     #endregion
 }

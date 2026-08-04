@@ -156,6 +156,7 @@ namespace rknRallySlotApp.Vistas
             dataGridInscripcion.TabIndex = 0;
             dataGridInscripcion.TabStop = false;
             dataGridInscripcion.DataBindingComplete += DataGridInscripcion_DataBindingComplete;
+            dataGridInscripcion.Sorted += DataGridInscripcion_Sorted;
             // 
             // menuMain
             // 
