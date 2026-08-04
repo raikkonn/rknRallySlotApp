@@ -311,13 +311,17 @@ public partial class FormMain : Form
                 Piloto = i.NombrePiloto,        // Ahora sí tiene datos gracias al Include
                 Coche = i.DescripcionCoche,     // Usamos tu propiedad [NotMapped] que ya formatea "Modelo [Marca]"
                 Cat = i.Categoria?.Nombre ?? string.Empty, // Extraemos el texto del nombre explícitamente, no el objeto
-                Verif = i.Verificado
+                Verif = i.Verificado,
+                ColorFila = string.IsNullOrWhiteSpace(i.Categoria?.ColorHex) ? "#FFFFFF" : i.Categoria.ColorHex
             })
             .ToList();
 
         // Vinculamos el resultado al DataGridView
-        DataGridInscripcion.DataSource = listaGrid;
-    }    
+        dataGridInscripcion.DataSource = listaGrid;
+
+        // Ocultamos la columna del color para que no se vea en la interfaz visual
+        dataGridInscripcion.Columns["ColorFila"]?.Visible = false;
+    }
     //-------------------------------------------------------------------------
     #endregion
 
@@ -915,6 +919,7 @@ public partial class FormMain : Form
             ComboCategoriasInit();                                             // Si el usuario guardó con éxito, refrescamos este combo
             comboCategorias.SelectedValue = formEdicion.IdSelected ?? -1;      // seleccionamos la categoria editada o ninguna si es null
             MostrarMensajeEstado("Categoria modificada OK");
+            DataGridInscripcionInit();
         }
     }
     //-------------------------------------------------------------------------
@@ -1279,4 +1284,37 @@ public partial class FormMain : Form
     }
     //-------------------------------------------------------------------------
     #endregion
+
+    #region DataGridView
+    private void DataGridInscripcion_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+    {
+        // Iteramos por todas las filas creadas en el DataGrid
+        foreach (DataGridViewRow fila in dataGridInscripcion.Rows)
+        {
+            // Evitamos la fila de "nuevo registro" si está habilitada
+            if (fila.IsNewRow) continue;
+
+            // Recuperamos el valor de la columna oculta que creamos en el Select()
+            var hexCode = fila.Cells["ColorFila"].Value?.ToString();
+
+            if (!string.IsNullOrEmpty(hexCode))
+            {
+                try
+                {
+                    Color colorCategoria = ColorTranslator.FromHtml(hexCode);
+
+                    fila.DefaultCellStyle.BackColor = colorCategoria;
+                    fila.DefaultCellStyle.ForeColor = ColorTools.GetBestContrast(colorCategoria);
+                }
+                catch (Exception)
+                {
+                    // Si el formato Hex era incorrecto o no se pudo parsear, 
+                    // lo ignoramos para que la aplicación no se rompa y deje el fondo por defecto.
+                }
+            }
+        }
+        dataGridInscripcion.ClearSelection();   // Limpiamos selección por defecto 
+    }
+    #endregion
 }
+
