@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using rknRallySlotApp.Componentes;
 using rknRallySlotApp.Datos;
 using rknRallySlotApp.Utilidades;
 
@@ -19,6 +20,26 @@ public partial class FormMain : Form
     public FormMain()
     {
         InitializeComponent();
+
+        // inicializar menu y status bar
+        // Define colores
+        Color fondoPrincipal = Color.FromArgb(28, 28, 28);      // Gris muy oscuro 
+        Color fondoHover = Color.FromArgb(80, 80, 85);          // Un poco más claro para el ratón
+        Color bordeColor = Color.FromArgb(80, 80, 85);          // Un poco más claro para el borde
+
+        var colorTable = new MyColorTable(fondoPrincipal, fondoHover, bordeColor);
+
+        // Aplicar al MenuStrip
+        menuMain.Renderer = new ToolStripProfessionalRenderer(colorTable);
+        menuMain.BackColor = fondoPrincipal;
+        menuMain.ForeColor = Color.White;
+
+        // Aplicar al StatusStrip (si lo usas)
+        statusStripMain.Renderer = new ToolStripProfessionalRenderer(colorTable);
+        statusStripMain.BackColor = fondoPrincipal;
+        statusStripMain.ForeColor = Color.White;
+
+        // inicializamos los botones y tooltips
         BotonesInit();
         ConfigurarToolTips();
 

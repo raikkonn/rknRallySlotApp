@@ -130,23 +130,26 @@ namespace rknRallySlotApp.Vistas
             menuMain.Padding = new Padding(0);
             menuMain.Size = new Size(1264, 24);
             menuMain.TabIndex = 0;
-            menuMain.Text = "menuStrip1";
             // 
             // archivoToolStripMenuItem
             // 
             archivoToolStripMenuItem.AutoToolTip = true;
-            archivoToolStripMenuItem.BackColor = Color.Transparent;
             archivoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { salirToolStripMenuItem });
-            archivoToolStripMenuItem.ForeColor = Color.Black;
+            archivoToolStripMenuItem.Font = new Font("Segoe UI", 10F);
             archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
             archivoToolStripMenuItem.Padding = new Padding(0);
-            archivoToolStripMenuItem.Size = new Size(52, 24);
+            archivoToolStripMenuItem.Size = new Size(59, 24);
             archivoToolStripMenuItem.Text = "Archivo";
             // 
             // salirToolStripMenuItem
             // 
+            salirToolStripMenuItem.AutoToolTip = true;
+            salirToolStripMenuItem.BackColor = Color.FromArgb(28, 28, 28);
+            salirToolStripMenuItem.Font = new Font("Segoe UI", 12F);
+            salirToolStripMenuItem.ForeColor = Color.White;
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(180, 22);
+            salirToolStripMenuItem.Padding = new Padding(0);
+            salirToolStripMenuItem.Size = new Size(180, 24);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += SalirToolStripMenuItem_Click;
             // 
