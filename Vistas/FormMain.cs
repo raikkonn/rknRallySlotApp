@@ -500,6 +500,11 @@ public partial class FormMain : Form
             {
                 IdCampeonatoSeleccionado = idSel;       // guardar ID en miembro público
                 Rellena_DatosCampeonato();              // consulta DB para rellenar TextBox
+
+                comboPruebas.SelectedIndex = -1;        // Limpiar selección Pruebas
+                IdPruebaSeleccionada = null;            // Limpiar ID Prueba 
+                Limpia_DatosPrueba();                   // Limpiar TextBox datos Prueba
+
                 ComboPruebasInit();                     // Init ComboBox Pruebas para Campeonato seleccionado
             }
             else                                        // ID inválido, limpiar selecciones y TextBox
