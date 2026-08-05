@@ -14,6 +14,7 @@ public class Inscripcion
 
     public int Dorsal { get; set; }
     public bool Verificado { get; set; }
+    public int PenalizacionSEG { get; set; } = 0;
 
     // Propiedades de navegación anotadas sobre el objeto
     [ForeignKey(nameof(IdPrueba))]
@@ -28,7 +29,7 @@ public class Inscripcion
     [ForeignKey(nameof(IdCategoria))]
     public Categoria? Categoria { get; set; }
 
-    public ICollection<TiempoTramo> Tiempos { get; set; } = new List<TiempoTramo>();
+    public ICollection<Crono> Cronos { get; set; } = new List<Crono>();
 
     // Propiedades calculadas no mapeadas
     [NotMapped] public string NombrePiloto => Piloto?.Nombre ?? string.Empty;

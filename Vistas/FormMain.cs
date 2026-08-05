@@ -1509,15 +1509,14 @@ public partial class FormMain : Form
         using var db = new AppDbContext();
 
         // Comprobar si existen tiempos asociados de forma ultra rápida
-        bool tieneTiempos = await db.TiemposTramos
-                                    .AnyAsync(t => t.IdInscripcion == idInscripcionSelected);
+        bool tieneCronos = await db.Cronos.AnyAsync(c => c.IdInscripcion == idInscripcionSelected);
 
         // 5. Preparar el mensaje de advertencia dinámico
         string mensaje = $"Dorsal [{dorsalSelected}] - {pilotoSelected}\n ¿Seguro quieres BORRAR esta inscripción?";
         string titulo = "Confirmar Borrado";
         MessageBoxIcon icono = MessageBoxIcon.Question;
 
-        if (tieneTiempos)
+        if (tieneCronos)
         {
             mensaje = $"¡ATENCIÓN! El Dorsal [{dorsalSelected}] - {pilotoSelected}\n ya tiene tiempos registrados.\n\n" +
                       $"Si eliminas esta inscripción\n SE BORRARÁN TODOS SUS TIEMPOS de forma irreversible.\n\n" +

@@ -14,7 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<Inscripcion> Inscripciones { get; set; } = null!;
     public DbSet<Piloto> Pilotos { get; set; } = null!;
     public DbSet<Prueba> Pruebas { get; set; } = null!;
-    public DbSet<TiempoTramo> TiemposTramos { get; set; } = null!;
+    public DbSet<Crono> Cronos { get; set; } = null!;
 
     #endregion
     // ==========================================
@@ -176,18 +176,18 @@ public class AppDbContext : DbContext
         });
 
         // ==========================================
-        // REGLA: TiempoTramo -> Clave primaria compuesta por tres campos
+        // REGLA: Crono -> Clave primaria compuesta por tres campos
         // ==========================================
-        modelBuilder.Entity<TiempoTramo>(entity =>
+        modelBuilder.Entity<Crono>(entity =>
         {
             // Clave primaria compuesta (IdInscripcion + Etapa + Tramo)
-            entity.HasKey(t => new { t.IdInscripcion, t.Etapa, t.Tramo });
-            entity.Property(t => t.Tiempo).IsRequired();
+            entity.HasKey(c => new { c.IdInscripcion, c.Etapa, c.Tramo });
+            entity.Property(c => c.CronoMS).IsRequired();
 
             // Relación con Inscripcion mapeando explícitamente la FK
-            entity.HasOne(t => t.Inscripcion)
-                  .WithMany(i => i.Tiempos)
-                  .HasForeignKey(t => t.IdInscripcion)
+            entity.HasOne(c => c.Inscripcion)
+                  .WithMany(i => i.Cronos)
+                  .HasForeignKey(c => c.IdInscripcion)
                   .OnDelete(DeleteBehavior.Cascade); // Si se elimina la inscripción, se borran sus tiempos
         });
     }
