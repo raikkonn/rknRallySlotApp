@@ -506,6 +506,15 @@ public partial class FormMain : Form
 
         // Inscripción
         botonNuevaInscripcion.Enabled = hayPrueba && hayPiloto && hayCoche && hayCategoria;
+        botonNuevaInscripcion.BackColor = botonNuevaInscripcion.Enabled ? Color.FromArgb(53, 53, 53) : Color.FromArgb(40, 40, 40);
+        botonNuevaInscripcion.ForeColor = botonNuevaInscripcion.Enabled ? Color.FromArgb(0, 255, 0) : Color.FromArgb(18, 18, 24);
+
+        checkVerificado.Enabled = hayPrueba && hayPiloto && hayCoche && hayCategoria;
+
+        if (!botonNuevaInscripcion.Enabled)
+        {
+            checkVerificado.Checked = false; // Desmarcar si no hay inscripción válida
+        }
     }
 
     private void ComboCampeonatos_SelectedIndexChanged(object? sender, EventArgs e)
@@ -841,7 +850,13 @@ public partial class FormMain : Form
 
             db.Inscripciones.Add(inscripcionActual);    // Añadir registro nuevo (INSERT)
             db.SaveChanges();                           // ALTA en fichero DB
-            DataGridInscripcion_Init();                  // Refrescamos el DataGridView para mostrar la nueva inscripción
+
+            DataGridInscripcion_Init();             // Refrescamos el DataGridView para mostrar la nueva inscripción
+            comboPilotos.SelectedIndex = -1;        // Limpiar selección Pilotos
+            comboCoches.SelectedIndex = -1;         // Limpiar selección Coches
+            comboCategorias.SelectedIndex = -1;     // Limpiar selección Categorías
+
+            MostrarMensajeEstado("Inscripción registrada OK");
         }
         catch (DbUpdateException ex)
         {
@@ -1360,8 +1375,8 @@ public partial class FormMain : Form
         dataGridInscripcion.Columns["Dorsal"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
         dataGridInscripcion.Columns["Alias"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-        // Ordenamiento inicial por CATEGORIA Ascendente
-        dataGridInscripcion.Sort(dataGridInscripcion.Columns["Categoria"]!, ListSortDirection.Ascending);
+        // Ordenamiento inicial por DORSAL Ascendente
+        dataGridInscripcion.Sort(dataGridInscripcion.Columns["Dorsal"]!, ListSortDirection.Ascending);
     }
 
     private void DataGridInscripcion_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -1441,40 +1456,39 @@ public partial class FormMain : Form
 
     private async void DataGridInscripcion_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-        // Validar que no se haya hecho clic en la cabecera (RowIndex = -1)
-        if (e.RowIndex < 0) return;
+        // Validar que no se haya hecho clic en las cabeceras (RowIndex = -1, ColumnIndex = -1)
+        if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
         var dgv = (DataGridView)sender;
 
         // Comprobar que la celda clicada corresponde a la columna "Verificado"
-        if (dgv.Columns[e.ColumnIndex].Name == "Verificado")
+        if (dgv.Columns[e.ColumnIndex].Name != "Verificado") return;
+
+        // Obtener el ID de la inscripción de la fila actual.
+        int idInscripcionActual = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Id"].Value);
+
+        // Leer el valor actual del CheckBox y calcular el opuesto (toggle)
+        object? cellValue = dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+        bool valorActual = cellValue != null && cellValue != DBNull.Value && Convert.ToBoolean(cellValue);
+        bool nuevoValor = !valorActual;
+
+        // Instanciar el contexto y actualizar la base de datos de forma asíncrona
+        using var db = new Datos.AppDbContext();
+
+        // Buscamos el registro exacto usando su clave primaria Id en el DbSet de Inscripciones
+        var inscripcionDb = await db.Inscripciones.FindAsync(idInscripcionActual);
+
+        if (inscripcionDb != null)
         {
-            // Obtener el ID de la inscripción de la fila actual.
-            int idInscripcionActual = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Id"].Value);
+            // Alternamos el valor booleano de la propiedad Verificado 
+            inscripcionDb.Verificado = nuevoValor;
 
-            // Leer el valor actual del CheckBox y calcular el opuesto (toggle)
-            object? cellValue = dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-            bool valorActual = cellValue != null && cellValue != DBNull.Value && Convert.ToBoolean(cellValue);
-            bool nuevoValor = !valorActual;
+            // Guardamos los cambios físicamente en la base de datos SQLite
+            await db.SaveChangesAsync();
 
-            // Instanciar el contexto y actualizar la base de datos de forma asíncrona
-            using var db = new Datos.AppDbContext();
-
-            // Buscamos el registro exacto usando su clave primaria Id en el DbSet de Inscripciones
-            var inscripcionDb = await db.Inscripciones.FindAsync(idInscripcionActual);
-
-            if (inscripcionDb != null)
-            {
-                // Alternamos el valor booleano de la propiedad Verificado 
-                inscripcionDb.Verificado = nuevoValor;
-
-                // Guardamos los cambios físicamente en la base de datos SQLite
-                await db.SaveChangesAsync();
-
-                // Reflejar el cambio visualmente en el DataGrid inmediatamente 
-                // sin necesidad de recargar toda la consulta de la base de datos
-                dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = nuevoValor;
-            }
+            // Reflejar el cambio visualmente en el DataGrid inmediatamente 
+            // sin necesidad de recargar toda la consulta de la base de datos
+            dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = nuevoValor;
         }
     }
 
