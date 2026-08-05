@@ -115,12 +115,12 @@ namespace rknRallySlotApp.Vistas
             dataGridInscripcion.BackgroundColor = Color.FromArgb(40, 40, 40);
             dataGridInscripcion.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             dataGridInscripcion.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(40, 40, 40);
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(53, 53, 53);
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F);
             dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dataGridInscripcion.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridInscripcion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -143,9 +143,6 @@ namespace rknRallySlotApp.Vistas
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.FromArgb(53, 53, 53);
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle3.ForeColor = Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
             dataGridInscripcion.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dataGridInscripcion.RowHeadersWidth = 15;
@@ -156,6 +153,8 @@ namespace rknRallySlotApp.Vistas
             dataGridInscripcion.TabIndex = 0;
             dataGridInscripcion.TabStop = false;
             dataGridInscripcion.DataBindingComplete += DataGridInscripcion_DataBindingComplete;
+            dataGridInscripcion.RowPostPaint += DataGridInscripcion_RowPostPaint;
+            dataGridInscripcion.SelectionChanged += DataGridInscripcion_SelectionChanged;
             dataGridInscripcion.Sorted += DataGridInscripcion_Sorted;
             // 
             // menuMain

@@ -298,7 +298,7 @@ public partial class FormMain : Form
         }
     }
 
-    private void DataGridInscripcionInit()
+    private void DataGridInscripcion_Init()
     {
         int idPruebaActual = IdPruebaSeleccionada ?? 0;
 
@@ -332,17 +332,10 @@ public partial class FormMain : Form
         dataGridInscripcion.DataSource = listaGrid;
 
         // Ocultamos la columna del color para que no se vea en la interfaz visual
-        dataGridInscripcion.Columns["ColorFila"]?.Visible = false;
-        
-        // Alineamos columnas Dorsal y Alias al centro
-        dataGridInscripcion.Columns["Dorsal"]?.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        dataGridInscripcion.Columns["Alias"]?.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridInscripcion.Columns["ColorFila"]!.Visible = false;
 
         // autoajustamos el tamaño de las columnas para que se vean todos los datos
         dataGridInscripcion.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-
-        // Desactivar el estilo visual por defecto del sistema operativo para las cabeceras
-        dataGridInscripcion.EnableHeadersVisualStyles = false;
 
         // Igualar el color de "selección" de la cabecera con su color normal
         dataGridInscripcion.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridInscripcion.ColumnHeadersDefaultCellStyle.BackColor;
@@ -351,7 +344,18 @@ public partial class FormMain : Form
         // Visualizar encabezado de fila
         dataGridInscripcion.RowHeadersVisible = true;
 
-        // Ordenamiento inicial por Categoria ascendente
+        // Define el ancho del encabezado de la fila en píxeles
+        dataGridInscripcion.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        dataGridInscripcion.RowHeadersWidth = 20;
+
+        // Alineamos columnas Dorsal y Alias al centro
+        dataGridInscripcion.Columns["Dorsal"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridInscripcion.Columns["Alias"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+        dataGridInscripcion.Columns["Dorsal"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridInscripcion.Columns["Alias"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+        // Ordenamiento inicial por CATEGORIA Ascendente
         dataGridInscripcion.Sort(dataGridInscripcion.Columns["Categoria"]!, ListSortDirection.Ascending);
     }
     //-------------------------------------------------------------------------
@@ -560,7 +564,7 @@ public partial class FormMain : Form
             }
         }
         Controles_EnableAndDisable();       // Actualizamos los controles después de la operación
-        DataGridInscripcionInit();          // consulta DB para rellenar DataGridView Inscripciones
+        DataGridInscripcion_Init();          // consulta DB para rellenar DataGridView Inscripciones
     }
 
     private void ComboPruebas_SelectedIndexChanged(object? sender, EventArgs e)
@@ -585,7 +589,7 @@ public partial class FormMain : Form
             }
         }
         Controles_EnableAndDisable();       // Actualizamos los controles después de la operación
-        DataGridInscripcionInit();          // consulta DB para rellenar DataGridView Inscripciones
+        DataGridInscripcion_Init();          // consulta DB para rellenar DataGridView Inscripciones
     }
 
     private void ComboPilotos_SelectedIndexChanged(object? sender, EventArgs e)
@@ -861,7 +865,7 @@ public partial class FormMain : Form
 
             db.Inscripciones.Add(inscripcionActual);    // Añadir registro nuevo (INSERT)
             db.SaveChanges();                           // ALTA en fichero DB
-            DataGridInscripcionInit();                  // Refrescamos el DataGridView para mostrar la nueva inscripción
+            DataGridInscripcion_Init();                  // Refrescamos el DataGridView para mostrar la nueva inscripción
         }
         catch (DbUpdateException ex)
         {
@@ -921,7 +925,7 @@ public partial class FormMain : Form
             ComboPilotos_Init();                                             // Si el usuario guardó con éxito, refrescamos este combo
             comboPilotos.SelectedValue = formEdicion.IdSelected ?? -1;      // seleccionamos el piloto editado o ninguno si es null
             MostrarMensajeEstado("Piloto modificado OK");
-            DataGridInscripcionInit();
+            DataGridInscripcion_Init();
         }
     }
 
@@ -937,7 +941,7 @@ public partial class FormMain : Form
             ComboCoches_Init();                                              // Si el usuario guardó con éxito, refrescamos este combo
             comboCoches.SelectedValue = formEdicion.IdSelected ?? -1;       // seleccionamos el coche editado o ninguno si es null
             MostrarMensajeEstado("Coche modificado OK");
-            DataGridInscripcionInit();
+            DataGridInscripcion_Init();
         }
     }
 
@@ -953,7 +957,7 @@ public partial class FormMain : Form
             ComboCategorias_Init();                                             // Si el usuario guardó con éxito, refrescamos este combo
             comboCategorias.SelectedValue = formEdicion.IdSelected ?? -1;      // seleccionamos la categoria editada o ninguna si es null
             MostrarMensajeEstado("Categoria modificada OK");
-            DataGridInscripcionInit();
+            DataGridInscripcion_Init();
         }
     }
     //-------------------------------------------------------------------------
@@ -1335,10 +1339,14 @@ public partial class FormMain : Form
             {
                 try
                 {
-                    Color colorCategoria = ColorTranslator.FromHtml(hexCode);
+                    Color backColor_Categoria = ColorTranslator.FromHtml(hexCode);
+                    Color foreColor_Categoria = ColorTools.GetBestContrast(backColor_Categoria);
 
-                    fila.DefaultCellStyle.BackColor = colorCategoria;
-                    fila.DefaultCellStyle.ForeColor = ColorTools.GetBestContrast(colorCategoria);
+                    fila.DefaultCellStyle.BackColor = backColor_Categoria;
+                    fila.DefaultCellStyle.ForeColor = foreColor_Categoria;
+
+                    fila.DefaultCellStyle.SelectionBackColor = backColor_Categoria;
+                    fila.DefaultCellStyle.SelectionForeColor = foreColor_Categoria;
                 }
                 catch (Exception)
                 {
@@ -1353,7 +1361,43 @@ public partial class FormMain : Form
     private void DataGridInscripcion_Sorted(object sender, EventArgs e)
     {
         // Elimina la selección automática impuesta al terminar de ordenar por columna
+        dataGridInscripcion.CurrentCell = null; // Esto desactiva el foco y oculta el glifo del RowHeader
         dataGridInscripcion.ClearSelection();
     }
+
+    private void DataGridInscripcion_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+    {
+        // Verificamos si la fila actual está seleccionada
+        if (dataGridInscripcion.Rows[e.RowIndex].Selected)
+        {
+            // Obtenemos el rectángulo de visualización de la fila completa 
+            // (Este método de WinForms gestiona automáticamente el scroll horizontal y las columnas visibles)
+            Rectangle rowRect = dataGridInscripcion.GetRowDisplayRectangle(e.RowIndex, true);
+
+            if (rowRect.Width > 0 && rowRect.Height > 0)
+            {
+                // 1. Obtenemos el ancho total real que suman todas las columnas visibles juntas
+                int anchoColumnasVisibles = dataGridInscripcion.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
+
+                // 2. Acotamos el ancho para que el rectángulo rojo mida exactamente 
+                // lo que ocupan las columnas (la fracción de la ventana), sin desbordarse al espacio vacío.
+                int anchoFinal = Math.Min(rowRect.Width, anchoColumnasVisibles);
+
+                // Creamos el lápiz rojo con el grosor deseado (ej. 2 píxeles)
+                using Pen pen = new(Color.Red, 2);
+
+                // Dibujamos el rectángulo ajustado al borde de la fila
+                e.Graphics.DrawRectangle(pen, new Rectangle(rowRect.X, rowRect.Y, anchoFinal + 20 - 1, rowRect.Height - 1));
+            }
+        }
+    }
+
+    private void DataGridInscripcion_SelectionChanged(object sender, EventArgs e)
+    {
+        // Forzamos el redibujado completo del grid en cada cambio de selección.
+        // Esto borra inmediatamente el borde rojo de la fila anterior y dibuja solo el nuevo.
+        dataGridInscripcion.Invalidate();
+    }
+
     #endregion
 }
