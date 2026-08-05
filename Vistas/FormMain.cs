@@ -58,9 +58,9 @@ public partial class FormMain : Form
 
         // ==========================================
         // inicializamos el DataGridView
-        dataGridInscripcion.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        dataGridInscripcion.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-        dataGridInscripcion.AllowUserToResizeColumns = true;
+        dataGridMain.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        dataGridMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        dataGridMain.AllowUserToResizeColumns = true;
 
         // Declarar el menú y la opción
         ContextMenuStrip menuContextualDgvInscripcion = new();
@@ -70,21 +70,21 @@ public partial class FormMain : Form
         opcionBorrarInscripcion.Click += (s, args) =>
         {
             // Lógica a ejecutar cuando se haga clic en la opción
-            BorrarInscripcion();
+            Borrar_Inscripcion();
         };
 
         // Añadir la opción al menú contextual
         menuContextualDgvInscripcion.Items.Add(opcionBorrarInscripcion);
 
         // Suscribir el DataGridView al evento CellMouseUp
-        dataGridInscripcion.CellMouseUp += (sender, e) =>
+        dataGridMain.CellMouseUp += (sender, e) =>
         {
             // Validar que sea un clic derecho y que no se haya hecho clic en las cabeceras (RowIndex -1)
             if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
             {
                 // Limpiar selecciones previas y seleccionar la fila actual bajo el ratón
-                dataGridInscripcion.ClearSelection();
-                dataGridInscripcion.Rows[e.RowIndex].Selected = true;
+                dataGridMain.ClearSelection();
+                dataGridMain.Rows[e.RowIndex].Selected = true;
 
                 // Mostrar el menú contextual exactamente en la posición actual del cursor en la pantalla
                 menuContextualDgvInscripcion.Show(Cursor.Position);
@@ -549,7 +549,7 @@ public partial class FormMain : Form
             }
         }
         Controles_EnableAndDisable();       // Actualizamos los controles después de la operación
-        DataGridInscripcion_Init();          // consulta DB para rellenar DataGridView Inscripciones
+        DataGridMain_Init_Inscripcion();    // consulta DB para rellenar DataGridView Inscripciones
     }
 
     private void ComboPruebas_SelectedIndexChanged(object? sender, EventArgs e)
@@ -574,7 +574,7 @@ public partial class FormMain : Form
             }
         }
         Controles_EnableAndDisable();       // Actualizamos los controles después de la operación
-        DataGridInscripcion_Init();          // consulta DB para rellenar DataGridView Inscripciones
+        DataGridMain_Init_Inscripcion();    // consulta DB para rellenar DataGridView Inscripciones
     }
 
     private void ComboPilotos_SelectedIndexChanged(object? sender, EventArgs e)
@@ -851,7 +851,7 @@ public partial class FormMain : Form
             db.Inscripciones.Add(inscripcionActual);    // Añadir registro nuevo (INSERT)
             db.SaveChanges();                           // ALTA en fichero DB
 
-            DataGridInscripcion_Init();             // Refrescamos el DataGridView para mostrar la nueva inscripción
+            DataGridMain_Init_Inscripcion();        // Refrescamos el DataGridView para mostrar la nueva inscripción
             comboPilotos.SelectedIndex = -1;        // Limpiar selección Pilotos
             comboCoches.SelectedIndex = -1;         // Limpiar selección Coches
             comboCategorias.SelectedIndex = -1;     // Limpiar selección Categorías
@@ -916,7 +916,7 @@ public partial class FormMain : Form
             ComboPilotos_Init();                                             // Si el usuario guardó con éxito, refrescamos este combo
             comboPilotos.SelectedValue = formEdicion.IdSelected ?? -1;      // seleccionamos el piloto editado o ninguno si es null
             MostrarMensajeEstado("Piloto modificado OK");
-            DataGridInscripcion_Init();
+            DataGridMain_Init_Inscripcion();
         }
     }
 
@@ -932,7 +932,7 @@ public partial class FormMain : Form
             ComboCoches_Init();                                              // Si el usuario guardó con éxito, refrescamos este combo
             comboCoches.SelectedValue = formEdicion.IdSelected ?? -1;       // seleccionamos el coche editado o ninguno si es null
             MostrarMensajeEstado("Coche modificado OK");
-            DataGridInscripcion_Init();
+            DataGridMain_Init_Inscripcion();
         }
     }
 
@@ -948,7 +948,7 @@ public partial class FormMain : Form
             ComboCategorias_Init();                                             // Si el usuario guardó con éxito, refrescamos este combo
             comboCategorias.SelectedValue = formEdicion.IdSelected ?? -1;      // seleccionamos la categoria editada o ninguna si es null
             MostrarMensajeEstado("Categoria modificada OK");
-            DataGridInscripcion_Init();
+            DataGridMain_Init_Inscripcion();
         }
     }
     //-------------------------------------------------------------------------
@@ -1316,8 +1316,12 @@ public partial class FormMain : Form
 
     #region DataGridView
 
-    private void DataGridInscripcion_Init()
+    private void DataGridMain_Init_Inscripcion()
     {
+        // ==========================================
+        // Inicializa DataGridMain para INSCRIPCIONES
+        // ==========================================
+
         int idPruebaActual = IdPruebaSeleccionada ?? 0;
 
         using var db = new AppDbContext();
@@ -1348,41 +1352,41 @@ public partial class FormMain : Form
             .ToDataTable();
 
         // Vinculamos el resultado al DataGridView
-        dataGridInscripcion.DataSource = listaGrid;
+        dataGridMain.DataSource = listaGrid;
 
         // Ocultamos columnas NO UTILES para el usuario
-        dataGridInscripcion.Columns["Id"]!.Visible = false;
-        dataGridInscripcion.Columns["ColorFila"]!.Visible = false;
+        dataGridMain.Columns["Id"]!.Visible = false;
+        dataGridMain.Columns["ColorFila"]!.Visible = false;
 
         // autoajustamos el tamaño de las columnas para que se vean todos los datos
-        dataGridInscripcion.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+        dataGridMain.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
         // Igualar el color de "selección" de la cabecera con su color normal
-        dataGridInscripcion.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridInscripcion.ColumnHeadersDefaultCellStyle.BackColor;
-        dataGridInscripcion.ColumnHeadersDefaultCellStyle.SelectionForeColor = dataGridInscripcion.ColumnHeadersDefaultCellStyle.ForeColor;
+        dataGridMain.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridMain.ColumnHeadersDefaultCellStyle.BackColor;
+        dataGridMain.ColumnHeadersDefaultCellStyle.SelectionForeColor = dataGridMain.ColumnHeadersDefaultCellStyle.ForeColor;
 
         // Visualizar encabezado de fila
-        dataGridInscripcion.RowHeadersVisible = true;
+        dataGridMain.RowHeadersVisible = true;
 
         // Define el ancho del encabezado de la fila en píxeles
-        dataGridInscripcion.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-        dataGridInscripcion.RowHeadersWidth = 20;
+        dataGridMain.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        dataGridMain.RowHeadersWidth = 20;
 
         // Alineamos columnas Dorsal y Alias al centro
-        dataGridInscripcion.Columns["Dorsal"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        dataGridInscripcion.Columns["Alias"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridMain.Columns["Dorsal"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridMain.Columns["Alias"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-        dataGridInscripcion.Columns["Dorsal"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        dataGridInscripcion.Columns["Alias"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridMain.Columns["Dorsal"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridMain.Columns["Alias"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
         // Ordenamiento inicial por DORSAL Ascendente
-        dataGridInscripcion.Sort(dataGridInscripcion.Columns["Dorsal"]!, ListSortDirection.Ascending);
+        dataGridMain.Sort(dataGridMain.Columns["Dorsal"]!, ListSortDirection.Ascending);
     }
 
-    private void DataGridInscripcion_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+    private void Colorear_dataGridMain_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
     {
         // Iteramos por todas las filas creadas en el DataGrid
-        foreach (DataGridViewRow fila in dataGridInscripcion.Rows)
+        foreach (DataGridViewRow fila in dataGridMain.Rows)
         {
             // Evitamos la fila de "nuevo registro" si está habilitada
             if (fila.IsNewRow) continue;
@@ -1410,29 +1414,29 @@ public partial class FormMain : Form
                 }
             }
         }
-        dataGridInscripcion.ClearSelection();   // Limpiamos selección por defecto 
+        dataGridMain.ClearSelection();   // Limpiamos selección por defecto 
     }
 
-    private void DataGridInscripcion_Sorted(object sender, EventArgs e)
+    private void Ordenar_dataGridMain_Sorted(object sender, EventArgs e)
     {
         // Elimina la selección automática impuesta al terminar de ordenar por columna
-        dataGridInscripcion.CurrentCell = null; // Esto desactiva el foco y oculta el glifo del RowHeader
-        dataGridInscripcion.ClearSelection();
+        dataGridMain.CurrentCell = null; // Esto desactiva el foco y oculta el glifo del RowHeader
+        dataGridMain.ClearSelection();
     }
 
-    private void DataGridInscripcion_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+    private void Resaltar_dataGridMain_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
     {
         // Verificamos si la fila actual está seleccionada
-        if (dataGridInscripcion.Rows[e.RowIndex].Selected)
+        if (dataGridMain.Rows[e.RowIndex].Selected)
         {
             // Obtenemos el rectángulo de visualización de la fila completa 
             // (Este método de WinForms gestiona automáticamente el scroll horizontal y las columnas visibles)
-            Rectangle rowRect = dataGridInscripcion.GetRowDisplayRectangle(e.RowIndex, true);
+            Rectangle rowRect = dataGridMain.GetRowDisplayRectangle(e.RowIndex, true);
 
             if (rowRect.Width > 0 && rowRect.Height > 0)
             {
                 // 1. Obtenemos el ancho total real que suman todas las columnas visibles juntas
-                int anchoColumnasVisibles = dataGridInscripcion.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
+                int anchoColumnasVisibles = dataGridMain.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
                 // 2. Acotamos el ancho para que el rectángulo rojo mida exactamente 
                 // lo que ocupan las columnas (la fracción de la ventana), sin desbordarse al espacio vacío.
@@ -1447,14 +1451,14 @@ public partial class FormMain : Form
         }
     }
 
-    private void DataGridInscripcion_SelectionChanged(object sender, EventArgs e)
+    private void Seleccion_dataGridMain_SelectionChanged(object sender, EventArgs e)
     {
         // Forzamos el redibujado completo del grid en cada cambio de selección.
         // Esto borra inmediatamente el borde rojo de la fila anterior y dibuja solo el nuevo.
-        dataGridInscripcion.Invalidate();
+        dataGridMain.Invalidate();
     }
 
-    private async void DataGridInscripcion_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+    private async void DobleClick_dataGridMain_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
         // Validar que no se haya hecho clic en las cabeceras (RowIndex = -1, ColumnIndex = -1)
         if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
@@ -1492,18 +1496,18 @@ public partial class FormMain : Form
         }
     }
 
-    private async void BorrarInscripcion()
+    private async void Borrar_Inscripcion()
     {
         // Validar que hay una fila seleccionada (gracias a nuestro CellMouseUp previo)
-        if (dataGridInscripcion.SelectedRows.Count != 1)
+        if (dataGridMain.SelectedRows.Count != 1)
         {
             return;
         }
 
         // Extraer el Id de la fila seleccionada
-        int idInscripcionSelected = Convert.ToInt32(dataGridInscripcion.SelectedRows[0].Cells["Id"].Value);
-        string dorsalSelected = dataGridInscripcion.SelectedRows[0].Cells["Dorsal"].Value?.ToString() ?? "N/A";
-        string pilotoSelected = dataGridInscripcion.SelectedRows[0].Cells["Piloto"].Value?.ToString() ?? "Desconocido";
+        int idInscripcionSelected = Convert.ToInt32(dataGridMain.SelectedRows[0].Cells["Id"].Value);
+        string dorsalSelected = dataGridMain.SelectedRows[0].Cells["Dorsal"].Value?.ToString() ?? "N/A";
+        string pilotoSelected = dataGridMain.SelectedRows[0].Cells["Piloto"].Value?.ToString() ?? "Desconocido";
 
         // Trabajar de forma asíncrona con el DbContext
         using var db = new AppDbContext();
@@ -1545,15 +1549,15 @@ public partial class FormMain : Form
                     await db.SaveChangesAsync();
 
                     // Refrescar el DataGridView llamando a tu método Init
-                    DataGridInscripcion_Init();
+                    DataGridMain_Init_Inscripcion();
                     MostrarMensajeEstado("Inscripción borrada OK");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error al intentar borrar: {ex.Message}", 
-                                "Error de Base de Datos", 
-                                MessageBoxButtons.OK, 
+                MessageBox.Show($"Ocurrió un error al intentar borrar: {ex.Message}",
+                                "Error de Base de Datos",
+                                MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
             }
             finally
@@ -1562,6 +1566,14 @@ public partial class FormMain : Form
                 this.Cursor = Cursors.Default;
             }
         }
+    }
+
+    #endregion
+
+    #region Scratch
+    private void BotonAbrirRally_Click(object sender, EventArgs e)
+    {
+        MessageBox.Show("Funcionalidad de abrir rally no implementada aún.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
     #endregion
