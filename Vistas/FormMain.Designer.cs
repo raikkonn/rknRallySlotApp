@@ -152,6 +152,7 @@ namespace rknRallySlotApp.Vistas
             dataGridInscripcion.Size = new Size(1264, 431);
             dataGridInscripcion.TabIndex = 0;
             dataGridInscripcion.TabStop = false;
+            dataGridInscripcion.CellDoubleClick += DataGridInscripcion_CellDoubleClick;
             dataGridInscripcion.DataBindingComplete += DataGridInscripcion_DataBindingComplete;
             dataGridInscripcion.RowPostPaint += DataGridInscripcion_RowPostPaint;
             dataGridInscripcion.SelectionChanged += DataGridInscripcion_SelectionChanged;

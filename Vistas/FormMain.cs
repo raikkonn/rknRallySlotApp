@@ -22,7 +22,9 @@ public partial class FormMain : Form
     {
         InitializeComponent();
 
+        // ==========================================
         // inicializar menu y status bar
+        // ==========================================
         // Define colores
         Color fondoPrincipal = Color.FromArgb(28, 28, 28);      // Gris muy oscuro 
         Color fondoHover = Color.FromArgb(80, 80, 85);          // Un poco más claro para el ratón
@@ -35,15 +37,18 @@ public partial class FormMain : Form
         menuMain.BackColor = fondoPrincipal;
         menuMain.ForeColor = Color.White;
 
-        // Aplicar al StatusStrip (si lo usas)
+        // Aplicar al StatusStrip
         statusStripMain.Renderer = new ToolStripProfessionalRenderer(colorTable);
         statusStripMain.BackColor = fondoPrincipal;
         statusStripMain.ForeColor = Color.White;
+        // ==========================================
 
+        // ==========================================
         // inicializamos los botones y tooltips
         BotonesInit();
         ConfigurarToolTips();
 
+        // ==========================================
         // inicializamos los ComboBox
         ComboCampeonatos_Init();
         ComboPruebas_Init();
@@ -51,10 +56,41 @@ public partial class FormMain : Form
         ComboCoches_Init();
         ComboCategorias_Init();
 
+        // ==========================================
         // inicializamos el DataGridView
         dataGridInscripcion.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         dataGridInscripcion.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
         dataGridInscripcion.AllowUserToResizeColumns = true;
+
+        // Declarar el menú y la opción
+        ContextMenuStrip menuContextualDgvInscripcion = new();
+        ToolStripMenuItem opcionBorrarInscripcion = new("Borrar esta Inscripción");
+
+        // Suscribir la opción a un evento Click para definir qué hará
+        opcionBorrarInscripcion.Click += (s, args) =>
+        {
+            // Lógica a ejecutar cuando se haga clic en la opción
+            MessageBox.Show("¡Borrado!");
+        };
+
+        // Añadir la opción al menú contextual
+        menuContextualDgvInscripcion.Items.Add(opcionBorrarInscripcion);
+
+        // Suscribir el DataGridView al evento CellMouseUp
+        dataGridInscripcion.CellMouseUp += (sender, e) =>
+        {
+            // Validar que sea un clic derecho y que no se haya hecho clic en las cabeceras (RowIndex -1)
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                // Limpiar selecciones previas y seleccionar la fila actual bajo el ratón
+                dataGridInscripcion.ClearSelection();
+                dataGridInscripcion.Rows[e.RowIndex].Selected = true;
+
+                // Mostrar el menú contextual exactamente en la posición actual del cursor en la pantalla
+                menuContextualDgvInscripcion.Show(Cursor.Position);
+            }
+        };
+        // ==========================================
     }
     //-------------------------------------------------------------------------
     #endregion
@@ -298,66 +334,6 @@ public partial class FormMain : Form
         }
     }
 
-    private void DataGridInscripcion_Init()
-    {
-        int idPruebaActual = IdPruebaSeleccionada ?? 0;
-
-        using var db = new AppDbContext();
-
-        var listaGrid = db.Inscripciones
-
-            // 1. OBLIGAMOS a EF Core a traer los datos relacionados (Eager Loading)
-            .Include(i => i.Piloto)
-            .Include(i => i.Coche)
-            .Include(i => i.Categoria)
-
-            .Where(i => i.IdPrueba == idPruebaActual)
-
-            // 2. PASAMOS a memoria para evaluar las propiedades [NotMapped] sin errores de traducción SQL
-            .AsEnumerable()
-
-            .Select(i => new
-            {
-                Dorsal = i.Dorsal,
-                Alias = i.AliasPiloto,          // Ahora sí tiene datos gracias al Include
-                Piloto = i.NombrePiloto,        // Ahora sí tiene datos gracias al Include
-                Coche = i.DescripcionCoche,     // Usamos tu propiedad [NotMapped] que ya formatea "Modelo [Marca]"
-                Categoria = i.Categoria?.Nombre ?? string.Empty, // Extraemos el texto del nombre explícitamente, no el objeto
-                Verificado = i.Verificado,
-                ColorFila = string.IsNullOrWhiteSpace(i.Categoria?.ColorHex) ? "#FFFFFF" : i.Categoria.ColorHex
-            })
-            .ToDataTable();
-
-        // Vinculamos el resultado al DataGridView
-        dataGridInscripcion.DataSource = listaGrid;
-
-        // Ocultamos la columna del color para que no se vea en la interfaz visual
-        dataGridInscripcion.Columns["ColorFila"]!.Visible = false;
-
-        // autoajustamos el tamaño de las columnas para que se vean todos los datos
-        dataGridInscripcion.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-
-        // Igualar el color de "selección" de la cabecera con su color normal
-        dataGridInscripcion.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridInscripcion.ColumnHeadersDefaultCellStyle.BackColor;
-        dataGridInscripcion.ColumnHeadersDefaultCellStyle.SelectionForeColor = dataGridInscripcion.ColumnHeadersDefaultCellStyle.ForeColor;
-
-        // Visualizar encabezado de fila
-        dataGridInscripcion.RowHeadersVisible = true;
-
-        // Define el ancho del encabezado de la fila en píxeles
-        dataGridInscripcion.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-        dataGridInscripcion.RowHeadersWidth = 20;
-
-        // Alineamos columnas Dorsal y Alias al centro
-        dataGridInscripcion.Columns["Dorsal"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        dataGridInscripcion.Columns["Alias"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-        dataGridInscripcion.Columns["Dorsal"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        dataGridInscripcion.Columns["Alias"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-        // Ordenamiento inicial por CATEGORIA Ascendente
-        dataGridInscripcion.Sort(dataGridInscripcion.Columns["Categoria"]!, ListSortDirection.Ascending);
-    }
     //-------------------------------------------------------------------------
     #endregion
 
@@ -1324,6 +1300,70 @@ public partial class FormMain : Form
     #endregion
 
     #region DataGridView
+
+    private void DataGridInscripcion_Init()
+    {
+        int idPruebaActual = IdPruebaSeleccionada ?? 0;
+
+        using var db = new AppDbContext();
+
+        var listaGrid = db.Inscripciones
+
+            // 1. OBLIGAMOS a EF Core a traer los datos relacionados (Eager Loading)
+            .Include(i => i.Piloto)
+            .Include(i => i.Coche)
+            .Include(i => i.Categoria)
+
+            .Where(i => i.IdPrueba == idPruebaActual)
+
+            // 2. PASAMOS a memoria para evaluar las propiedades [NotMapped] sin errores de traducción SQL
+            .AsEnumerable()
+
+            .Select(i => new
+            {
+                Id = i.Id,
+                Dorsal = i.Dorsal,
+                Alias = i.AliasPiloto,          // Ahora sí tiene datos gracias al Include
+                Piloto = i.NombrePiloto,        // Ahora sí tiene datos gracias al Include
+                Coche = i.DescripcionCoche,     // Usamos tu propiedad [NotMapped] que ya formatea "Modelo [Marca]"
+                Categoria = i.Categoria?.Nombre ?? string.Empty, // Extraemos el texto del nombre explícitamente, no el objeto
+                Verificado = i.Verificado,
+                ColorFila = string.IsNullOrWhiteSpace(i.Categoria?.ColorHex) ? "#FFFFFF" : i.Categoria.ColorHex
+            })
+            .ToDataTable();
+
+        // Vinculamos el resultado al DataGridView
+        dataGridInscripcion.DataSource = listaGrid;
+
+        // Ocultamos columnas NO UTILES para el usuario
+        dataGridInscripcion.Columns["Id"]!.Visible = false;
+        dataGridInscripcion.Columns["ColorFila"]!.Visible = false;
+
+        // autoajustamos el tamaño de las columnas para que se vean todos los datos
+        dataGridInscripcion.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+        // Igualar el color de "selección" de la cabecera con su color normal
+        dataGridInscripcion.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridInscripcion.ColumnHeadersDefaultCellStyle.BackColor;
+        dataGridInscripcion.ColumnHeadersDefaultCellStyle.SelectionForeColor = dataGridInscripcion.ColumnHeadersDefaultCellStyle.ForeColor;
+
+        // Visualizar encabezado de fila
+        dataGridInscripcion.RowHeadersVisible = true;
+
+        // Define el ancho del encabezado de la fila en píxeles
+        dataGridInscripcion.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        dataGridInscripcion.RowHeadersWidth = 20;
+
+        // Alineamos columnas Dorsal y Alias al centro
+        dataGridInscripcion.Columns["Dorsal"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridInscripcion.Columns["Alias"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+        dataGridInscripcion.Columns["Dorsal"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridInscripcion.Columns["Alias"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+        // Ordenamiento inicial por CATEGORIA Ascendente
+        dataGridInscripcion.Sort(dataGridInscripcion.Columns["Categoria"]!, ListSortDirection.Ascending);
+    }
+
     private void DataGridInscripcion_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
     {
         // Iteramos por todas las filas creadas en el DataGrid
@@ -1397,6 +1437,45 @@ public partial class FormMain : Form
         // Forzamos el redibujado completo del grid en cada cambio de selección.
         // Esto borra inmediatamente el borde rojo de la fila anterior y dibuja solo el nuevo.
         dataGridInscripcion.Invalidate();
+    }
+
+    private async void DataGridInscripcion_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+    {
+        // Validar que no se haya hecho clic en la cabecera (RowIndex = -1)
+        if (e.RowIndex < 0) return;
+
+        var dgv = (DataGridView)sender;
+
+        // Comprobar que la celda clicada corresponde a la columna "Verificado"
+        if (dgv.Columns[e.ColumnIndex].Name == "Verificado")
+        {
+            // Obtener el ID de la inscripción de la fila actual.
+            int idInscripcionActual = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Id"].Value);
+
+            // Leer el valor actual del CheckBox y calcular el opuesto (toggle)
+            object? cellValue = dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            bool valorActual = cellValue != null && cellValue != DBNull.Value && Convert.ToBoolean(cellValue);
+            bool nuevoValor = !valorActual;
+
+            // Instanciar el contexto y actualizar la base de datos de forma asíncrona
+            using var db = new Datos.AppDbContext();
+
+            // Buscamos el registro exacto usando su clave primaria Id en el DbSet de Inscripciones
+            var inscripcionDb = await db.Inscripciones.FindAsync(idInscripcionActual);
+
+            if (inscripcionDb != null)
+            {
+                // Alternamos el valor booleano de la propiedad Verificado 
+                inscripcionDb.Verificado = nuevoValor;
+
+                // Guardamos los cambios físicamente en la base de datos SQLite
+                await db.SaveChangesAsync();
+
+                // Reflejar el cambio visualmente en el DataGrid inmediatamente 
+                // sin necesidad de recargar toda la consulta de la base de datos
+                dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = nuevoValor;
+            }
+        }
     }
 
     #endregion
