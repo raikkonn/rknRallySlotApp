@@ -70,7 +70,7 @@ public partial class FormMain : Form
         opcionBorrarInscripcion.Click += (s, args) =>
         {
             // Lógica a ejecutar cuando se haga clic en la opción
-            MessageBox.Show("¡Borrado!");
+            BorrarInscripcion();
         };
 
         // Añadir la opción al menú contextual
@@ -1474,6 +1474,79 @@ public partial class FormMain : Form
                 // Reflejar el cambio visualmente en el DataGrid inmediatamente 
                 // sin necesidad de recargar toda la consulta de la base de datos
                 dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = nuevoValor;
+            }
+        }
+    }
+
+    private async void BorrarInscripcion()
+    {
+        // Validar que hay una fila seleccionada (gracias a nuestro CellMouseUp previo)
+        if (dataGridInscripcion.SelectedRows.Count != 1)
+        {
+            return;
+        }
+
+        // Extraer el Id de la fila seleccionada
+        int idInscripcionSelected = Convert.ToInt32(dataGridInscripcion.SelectedRows[0].Cells["Id"].Value);
+        string dorsalSelected = dataGridInscripcion.SelectedRows[0].Cells["Dorsal"].Value?.ToString() ?? "N/A";
+        string pilotoSelected = dataGridInscripcion.SelectedRows[0].Cells["Piloto"].Value?.ToString() ?? "Desconocido";
+
+        // Trabajar de forma asíncrona con el DbContext
+        using var db = new AppDbContext();
+
+        // Comprobar si existen tiempos asociados de forma ultra rápida
+        bool tieneTiempos = await db.TiemposTramos
+                                    .AnyAsync(t => t.IdInscripcion == idInscripcionSelected);
+
+        // 5. Preparar el mensaje de advertencia dinámico
+        string mensaje = $"Dorsal [{dorsalSelected}] - {pilotoSelected}\n ¿Seguro quieres BORRAR esta inscripción?";
+        string titulo = "Confirmar Borrado";
+        MessageBoxIcon icono = MessageBoxIcon.Question;
+
+        if (tieneTiempos)
+        {
+            mensaje = $"¡ATENCIÓN! El Dorsal [{dorsalSelected}] - {pilotoSelected}\n ya tiene tiempos registrados.\n\n" +
+                      $"Si eliminas esta inscripción\n SE BORRARÁN TODOS SUS TIEMPOS de forma irreversible.\n\n" +
+                      $"¿Deseas continuar de todos modos?";
+            titulo = "PELIGRO - Pérdida de Datos";
+            icono = MessageBoxIcon.Warning;
+        }
+
+        // Mostrar advertencia al usuario
+        DialogResult resultado = MessageBox.Show(mensaje, titulo, MessageBoxButtons.YesNo, icono, MessageBoxDefaultButton.Button2);
+
+        if (resultado == DialogResult.Yes)
+        {
+            try
+            {
+                // Activamos el cursor de espera para toda la ventana
+                this.Cursor = Cursors.WaitCursor;
+
+                // Buscar la inscripción en la base de datos
+                var inscripcionABorrar = await db.Inscripciones.FindAsync(idInscripcionSelected);
+
+                if (inscripcionABorrar != null)
+                {
+                    // Ejecutar el borrado (EF Core y SQLite se encargarán de la cascada)
+                    db.Inscripciones.Remove(inscripcionABorrar);
+                    await db.SaveChangesAsync();
+
+                    // Refrescar el DataGridView llamando a tu método Init
+                    DataGridInscripcion_Init();
+                    MostrarMensajeEstado("Inscripción borrada OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error al intentar borrar: {ex.Message}", 
+                                "Error de Base de Datos", 
+                                MessageBoxButtons.OK, 
+                                MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // Restauramos el cursor por defecto SIEMPRE, haya ocurrido un error o no
+                this.Cursor = Cursors.Default;
             }
         }
     }
