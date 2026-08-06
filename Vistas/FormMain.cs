@@ -158,6 +158,8 @@ public partial class FormMain : Form
         _toolTip.SetToolTip(botonBorraCategoria, "Borrar Categoría");
 
         _toolTip.SetToolTip(botonNuevaInscripcion, "Inscribir Piloto");
+
+        _toolTip.SetToolTip(checkAbrirRally, "Abrir Cronometraje");
     }
     //-------------------------------------------------------------------------
     #endregion
@@ -460,7 +462,7 @@ public partial class FormMain : Form
     //-------------------------------------------------------------------------
     #endregion
 
-    #region SelectedIndexChanged Events    
+    #region Enable/Disable Controles
     //-------------------------------------------------------------------------
     private void Controles_EnableAndDisable()
     {
@@ -470,6 +472,7 @@ public partial class FormMain : Form
         bool hayPiloto = comboPilotos.SelectedValue is int idPiloto && idPiloto > 0;
         bool hayCoche = comboCoches.SelectedValue is int idCoche && idCoche > 0;
         bool hayCategoria = comboCategorias.SelectedValue is int idCategoria && idCategoria > 0;
+        bool hayDatosDeInscripcion = dataGridMain.RowCount > 0;
 
         // Estados comboBox
         comboCampeonatos.Enabled = true;            // Siempre habilitado
@@ -484,7 +487,7 @@ public partial class FormMain : Form
         botonEditaCampeonato.Enabled = hayCampeonato;
         botonBorraCampeonato.Enabled = hayCampeonato;
 
-        // Prueba (Nueva Prueba depende de Campeonato, Edición y Borrado de Prueba)
+        // Prueba (Nueva Prueba depende de Campeonato, Edición y Borrado dependen de Prueba)
         botonNuevaPrueba.Enabled = hayCampeonato;
         botonEditaPrueba.Enabled = hayPrueba;
         botonBorraPrueba.Enabled = hayPrueba;
@@ -509,14 +512,44 @@ public partial class FormMain : Form
         botonNuevaInscripcion.BackColor = botonNuevaInscripcion.Enabled ? Color.FromArgb(53, 53, 53) : Color.FromArgb(40, 40, 40);
         botonNuevaInscripcion.ForeColor = botonNuevaInscripcion.Enabled ? Color.FromArgb(0, 255, 0) : Color.FromArgb(18, 18, 24);
 
-        checkVerificado.Enabled = hayPrueba && hayPiloto && hayCoche && hayCategoria;
+        checkVerificado.Enabled = botonNuevaInscripcion.Enabled;
 
-        if (!botonNuevaInscripcion.Enabled)
+        if (!checkVerificado.Enabled)
         {
-            checkVerificado.Checked = false; // Desmarcar si no hay inscripción válida
+            checkVerificado.Checked = false;        // Desmarcar si DISABLED
+        }
+
+        // check Abrir Rally
+        checkAbrirRally.Enabled = hayDatosDeInscripcion;
+
+        if (checkAbrirRally.Enabled) {
+            if (checkAbrirRally.Checked)
+            {
+                checkAbrirRally.Text = "STOP Rally";
+                _toolTip.SetToolTip(checkAbrirRally, "Detener Cronometraje");
+                
+                checkAbrirRally.BackColor = Color.FromArgb(53, 53, 53); // fondo gris oscuro
+                checkAbrirRally.ForeColor = Color.FromArgb(255, 0, 0);  // frente rojo
+            }
+            else
+            {
+                checkAbrirRally.Text = "Abrir Rally";
+                _toolTip.SetToolTip(checkAbrirRally, "Abrir Cronometraje");
+
+                checkAbrirRally.BackColor = Color.FromArgb(53, 53, 53); // fondo gris oscuro
+                checkAbrirRally.ForeColor = Color.FromArgb(0, 255, 0);  // frente verde 
+            }
+        } else
+        {
+            checkAbrirRally.BackColor = Color.FromArgb(40, 40, 40);     // fondo gris más oscuro
+            checkAbrirRally.ForeColor = Color.FromArgb(18, 18, 24);     // frente gris más oscuro
         }
     }
+    //-------------------------------------------------------------------------
+    #endregion
 
+    #region SelectedIndexChanged Events    
+    //-------------------------------------------------------------------------
     private void ComboCampeonatos_SelectedIndexChanged(object? sender, EventArgs e)
     {
         if (comboCampeonatos.SelectedValue is int idSel)
@@ -668,7 +701,7 @@ public partial class FormMain : Form
         using var formAlta = new FormCampeonato("Nuevo Campeonato");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = groupBoxCto.PointToScreen(new Point(12, 8));
+        formAlta.Location = groupBoxCampeonato.PointToScreen(new Point(12, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -695,7 +728,7 @@ public partial class FormMain : Form
         using var formAlta = new FormPrueba("Nueva Prueba");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = groupBoxCto.PointToScreen(new Point(12, 8));
+        formAlta.Location = groupBoxCampeonato.PointToScreen(new Point(12, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -721,7 +754,7 @@ public partial class FormMain : Form
         using var formAlta = new FormPiloto("Nuevo Piloto");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = groupBoxCto.PointToScreen(new Point(12, 8));
+        formAlta.Location = groupBoxCampeonato.PointToScreen(new Point(12, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -747,7 +780,7 @@ public partial class FormMain : Form
         using var formAlta = new FormCoche("Nuevo Coche");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = groupBoxCto.PointToScreen(new Point(12, 8));
+        formAlta.Location = groupBoxCampeonato.PointToScreen(new Point(12, 8));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -772,7 +805,7 @@ public partial class FormMain : Form
         using var formAlta = new FormCategoria("Nueva Categoria");
 
         formAlta.StartPosition = FormStartPosition.Manual;
-        formAlta.Location = groupBoxCate.PointToScreen(new Point(0, 0));
+        formAlta.Location = groupBoxCategoria.PointToScreen(new Point(0, 0));
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
@@ -876,7 +909,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormCampeonato("Modificar Campeonato", comboCampeonatos.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = groupBoxCto.PointToScreen(new Point(12, 8));
+        formEdicion.Location = groupBoxCampeonato.PointToScreen(new Point(12, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -894,7 +927,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormPrueba("Modificar Prueba", comboPruebas.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = groupBoxCto.PointToScreen(new Point(12, 8));
+        formEdicion.Location = groupBoxCampeonato.PointToScreen(new Point(12, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -909,7 +942,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormPiloto("Modificar Piloto", comboPilotos.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = groupBoxCto.PointToScreen(new Point(12, 8));
+        formEdicion.Location = groupBoxCampeonato.PointToScreen(new Point(12, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -925,7 +958,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormCoche("Modificar Coche", comboCoches.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = groupBoxCto.PointToScreen(new Point(12, 8));
+        formEdicion.Location = groupBoxCampeonato.PointToScreen(new Point(12, 8));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -941,7 +974,7 @@ public partial class FormMain : Form
         using var formEdicion = new FormCategoria("Modificar Categoria", comboCategorias.SelectedValue);
 
         formEdicion.StartPosition = FormStartPosition.Manual;
-        formEdicion.Location = groupBoxCate.PointToScreen(new Point(0, 0));
+        formEdicion.Location = groupBoxCategoria.PointToScreen(new Point(0, 0));
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
@@ -1315,7 +1348,7 @@ public partial class FormMain : Form
     #endregion
 
     #region DataGridView
-
+    //-------------------------------------------------------------------------
     private void DataGridMain_Init_Inscripcion()
     {
         // ==========================================
@@ -1381,6 +1414,9 @@ public partial class FormMain : Form
 
         // Ordenamiento inicial por DORSAL Ascendente
         dataGridMain.Sort(dataGridMain.Columns["Dorsal"]!, ListSortDirection.Ascending);
+
+        // Revisar habilitacion controles 
+        Controles_EnableAndDisable();
     }
 
     private void Colorear_dataGridMain_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -1567,14 +1603,25 @@ public partial class FormMain : Form
             }
         }
     }
-
+    //-------------------------------------------------------------------------
     #endregion
 
     #region Scratch
-    private void BotonAbrirRally_Click(object sender, EventArgs e)
+    //-------------------------------------------------------------------------
+    private void CheckAbrirRally_CheckedChanged(object sender, EventArgs e)
     {
-        MessageBox.Show("Funcionalidad de abrir rally no implementada aún.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-    }
+        comboPilotos.SelectedIndex = -1;
+        comboCoches.SelectedIndex = -1; 
+        comboCategorias.SelectedIndex = -1;
 
+        Controles_EnableAndDisable();
+
+        bool rallyAbierto = checkAbrirRally.Checked;
+        groupBoxCampeonato.Enabled = !rallyAbierto;
+        groupBoxPiloto.Enabled = !rallyAbierto;
+        groupBoxCategoria.Enabled = !rallyAbierto;
+        groupBoxInscripcion.Enabled = !rallyAbierto;
+    }
+    //-------------------------------------------------------------------------
     #endregion
 }

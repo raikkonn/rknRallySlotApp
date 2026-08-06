@@ -30,10 +30,10 @@ namespace rknRallySlotApp.Vistas
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             dataGridMain = new DataGridView();
             menuMain = new MenuStrip();
@@ -42,16 +42,17 @@ namespace rknRallySlotApp.Vistas
             statusStripMain = new StatusStrip();
             labelStatus = new ToolStripStatusLabel();
             panel1 = new Panel();
-            groupBox4 = new ColoredGroupBox();
+            checkAbrirRally = new CheckBox();
+            groupBoxInscripcion = new ColoredGroupBox();
             botonNuevaInscripcion = new Button();
             checkVerificado = new CheckBox();
-            groupBoxCate = new ColoredGroupBox();
+            groupBoxCategoria = new ColoredGroupBox();
             botonBorraCategoria = new Button();
             label7 = new Label();
             botonEditaCategoria = new Button();
             comboCategorias = new ComboBox();
             botonNuevaCategoria = new Button();
-            groupBox2 = new ColoredGroupBox();
+            groupBoxPiloto = new ColoredGroupBox();
             tboxEscuderia = new TextBox();
             label12 = new Label();
             tboxMarca = new TextBox();
@@ -68,7 +69,7 @@ namespace rknRallySlotApp.Vistas
             label11 = new Label();
             comboCoches = new ComboBox();
             comboPilotos = new ComboBox();
-            groupBoxCto = new GroupBox();
+            groupBoxCampeonato = new GroupBox();
             tboxPwrStg = new TextBox();
             tboxTmax = new TextBox();
             label6 = new Label();
@@ -92,15 +93,14 @@ namespace rknRallySlotApp.Vistas
             panel3 = new Panel();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
-            botonAbrirRally = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridMain).BeginInit();
             menuMain.SuspendLayout();
             statusStripMain.SuspendLayout();
             panel1.SuspendLayout();
-            groupBox4.SuspendLayout();
-            groupBoxCate.SuspendLayout();
-            groupBox2.SuspendLayout();
-            groupBoxCto.SuspendLayout();
+            groupBoxInscripcion.SuspendLayout();
+            groupBoxCategoria.SuspendLayout();
+            groupBoxPiloto.SuspendLayout();
+            groupBoxCampeonato.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -116,23 +116,23 @@ namespace rknRallySlotApp.Vistas
             dataGridMain.BackgroundColor = Color.FromArgb(40, 40, 40);
             dataGridMain.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             dataGridMain.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(53, 53, 53);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(53, 53, 53);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dataGridMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dataGridMain.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(53, 53, 53);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dataGridMain.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle6.ForeColor = Color.White;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dataGridMain.DefaultCellStyle = dataGridViewCellStyle6;
             dataGridMain.Dock = DockStyle.Fill;
             dataGridMain.EditMode = DataGridViewEditMode.EditOnF2;
             dataGridMain.EnableHeadersVisualStyles = false;
@@ -141,16 +141,16 @@ namespace rknRallySlotApp.Vistas
             dataGridMain.Name = "dataGridMain";
             dataGridMain.ReadOnly = true;
             dataGridMain.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(53, 53, 53);
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dataGridMain.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dataGridMain.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
             dataGridMain.RowHeadersWidth = 15;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(53, 53, 53);
-            dataGridViewCellStyle4.ForeColor = Color.White;
-            dataGridMain.RowsDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridMain.Size = new Size(1264, 431);
+            dataGridViewCellStyle8.BackColor = Color.FromArgb(53, 53, 53);
+            dataGridViewCellStyle8.ForeColor = Color.White;
+            dataGridMain.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridMain.Size = new Size(1401, 431);
             dataGridMain.TabIndex = 0;
             dataGridMain.TabStop = false;
             dataGridMain.CellDoubleClick += DobleClick_dataGridMain_CellDoubleClick;
@@ -166,7 +166,7 @@ namespace rknRallySlotApp.Vistas
             menuMain.Location = new Point(0, 0);
             menuMain.Name = "menuMain";
             menuMain.Padding = new Padding(0);
-            menuMain.Size = new Size(1264, 24);
+            menuMain.Size = new Size(1401, 24);
             menuMain.TabIndex = 0;
             // 
             // archivoToolStripMenuItem
@@ -198,7 +198,7 @@ namespace rknRallySlotApp.Vistas
             statusStripMain.Items.AddRange(new ToolStripItem[] { labelStatus });
             statusStripMain.Location = new Point(0, 706);
             statusStripMain.Name = "statusStripMain";
-            statusStripMain.Size = new Size(1264, 22);
+            statusStripMain.Size = new Size(1401, 22);
             statusStripMain.SizingGrip = false;
             statusStripMain.TabIndex = 0;
             // 
@@ -214,30 +214,50 @@ namespace rknRallySlotApp.Vistas
             // 
             panel1.AutoSize = true;
             panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            panel1.Controls.Add(botonAbrirRally);
-            panel1.Controls.Add(groupBox4);
-            panel1.Controls.Add(groupBoxCate);
-            panel1.Controls.Add(groupBox2);
-            panel1.Controls.Add(groupBoxCto);
+            panel1.Controls.Add(checkAbrirRally);
+            panel1.Controls.Add(groupBoxInscripcion);
+            panel1.Controls.Add(groupBoxCategoria);
+            panel1.Controls.Add(groupBoxPiloto);
+            panel1.Controls.Add(groupBoxCampeonato);
             panel1.Controls.Add(panel3);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 24);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1264, 251);
+            panel1.Size = new Size(1401, 251);
             panel1.TabIndex = 10;
             // 
-            // groupBox4
+            // checkAbrirRally
             // 
-            groupBox4.BackColor = Color.FromArgb(40, 40, 40);
-            groupBox4.BorderColor = Color.FromArgb(123, 113, 197);
-            groupBox4.Controls.Add(botonNuevaInscripcion);
-            groupBox4.Controls.Add(checkVerificado);
-            groupBox4.FlatStyle = FlatStyle.Flat;
-            groupBox4.Location = new Point(701, 127);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(200, 121);
-            groupBox4.TabIndex = 24;
-            groupBox4.TabStop = false;
+            checkAbrirRally.Appearance = Appearance.Button;
+            checkAbrirRally.BackColor = Color.FromArgb(53, 53, 53);
+            checkAbrirRally.CheckAlign = ContentAlignment.MiddleCenter;
+            checkAbrirRally.Cursor = Cursors.Hand;
+            checkAbrirRally.Enabled = false;
+            checkAbrirRally.FlatStyle = FlatStyle.Flat;
+            checkAbrirRally.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold);
+            checkAbrirRally.ForeColor = Color.Lime;
+            checkAbrirRally.Location = new Point(908, 11);
+            checkAbrirRally.Name = "checkAbrirRally";
+            checkAbrirRally.Size = new Size(181, 49);
+            checkAbrirRally.TabIndex = 0;
+            checkAbrirRally.TabStop = false;
+            checkAbrirRally.Text = "Abrir Rally";
+            checkAbrirRally.TextAlign = ContentAlignment.MiddleCenter;
+            checkAbrirRally.UseVisualStyleBackColor = false;
+            checkAbrirRally.CheckedChanged += CheckAbrirRally_CheckedChanged;
+            // 
+            // groupBoxInscripcion
+            // 
+            groupBoxInscripcion.BackColor = Color.FromArgb(40, 40, 40);
+            groupBoxInscripcion.BorderColor = Color.FromArgb(123, 113, 197);
+            groupBoxInscripcion.Controls.Add(botonNuevaInscripcion);
+            groupBoxInscripcion.Controls.Add(checkVerificado);
+            groupBoxInscripcion.FlatStyle = FlatStyle.Flat;
+            groupBoxInscripcion.Location = new Point(701, 127);
+            groupBoxInscripcion.Name = "groupBoxInscripcion";
+            groupBoxInscripcion.Size = new Size(200, 121);
+            groupBoxInscripcion.TabIndex = 24;
+            groupBoxInscripcion.TabStop = false;
             // 
             // botonNuevaInscripcion
             // 
@@ -273,21 +293,21 @@ namespace rknRallySlotApp.Vistas
             checkVerificado.TextAlign = ContentAlignment.MiddleRight;
             checkVerificado.UseVisualStyleBackColor = true;
             // 
-            // groupBoxCate
+            // groupBoxCategoria
             // 
-            groupBoxCate.BackColor = Color.FromArgb(40, 40, 40);
-            groupBoxCate.BorderColor = Color.FromArgb(123, 113, 197);
-            groupBoxCate.Controls.Add(botonBorraCategoria);
-            groupBoxCate.Controls.Add(label7);
-            groupBoxCate.Controls.Add(botonEditaCategoria);
-            groupBoxCate.Controls.Add(comboCategorias);
-            groupBoxCate.Controls.Add(botonNuevaCategoria);
-            groupBoxCate.FlatStyle = FlatStyle.Flat;
-            groupBoxCate.Location = new Point(701, 7);
-            groupBoxCate.Name = "groupBoxCate";
-            groupBoxCate.Size = new Size(200, 117);
-            groupBoxCate.TabIndex = 14;
-            groupBoxCate.TabStop = false;
+            groupBoxCategoria.BackColor = Color.FromArgb(40, 40, 40);
+            groupBoxCategoria.BorderColor = Color.FromArgb(123, 113, 197);
+            groupBoxCategoria.Controls.Add(botonBorraCategoria);
+            groupBoxCategoria.Controls.Add(label7);
+            groupBoxCategoria.Controls.Add(botonEditaCategoria);
+            groupBoxCategoria.Controls.Add(comboCategorias);
+            groupBoxCategoria.Controls.Add(botonNuevaCategoria);
+            groupBoxCategoria.FlatStyle = FlatStyle.Flat;
+            groupBoxCategoria.Location = new Point(701, 7);
+            groupBoxCategoria.Name = "groupBoxCategoria";
+            groupBoxCategoria.Size = new Size(200, 117);
+            groupBoxCategoria.TabIndex = 14;
+            groupBoxCategoria.TabStop = false;
             // 
             // botonBorraCategoria
             // 
@@ -364,32 +384,32 @@ namespace rknRallySlotApp.Vistas
             botonNuevaCategoria.UseVisualStyleBackColor = false;
             botonNuevaCategoria.Click += BotonNuevaCategoria_Click;
             // 
-            // groupBox2
+            // groupBoxPiloto
             // 
-            groupBox2.BackColor = Color.FromArgb(40, 40, 40);
-            groupBox2.BorderColor = Color.FromArgb(123, 113, 197);
-            groupBox2.Controls.Add(tboxEscuderia);
-            groupBox2.Controls.Add(label12);
-            groupBox2.Controls.Add(tboxMarca);
-            groupBox2.Controls.Add(tboxAlias);
-            groupBox2.Controls.Add(label8);
-            groupBox2.Controls.Add(label9);
-            groupBox2.Controls.Add(botonBorraCoche);
-            groupBox2.Controls.Add(botonBorraPiloto);
-            groupBox2.Controls.Add(botonEditaCoche);
-            groupBox2.Controls.Add(botonEditaPiloto);
-            groupBox2.Controls.Add(botonNuevoCoche);
-            groupBox2.Controls.Add(botonNuevoPiloto);
-            groupBox2.Controls.Add(label10);
-            groupBox2.Controls.Add(label11);
-            groupBox2.Controls.Add(comboCoches);
-            groupBox2.Controls.Add(comboPilotos);
-            groupBox2.FlatStyle = FlatStyle.Flat;
-            groupBox2.Location = new Point(3, 127);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(692, 121);
-            groupBox2.TabIndex = 13;
-            groupBox2.TabStop = false;
+            groupBoxPiloto.BackColor = Color.FromArgb(40, 40, 40);
+            groupBoxPiloto.BorderColor = Color.FromArgb(123, 113, 197);
+            groupBoxPiloto.Controls.Add(tboxEscuderia);
+            groupBoxPiloto.Controls.Add(label12);
+            groupBoxPiloto.Controls.Add(tboxMarca);
+            groupBoxPiloto.Controls.Add(tboxAlias);
+            groupBoxPiloto.Controls.Add(label8);
+            groupBoxPiloto.Controls.Add(label9);
+            groupBoxPiloto.Controls.Add(botonBorraCoche);
+            groupBoxPiloto.Controls.Add(botonBorraPiloto);
+            groupBoxPiloto.Controls.Add(botonEditaCoche);
+            groupBoxPiloto.Controls.Add(botonEditaPiloto);
+            groupBoxPiloto.Controls.Add(botonNuevoCoche);
+            groupBoxPiloto.Controls.Add(botonNuevoPiloto);
+            groupBoxPiloto.Controls.Add(label10);
+            groupBoxPiloto.Controls.Add(label11);
+            groupBoxPiloto.Controls.Add(comboCoches);
+            groupBoxPiloto.Controls.Add(comboPilotos);
+            groupBoxPiloto.FlatStyle = FlatStyle.Flat;
+            groupBoxPiloto.Location = new Point(3, 127);
+            groupBoxPiloto.Name = "groupBoxPiloto";
+            groupBoxPiloto.Size = new Size(692, 121);
+            groupBoxPiloto.TabIndex = 13;
+            groupBoxPiloto.TabStop = false;
             // 
             // tboxEscuderia
             // 
@@ -608,35 +628,35 @@ namespace rknRallySlotApp.Vistas
             comboPilotos.TabIndex = 3;
             comboPilotos.SelectedIndexChanged += ComboPilotos_SelectedIndexChanged;
             // 
-            // groupBoxCto
+            // groupBoxCampeonato
             // 
-            groupBoxCto.BackColor = Color.FromArgb(40, 40, 40);
-            groupBoxCto.Controls.Add(tboxPwrStg);
-            groupBoxCto.Controls.Add(tboxTmax);
-            groupBoxCto.Controls.Add(label6);
-            groupBoxCto.Controls.Add(tboxTramos);
-            groupBoxCto.Controls.Add(label5);
-            groupBoxCto.Controls.Add(tboxEtapas);
-            groupBoxCto.Controls.Add(label4);
-            groupBoxCto.Controls.Add(tboxPuntuaciones);
-            groupBoxCto.Controls.Add(label3);
-            groupBoxCto.Controls.Add(label1);
-            groupBoxCto.Controls.Add(botonBorraPrueba);
-            groupBoxCto.Controls.Add(botonBorraCampeonato);
-            groupBoxCto.Controls.Add(botonEditaPrueba);
-            groupBoxCto.Controls.Add(botonEditaCampeonato);
-            groupBoxCto.Controls.Add(botonNuevaPrueba);
-            groupBoxCto.Controls.Add(botonNuevoCampeonato);
-            groupBoxCto.Controls.Add(label2);
-            groupBoxCto.Controls.Add(lblCto);
-            groupBoxCto.Controls.Add(comboPruebas);
-            groupBoxCto.Controls.Add(comboCampeonatos);
-            groupBoxCto.FlatStyle = FlatStyle.Flat;
-            groupBoxCto.Location = new Point(3, 3);
-            groupBoxCto.Name = "groupBoxCto";
-            groupBoxCto.Size = new Size(692, 121);
-            groupBoxCto.TabIndex = 12;
-            groupBoxCto.TabStop = false;
+            groupBoxCampeonato.BackColor = Color.FromArgb(40, 40, 40);
+            groupBoxCampeonato.Controls.Add(tboxPwrStg);
+            groupBoxCampeonato.Controls.Add(tboxTmax);
+            groupBoxCampeonato.Controls.Add(label6);
+            groupBoxCampeonato.Controls.Add(tboxTramos);
+            groupBoxCampeonato.Controls.Add(label5);
+            groupBoxCampeonato.Controls.Add(tboxEtapas);
+            groupBoxCampeonato.Controls.Add(label4);
+            groupBoxCampeonato.Controls.Add(tboxPuntuaciones);
+            groupBoxCampeonato.Controls.Add(label3);
+            groupBoxCampeonato.Controls.Add(label1);
+            groupBoxCampeonato.Controls.Add(botonBorraPrueba);
+            groupBoxCampeonato.Controls.Add(botonBorraCampeonato);
+            groupBoxCampeonato.Controls.Add(botonEditaPrueba);
+            groupBoxCampeonato.Controls.Add(botonEditaCampeonato);
+            groupBoxCampeonato.Controls.Add(botonNuevaPrueba);
+            groupBoxCampeonato.Controls.Add(botonNuevoCampeonato);
+            groupBoxCampeonato.Controls.Add(label2);
+            groupBoxCampeonato.Controls.Add(lblCto);
+            groupBoxCampeonato.Controls.Add(comboPruebas);
+            groupBoxCampeonato.Controls.Add(comboCampeonatos);
+            groupBoxCampeonato.FlatStyle = FlatStyle.Flat;
+            groupBoxCampeonato.Location = new Point(3, 3);
+            groupBoxCampeonato.Name = "groupBoxCampeonato";
+            groupBoxCampeonato.Size = new Size(692, 121);
+            groupBoxCampeonato.TabIndex = 12;
+            groupBoxCampeonato.TabStop = false;
             // 
             // tboxPwrStg
             // 
@@ -908,7 +928,7 @@ namespace rknRallySlotApp.Vistas
             panel3.Controls.Add(pictureBox1);
             panel3.Controls.Add(pictureBox2);
             panel3.Dock = DockStyle.Right;
-            panel3.Location = new Point(1083, 0);
+            panel3.Location = new Point(1220, 0);
             panel3.Name = "panel3";
             panel3.Size = new Size(181, 251);
             panel3.TabIndex = 12;
@@ -938,31 +958,13 @@ namespace rknRallySlotApp.Vistas
             pictureBox2.TabIndex = 10;
             pictureBox2.TabStop = false;
             // 
-            // botonAbrirRally
-            // 
-            botonAbrirRally.BackColor = Color.FromArgb(53, 53, 53);
-            botonAbrirRally.BackgroundImageLayout = ImageLayout.Zoom;
-            botonAbrirRally.Cursor = Cursors.Hand;
-            botonAbrirRally.Enabled = false;
-            botonAbrirRally.FlatStyle = FlatStyle.Flat;
-            botonAbrirRally.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            botonAbrirRally.ForeColor = Color.Lime;
-            botonAbrirRally.Location = new Point(907, 12);
-            botonAbrirRally.Name = "botonAbrirRally";
-            botonAbrirRally.Size = new Size(170, 49);
-            botonAbrirRally.TabIndex = 24;
-            botonAbrirRally.TabStop = false;
-            botonAbrirRally.Text = "Abrir Rally";
-            botonAbrirRally.UseVisualStyleBackColor = false;
-            botonAbrirRally.Click += BotonAbrirRally_Click;
-            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 28, 28);
             BackgroundImageLayout = ImageLayout.Zoom;
-            ClientSize = new Size(1264, 728);
+            ClientSize = new Size(1401, 728);
             Controls.Add(dataGridMain);
             Controls.Add(panel1);
             Controls.Add(menuMain);
@@ -979,14 +981,14 @@ namespace rknRallySlotApp.Vistas
             statusStripMain.ResumeLayout(false);
             statusStripMain.PerformLayout();
             panel1.ResumeLayout(false);
-            groupBox4.ResumeLayout(false);
-            groupBox4.PerformLayout();
-            groupBoxCate.ResumeLayout(false);
-            groupBoxCate.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            groupBoxCto.ResumeLayout(false);
-            groupBoxCto.PerformLayout();
+            groupBoxInscripcion.ResumeLayout(false);
+            groupBoxInscripcion.PerformLayout();
+            groupBoxCategoria.ResumeLayout(false);
+            groupBoxCategoria.PerformLayout();
+            groupBoxPiloto.ResumeLayout(false);
+            groupBoxPiloto.PerformLayout();
+            groupBoxCampeonato.ResumeLayout(false);
+            groupBoxCampeonato.PerformLayout();
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -1002,7 +1004,7 @@ namespace rknRallySlotApp.Vistas
         private ToolStripStatusLabel labelStatus;
         private ToolStripMenuItem salirToolStripMenuItem;
         private Panel panel1;
-        private ColoredGroupBox groupBox2;
+        private ColoredGroupBox groupBoxPiloto;
         private TextBox tboxEscuderia;
         private Label label12;
         private TextBox tboxMarca;
@@ -1019,7 +1021,7 @@ namespace rknRallySlotApp.Vistas
         private Label label11;
         private ComboBox comboCoches;
         private ComboBox comboPilotos;
-        private GroupBox groupBoxCto;
+        private GroupBox groupBoxCampeonato;
         private TextBox tboxTmax;
         private TextBox tboxTramos;
         private Label label5;
@@ -1044,14 +1046,14 @@ namespace rknRallySlotApp.Vistas
         private TextBox tboxPwrStg;
         private Label label6;
         private CheckBox checkVerificado;
-        private ColoredGroupBox groupBoxCate;
+        private ColoredGroupBox groupBoxCategoria;
         private Button botonBorraCategoria;
         private Label label7;
         private Button botonEditaCategoria;
         private ComboBox comboCategorias;
         private Button botonNuevaCategoria;
-        private ColoredGroupBox groupBox4;
+        private ColoredGroupBox groupBoxInscripcion;
         private Button botonNuevaInscripcion;
-        private Button botonAbrirRally;
+        private CheckBox checkAbrirRally;
     }
 }
