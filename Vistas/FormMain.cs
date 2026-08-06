@@ -474,6 +474,33 @@ public partial class FormMain : Form
         bool hayCategoria = comboCategorias.SelectedValue is int idCategoria && idCategoria > 0;
         bool hayDatosDeInscripcion = dataGridMain.RowCount > 0;
 
+        // limpiar textbox de datos si no hay selección válida
+        if (!hayCampeonato)
+        {
+            comboCampeonatos.SelectedIndex = -1;
+            Limpia_DatosCampeonato();
+        }
+        if (!hayPrueba)
+        {
+            comboPruebas.SelectedIndex = -1;
+            Limpia_DatosPrueba();
+        }
+        if (!hayPiloto)
+        {
+            comboPilotos.SelectedIndex = -1;
+            Limpia_DatosPiloto();
+        }
+        if (!hayCoche)
+        {
+            comboCoches.SelectedIndex = -1;
+            Limpia_DatosCoche();
+        }
+        if (!hayCategoria)
+        {
+            comboCategorias.SelectedIndex = -1;
+            Limpiar_Color_Categoria();
+        }
+
         // Estados comboBox
         comboCampeonatos.Enabled = true;            // Siempre habilitado
         comboPruebas.Enabled = hayCampeonato;       // Habilitado solo si hay campeonato seleccionado
@@ -1610,17 +1637,18 @@ public partial class FormMain : Form
     //-------------------------------------------------------------------------
     private void CheckAbrirRally_CheckedChanged(object sender, EventArgs e)
     {
+        bool rallyAbierto = checkAbrirRally.Checked;
+
         comboPilotos.SelectedIndex = -1;
         comboCoches.SelectedIndex = -1; 
         comboCategorias.SelectedIndex = -1;
 
-        Controles_EnableAndDisable();
-
-        bool rallyAbierto = checkAbrirRally.Checked;
         groupBoxCampeonato.Enabled = !rallyAbierto;
         groupBoxPiloto.Enabled = !rallyAbierto;
         groupBoxCategoria.Enabled = !rallyAbierto;
         groupBoxInscripcion.Enabled = !rallyAbierto;
+
+        Controles_EnableAndDisable();
     }
     //-------------------------------------------------------------------------
     #endregion
