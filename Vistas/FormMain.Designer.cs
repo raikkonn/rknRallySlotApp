@@ -153,7 +153,7 @@ namespace rknRallySlotApp.Vistas
             dataGridMain.Size = new Size(1401, 431);
             dataGridMain.TabIndex = 0;
             dataGridMain.TabStop = false;
-            dataGridMain.CellDoubleClick += DobleClick_dataGridMain_CellDoubleClick;
+            dataGridMain.CellDoubleClick += DataGridMain_CellDoubleClick;
             dataGridMain.DataBindingComplete += Colorear_dataGridMain_DataBindingComplete;
             dataGridMain.RowPostPaint += Resaltar_dataGridMain_RowPostPaint;
             dataGridMain.SelectionChanged += Seleccion_dataGridMain_SelectionChanged;

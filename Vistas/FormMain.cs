@@ -8,9 +8,15 @@ namespace rknRallySlotApp.Vistas;
 
 public partial class FormMain : Form
 {
+
     #region Miembros Privados, Publicos y Constructor
     //-------------------------------------------------------------------------
+    // DECLARACIONES A NIVEL DE CLASE (Ámbito global dentro del formulario)
     private readonly ToolTip _toolTip = new();
+
+    private readonly ContextMenuStrip ctxMenu_dataGridMain_Inscripcion = new();
+    private readonly ToolStripMenuItem opcion_ctxMenu_BorrarInscripcion = new("Borrar esta Inscripción");
+    private readonly ToolStripMenuItem opcion_ctxMenu_Penalizar = new("Penalizar este Piloto");
 
     public int? IdCampeonatoSeleccionado = null;    // ID del campeonato seleccionado (null con selección vacía)
     public int? IdPruebaSeleccionada = null;        // ID de la prueba seleccionada (null con selección vacía)
@@ -41,7 +47,6 @@ public partial class FormMain : Form
         statusStripMain.Renderer = new ToolStripProfessionalRenderer(colorTable);
         statusStripMain.BackColor = fondoPrincipal;
         statusStripMain.ForeColor = Color.White;
-        // ==========================================
 
         // ==========================================
         // inicializamos los botones y tooltips
@@ -57,41 +62,49 @@ public partial class FormMain : Form
         ComboCategorias_Init();
 
         // ==========================================
+        // Menú Contextual
+        // Suscribir opciones a sus eventos Click 
+        opcion_ctxMenu_BorrarInscripcion.Click += Opcion_ctxMenu_BorrarInscripcion_Click;
+        opcion_ctxMenu_Penalizar.Click += Opcion_ctxMenu_Penalizar_Click;
+
+        // Añadir opciones al menú contextual
+        ctxMenu_dataGridMain_Inscripcion.Items.Add(opcion_ctxMenu_Penalizar);
+        ctxMenu_dataGridMain_Inscripcion.Items.Add(opcion_ctxMenu_BorrarInscripcion);
+
+        // ==========================================
         // inicializamos el DataGridView
         dataGridMain.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         dataGridMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
         dataGridMain.AllowUserToResizeColumns = true;
-
-        // Declarar el menú y la opción
-        ContextMenuStrip menuContextualDgvInscripcion = new();
-        ToolStripMenuItem opcionBorrarInscripcion = new("Borrar esta Inscripción");
-
-        // Suscribir la opción a un evento Click para definir qué hará
-        opcionBorrarInscripcion.Click += (s, args) =>
-        {
-            // Lógica a ejecutar cuando se haga clic en la opción
-            Borrar_Inscripcion();
-        };
-
-        // Añadir la opción al menú contextual
-        menuContextualDgvInscripcion.Items.Add(opcionBorrarInscripcion);
-
-        // Suscribir el DataGridView al evento CellMouseUp
-        dataGridMain.CellMouseUp += (sender, e) =>
-        {
-            // Validar que sea un clic derecho y que no se haya hecho clic en las cabeceras (RowIndex -1)
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
-            {
-                // Limpiar selecciones previas y seleccionar la fila actual bajo el ratón
-                dataGridMain.ClearSelection();
-                dataGridMain.Rows[e.RowIndex].Selected = true;
-
-                // Mostrar el menú contextual exactamente en la posición actual del cursor en la pantalla
-                menuContextualDgvInscripcion.Show(Cursor.Position);
-            }
-        };
-        // ==========================================
     }
+
+    // Evento Click para la opción del menú contextual "Borrar esta Inscripción"
+    private void Opcion_ctxMenu_BorrarInscripcion_Click(object? sender, EventArgs e)
+    {
+        Borrar_Inscripcion();
+    }
+
+    // Evento Click para la opción del menú contextual "Penalizar este Piloto"
+    private void Opcion_ctxMenu_Penalizar_Click(object? sender, EventArgs e)
+    {
+        Penalizar_Inscripcion();
+    }
+
+    // Evento CellMouseUp para el DataGridMain, para mostrar el menú contextual al hacer clic derecho
+    private void DataGridMain_CellMouseUp(object? sender, DataGridViewCellMouseEventArgs e)
+    {
+        // Validar que sea un clic derecho y que no se haya hecho clic en las cabeceras (RowIndex -1)
+        if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+        {
+            // Limpiar selecciones previas y seleccionar la fila actual bajo el ratón
+            dataGridMain.ClearSelection();
+            dataGridMain.Rows[e.RowIndex].Selected = true;
+
+            // Mostrar el menú contextual exactamente en la posición actual del cursor en la pantalla
+            ctxMenu_dataGridMain_Inscripcion.Show(Cursor.Position);
+        }
+    }
+    
     //-------------------------------------------------------------------------
     #endregion
 
@@ -1376,8 +1389,16 @@ public partial class FormMain : Form
 
     #region DataGridView
     //-------------------------------------------------------------------------
+    
     private void DataGridMain_Init_Inscripcion()
     {
+        // ==========================================
+        // Suscripcion eventos DataGridMain para INSCRIPCIONES
+        dataGridMain.CellMouseUp -= DataGridMain_CellMouseUp;           // Evitamos suscripciones duplicadas
+        dataGridMain.CellMouseUp += DataGridMain_CellMouseUp;           // Suscribimos al evento para mostrar el menú contextual al hacer clic derecho
+        dataGridMain.CellDoubleClick -= DataGridMain_CellDoubleClick;   // Evitamos suscripciones duplicadas
+        dataGridMain.CellDoubleClick += DataGridMain_CellDoubleClick;   // Suscribimos al evento para manejar el doble clic para VERIFICADO
+
         // ==========================================
         // Inicializa DataGridMain para INSCRIPCIONES
         // ==========================================
@@ -1402,11 +1423,12 @@ public partial class FormMain : Form
             {
                 Id = i.Id,
                 Dorsal = i.Dorsal,
-                Alias = i.AliasPiloto,          // Ahora sí tiene datos gracias al Include
-                Piloto = i.NombrePiloto,        // Ahora sí tiene datos gracias al Include
-                Coche = i.DescripcionCoche,     // Usamos tu propiedad [NotMapped] que ya formatea "Modelo [Marca]"
-                Categoria = i.Categoria?.Nombre ?? string.Empty, // Extraemos el texto del nombre explícitamente, no el objeto
+                Alias = i.AliasPiloto,                              // Ahora sí tiene datos gracias al Include
+                Piloto = i.NombrePiloto,                            // Ahora sí tiene datos gracias al Include
+                Coche = i.DescripcionCoche,                         // Usamos propiedad [NotMapped] que ya formatea "Modelo [Marca]"
+                Categoria = i.Categoria?.Nombre ?? string.Empty,    // Extraemos el texto del nombre explícitamente, no el objeto
                 Verificado = i.Verificado,
+                Penalizacion_seg = i.PenalizacionSEG,
                 ColorFila = string.IsNullOrWhiteSpace(i.Categoria?.ColorHex) ? "#FFFFFF" : i.Categoria.ColorHex
             })
             .ToDataTable();
@@ -1421,6 +1443,9 @@ public partial class FormMain : Form
         // autoajustamos el tamaño de las columnas para que se vean todos los datos
         dataGridMain.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
+        // ancho manual para Penalizacion_seg
+        dataGridMain.Columns["Penalizacion_seg"]!.Width = 155;
+
         // Igualar el color de "selección" de la cabecera con su color normal
         dataGridMain.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridMain.ColumnHeadersDefaultCellStyle.BackColor;
         dataGridMain.ColumnHeadersDefaultCellStyle.SelectionForeColor = dataGridMain.ColumnHeadersDefaultCellStyle.ForeColor;
@@ -1428,16 +1453,19 @@ public partial class FormMain : Form
         // Visualizar encabezado de fila
         dataGridMain.RowHeadersVisible = true;
 
-        // Define el ancho del encabezado de la fila en píxeles
+        // Define ancho encabezado de fila
         dataGridMain.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
         dataGridMain.RowHeadersWidth = 20;
 
-        // Alineamos columnas Dorsal y Alias al centro
+        // Alinear columnas 
         dataGridMain.Columns["Dorsal"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         dataGridMain.Columns["Alias"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridMain.Columns["Penalizacion_seg"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
+        // Alinear encabezados columna
         dataGridMain.Columns["Dorsal"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
         dataGridMain.Columns["Alias"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dataGridMain.Columns["Penalizacion_seg"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
         // Ordenamiento inicial por DORSAL Ascendente
         dataGridMain.Sort(dataGridMain.Columns["Dorsal"]!, ListSortDirection.Ascending);
@@ -1521,12 +1549,13 @@ public partial class FormMain : Form
         dataGridMain.Invalidate();
     }
 
-    private async void DobleClick_dataGridMain_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+    // Controla el doble clic para columna VERIFICADO
+    private async void DataGridMain_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
     {
         // Validar que no se haya hecho clic en las cabeceras (RowIndex = -1, ColumnIndex = -1)
         if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-        var dgv = (DataGridView)sender;
+        var dgv = (DataGridView)sender!;
 
         // Comprobar que la celda clicada corresponde a la columna "Verificado"
         if (dgv.Columns[e.ColumnIndex].Name != "Verificado") return;
@@ -1561,12 +1590,9 @@ public partial class FormMain : Form
 
     private async void Borrar_Inscripcion()
     {
-        // Validar que hay una fila seleccionada (gracias a nuestro CellMouseUp previo)
-        if (dataGridMain.SelectedRows.Count != 1)
-        {
-            return;
-        }
-
+        // Validar que hay una y sólo una fila seleccionada 
+        if (dataGridMain.SelectedRows.Count != 1) return;
+        
         // Extraer el Id de la fila seleccionada
         int idInscripcionSelected = Convert.ToInt32(dataGridMain.SelectedRows[0].Cells["Id"].Value);
         string dorsalSelected = dataGridMain.SelectedRows[0].Cells["Dorsal"].Value?.ToString() ?? "N/A";
@@ -1629,6 +1655,31 @@ public partial class FormMain : Form
                 this.Cursor = Cursors.Default;
             }
         }
+    }
+    
+    private void Penalizar_Inscripcion()
+    {
+        /*
+        // Validar que hay una fila seleccionada 
+        if (dataGridMain.SelectedRows.Count != 1) return;
+
+        // Extraer el Id de la fila seleccionada
+        int idInscripcionSelected = Convert.ToInt32(dataGridMain.SelectedRows[0].Cells["Id"].Value);
+
+        // Abrir el formulario de penalización
+        using var formPenalizacion = new FormPenalizacion(idInscripcionSelected);
+
+        formPenalizacion.StartPosition = FormStartPosition.CenterParent;
+
+        if (formPenalizacion.ShowDialog(this) == DialogResult.OK)
+        {
+            // Refrescar el DataGridView llamando a tu método Init
+            DataGridMain_Init_Inscripcion();
+            MostrarMensajeEstado("Penalización actualizada OK");
+        }
+        */
+
+        MessageBox.Show("Penalizar aún no implementada.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
     //-------------------------------------------------------------------------
     #endregion
