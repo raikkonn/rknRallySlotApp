@@ -1279,7 +1279,7 @@ public partial class FormMain : Form
     #region otros
     //-------------------------------------------------------------------------
     private CancellationTokenSource? _ctsMensaje;
-    public async void MostrarMensajeEstado(string msg, int ms = 4000)
+    public async void MostrarMensajeEstado(string msg, int ms = 6000)
     {
         // Cancela la espera del mensaje anterior si aún estaba corriendo
         _ctsMensaje?.Cancel();
@@ -1800,27 +1800,51 @@ public partial class FormMain : Form
 
     #region Scratch
     //-------------------------------------------------------------------------
-    private async void CheckAbrirRally_CheckedChanged(object sender, EventArgs e)
+    private async void CheckAbrirRally_CheckedChanged(object? sender, EventArgs e)
     {
+        // rally abierto si checkbox está marcado
         bool rallyAbierto = checkAbrirRally.Checked;
 
-        comboPilotos.SelectedIndex = -1;
-        comboCoches.SelectedIndex = -1; 
-        comboCategorias.SelectedIndex = -1;
-
+        // Bloqueados la Inscripcion si el rally está abierto
         groupBoxCampeonato.Enabled = !rallyAbierto;
         groupBoxPiloto.Enabled = !rallyAbierto;
         groupBoxCategoria.Enabled = !rallyAbierto;
         groupBoxInscripcion.Enabled = !rallyAbierto;
 
-        Controles_EnableAndDisable();
-
         if (rallyAbierto)
         {
-            await GestionDatos.PoblarCronosAsync(IdPruebaSeleccionada);
+            // Se intenta inicializar Cronos con la prueba seleccionada
+            DialogResult resultado = await GestionDatos.PoblarCronosAsync(IdPruebaSeleccionada);
 
-            string rallySeleccionado = comboPruebas.Text;
-            MostrarMensajeEstado($"{rallySeleccionado} abierto: Las inscripciones estan bloqueadas ");
+            if (resultado == DialogResult.OK)
+            {
+                // despejar combos y controles
+                comboPilotos.SelectedIndex = -1;
+                comboCoches.SelectedIndex = -1;
+                comboCategorias.SelectedIndex = -1;
+                Controles_EnableAndDisable();
+
+                // mensaje de estado Rally abierto
+                string rallySeleccionado = $"| {comboCampeonatos.Text} | {comboPruebas.Text} |";
+                MostrarMensajeEstado($"{rallySeleccionado} Rally abierto: Las inscripciones estan bloqueadas", 10000);
+
+                // ==========================================
+                // Tratamiento rally abierto
+
+
+
+            }
+            else    // no se pudo inicializar Cronos, desmarcamos el checkbox
+            {
+                // DESUSCRIBIMOS EL EVENTO temporalmente para evitar el bucle/anidamiento
+                checkAbrirRally.CheckedChanged -= CheckAbrirRally_CheckedChanged;
+
+                checkAbrirRally.Checked = false;
+                checkAbrirRally.Invalidate();
+
+                // VOLVEMOS A SUSCRIBIR EL EVENTO
+                checkAbrirRally.CheckedChanged += CheckAbrirRally_CheckedChanged;
+            }
         }
         else
         {
