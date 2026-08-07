@@ -1699,7 +1699,7 @@ public partial class FormMain : Form
             Location = rectCelda.Location,
             Size = rectCelda.Size,
             Text = penalizacionValor.ToString(),
-            TextAlign = HorizontalAlignment.Center
+            TextAlign = HorizontalAlignment.Right
         };
 
         // Bandera para evitar ejecuciones múltiples del guardado (LostFocus + Enter simultáneos)
@@ -1750,6 +1750,15 @@ public partial class FormMain : Form
         }
 
         // Validar solo números y gestionar teclas especiales (Enter / Escape)
+        tboxPenalizacion.PreviewKeyDown += (sender, e) =>
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                // Forzamos a que el sistema considere que la tecla fue procesada aquí
+                e.IsInputKey = true;
+            }
+        };
+
         tboxPenalizacion.KeyPress += async (sender, e) =>
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -1775,6 +1784,10 @@ public partial class FormMain : Form
         };
 
         dgv.Controls.Add(tboxPenalizacion);
+        tboxPenalizacion.Font = dgv.Rows[fila].Cells[colu].Style.Font
+                        ?? dgv.DefaultCellStyle.Font
+                        ?? dgv.Font;
+        tboxPenalizacion.BringToFront();
         tboxPenalizacion.Focus();
         tboxPenalizacion.SelectAll();
     }
