@@ -77,34 +77,6 @@ public partial class FormMain : Form
         dataGridMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
         dataGridMain.AllowUserToResizeColumns = true;
     }
-
-    // Evento Click para la opción del menú contextual "Borrar esta Inscripción"
-    private void Opcion_ctxMenu_BorrarInscripcion_Click(object? sender, EventArgs e)
-    {
-        Borrar_Inscripcion();
-    }
-
-    // Evento Click para la opción del menú contextual "Penalizar este Piloto"
-    private void Opcion_ctxMenu_Penalizar_Click(object? sender, EventArgs e)
-    {
-        Penalizar_Inscripcion();
-    }
-
-    // Evento CellMouseUp para el DataGridMain, para mostrar el menú contextual al hacer clic derecho
-    private void DataGridMain_CellMouseUp(object? sender, DataGridViewCellMouseEventArgs e)
-    {
-        // Validar que sea un clic derecho y que no se haya hecho clic en las cabeceras (RowIndex -1)
-        if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
-        {
-            // Limpiar selecciones previas y seleccionar la fila actual bajo el ratón
-            dataGridMain.ClearSelection();
-            dataGridMain.Rows[e.RowIndex].Selected = true;
-
-            // Mostrar el menú contextual exactamente en la posición actual del cursor en la pantalla
-            ctxMenu_dataGridMain_Inscripcion.Show(Cursor.Position);
-        }
-    }
-    
     //-------------------------------------------------------------------------
     #endregion
 
@@ -1549,50 +1521,14 @@ public partial class FormMain : Form
         dataGridMain.Invalidate();
     }
 
-    // Controla el doble clic para columna VERIFICADO
-    private async void DataGridMain_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
-    {
-        // Validar que no se haya hecho clic en las cabeceras (RowIndex = -1, ColumnIndex = -1)
-        if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-
-        var dgv = (DataGridView)sender!;
-
-        // Comprobar que la celda clicada corresponde a la columna "Verificado"
-        if (dgv.Columns[e.ColumnIndex].Name != "Verificado") return;
-
-        // Obtener el ID de la inscripción de la fila actual.
-        int idInscripcionActual = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["Id"].Value);
-
-        // Leer el valor actual del CheckBox y calcular el opuesto (toggle)
-        object? cellValue = dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-        bool valorActual = cellValue != null && cellValue != DBNull.Value && Convert.ToBoolean(cellValue);
-        bool nuevoValor = !valorActual;
-
-        // Instanciar el contexto y actualizar la base de datos de forma asíncrona
-        using var db = new Datos.AppDbContext();
-
-        // Buscamos el registro exacto usando su clave primaria Id en el DbSet de Inscripciones
-        var inscripcionDb = await db.Inscripciones.FindAsync(idInscripcionActual);
-
-        if (inscripcionDb != null)
-        {
-            // Alternamos el valor booleano de la propiedad Verificado 
-            inscripcionDb.Verificado = nuevoValor;
-
-            // Guardamos los cambios físicamente en la base de datos SQLite
-            await db.SaveChangesAsync();
-
-            // Reflejar el cambio visualmente en el DataGrid inmediatamente 
-            // sin necesidad de recargar toda la consulta de la base de datos
-            dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = nuevoValor;
-        }
-    }
-
-    private async void Borrar_Inscripcion()
+    // ==========================================
+    // BORRAR INSCRIPCION
+    // Evento Click opción menu contexto "Borrar esta Inscripción"
+    private async void Opcion_ctxMenu_BorrarInscripcion_Click(object? sender, EventArgs e)
     {
         // Validar que hay una y sólo una fila seleccionada 
         if (dataGridMain.SelectedRows.Count != 1) return;
-        
+
         // Extraer el Id de la fila seleccionada
         int idInscripcionSelected = Convert.ToInt32(dataGridMain.SelectedRows[0].Cells["Id"].Value);
         string dorsalSelected = dataGridMain.SelectedRows[0].Cells["Dorsal"].Value?.ToString() ?? "N/A";
@@ -1656,31 +1592,193 @@ public partial class FormMain : Form
             }
         }
     }
-    
-    private void Penalizar_Inscripcion()
+
+    // ==========================================
+    // PENALIZAR PILOTO (menu contexto)
+    // Evento Click para la opción del menú contextual "Penalizar este Piloto"
+    private void Opcion_ctxMenu_Penalizar_Click(object? sender, EventArgs e)
     {
-        /*
-        // Validar que hay una fila seleccionada 
-        if (dataGridMain.SelectedRows.Count != 1) return;
+        // 1. Asegurarnos de que el dataGridView tiene una fila seleccionada actualmente
+        if (dataGridMain.SelectedRows.Count != 1)
+            return;
 
-        // Extraer el Id de la fila seleccionada
-        int idInscripcionSelected = Convert.ToInt32(dataGridMain.SelectedRows[0].Cells["Id"].Value);
+        // 2. Obtener la fila actual (usando la celda actual o la fila seleccionada)
+        int fila = dataGridMain.SelectedRows[0].Index;
+        int colu = dataGridMain.Columns["Penalizacion_seg"]?.Index ?? -1;
 
-        // Abrir el formulario de penalización
-        using var formPenalizacion = new FormPenalizacion(idInscripcionSelected);
+        // Validar que los índices sean correctos
+        if (fila < 0 || colu < 0)
+            return;
 
-        formPenalizacion.StartPosition = FormStartPosition.CenterParent;
+        // 3. Obtener el ID de la inscripción de la fila seleccionada (igual que en el doble clic)
+        int idInscripcionActual = Convert.ToInt32(dataGridMain.Rows[fila].Cells["Id"].Value);
 
-        if (formPenalizacion.ShowDialog(this) == DialogResult.OK)
-        {
-            // Refrescar el DataGridView llamando a tu método Init
-            DataGridMain_Init_Inscripcion();
-            MostrarMensajeEstado("Penalización actualizada OK");
-        }
-        */
-
-        MessageBox.Show("Penalizar aún no implementada.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        // 4. Llamar al mismo método que ya usas para la edición flotante
+        Tto_Penalizacion(dataGridMain, fila, colu, idInscripcionActual);
     }
+
+    // ==========================================
+    // Evento CellMouseUp para el DataGridMain, para mostrar el menú contextual al hacer clic derecho
+    private void DataGridMain_CellMouseUp(object? sender, DataGridViewCellMouseEventArgs e)
+    {
+        // Validar que sea un clic derecho y que no se haya hecho clic en las cabeceras (RowIndex -1)
+        if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+        {
+            // Limpiar selecciones previas y seleccionar la fila actual bajo el ratón
+            dataGridMain.ClearSelection();
+            dataGridMain.Rows[e.RowIndex].Selected = true;
+
+            // Mostrar el menú contextual exactamente en la posición actual del cursor en la pantalla
+            ctxMenu_dataGridMain_Inscripcion.Show(Cursor.Position);
+        }
+    }
+
+    // ==========================================
+    // Controla el doble clic para columnas VERIFICADO y PENALIZACION_SEG
+    private async void DataGridMain_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
+    {
+        int fila = e.RowIndex;
+        int colu = e.ColumnIndex;
+
+        // Si clic en cabeceras, sale
+        if (fila < 0 || colu < 0)
+            return;
+
+        DataGridView dgv = (DataGridView)sender!;
+        string nombreColumna = dgv.Columns[colu].Name;
+
+        // Si no es columna permitida, sale 
+        if (nombreColumna != "Verificado" && nombreColumna != "Penalizacion_seg")
+            return;
+
+        // Obtener el ID de la inscripción de la fila del GRID.
+        int idInscripcionActual = Convert.ToInt32(dgv.Rows[fila].Cells["Id"].Value);
+
+        // Tratamiento según la columna
+        if (nombreColumna == "Verificado")
+        {
+            using AppDbContext db = new();
+            var inscripcionDB = await db.Inscripciones.FindAsync(idInscripcionActual);
+
+            if (inscripcionDB == null)
+                return;
+
+            object? valorCelda = dgv.Rows[fila].Cells[colu].Value;
+            bool valorActual = valorCelda != null && valorCelda != DBNull.Value && Convert.ToBoolean(valorCelda);
+            bool nuevoValor = !valorActual;
+
+            inscripcionDB.Verificado = nuevoValor;
+            dgv.Rows[fila].Cells[colu].Value = nuevoValor;
+
+            // Guardamos los cambios en DB de forma asíncrona
+            await db.SaveChangesAsync();
+        }
+        else if (nombreColumna == "Penalizacion_seg")
+        {
+            Tto_Penalizacion(dgv, fila, colu, idInscripcionActual);
+        }
+    }
+
+    // ==========================================
+    // Tto de las penalizaciones de pilotos
+    private void Tto_Penalizacion(DataGridView dgv, int fila, int colu, int idInscripcionActual)
+    {
+        // Consultamos el valor actual solo para pintar el texto inicial
+        int penalizacionValor = 0;
+        using (AppDbContext dbTemp = new())
+        {
+            var insTemp = dbTemp.Inscripciones.Find(idInscripcionActual);
+            if (insTemp == null) return;
+            penalizacionValor = insTemp.PenalizacionSEG;
+        }
+
+        Rectangle rectCelda = dgv.GetCellDisplayRectangle(colu, fila, true);
+
+        TextBox tboxPenalizacion = new()
+        {
+            Location = rectCelda.Location,
+            Size = rectCelda.Size,
+            Text = penalizacionValor.ToString(),
+            TextAlign = HorizontalAlignment.Center
+        };
+
+        // Bandera para evitar ejecuciones múltiples del guardado (LostFocus + Enter simultáneos)
+        bool isSavingOrClosing = false;
+
+        // Método local para limpiar y destruir el TextBox de forma segura
+        void CerrarEditor()
+        {
+            if (isSavingOrClosing) return;
+            isSavingOrClosing = true;
+
+            if (dgv.Controls.Contains(tboxPenalizacion))
+            {
+                dgv.Controls.Remove(tboxPenalizacion);
+                tboxPenalizacion.Dispose();
+                dgv.Invalidate();
+            }
+        }
+
+        // Método local para guardar los cambios
+        async Task GuardarCambiosAsync()
+        {
+            if (isSavingOrClosing) return;
+
+            if (int.TryParse(tboxPenalizacion.Text, out int valorPenalizacion) && valorPenalizacion >= 0)
+            {
+                try
+                {
+                    using AppDbContext db = new();
+                    var inscripcionDB = await db.Inscripciones.FindAsync(idInscripcionActual);
+
+                    if (inscripcionDB != null)
+                    {
+                        inscripcionDB.PenalizacionSEG = valorPenalizacion;
+                        await db.SaveChangesAsync();
+
+                        // Reflejar el cambio visualmente en el grid
+                        dgv.Rows[fila].Cells[colu].Value = valorPenalizacion;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MostrarMensajeEstado($"Error al guardar la penalización: {ex.Message}");
+                }
+            }
+
+            CerrarEditor();
+        }
+
+        // Validar solo números y gestionar teclas especiales (Enter / Escape)
+        tboxPenalizacion.KeyPress += async (sender, e) =>
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                await GuardarCambiosAsync();
+            }
+            else if (e.KeyChar == (char)Keys.Escape)
+            {
+                e.Handled = true;
+                CerrarEditor();
+            }
+            else if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        };
+
+        // Al perder el foco, guardamos y cerramos
+        tboxPenalizacion.LostFocus += async (sender, e) =>
+        {
+            await GuardarCambiosAsync();
+        };
+
+        dgv.Controls.Add(tboxPenalizacion);
+        tboxPenalizacion.Focus();
+        tboxPenalizacion.SelectAll();
+    }
+    
     //-------------------------------------------------------------------------
     #endregion
 
@@ -1704,3 +1802,4 @@ public partial class FormMain : Form
     //-------------------------------------------------------------------------
     #endregion
 }
+
