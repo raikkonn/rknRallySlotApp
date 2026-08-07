@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using rknRallySlotApp.Datos;
+using rknRallySlotApp.Logica;
 using rknRallySlotApp.Modelos;
 using rknRallySlotApp.Utilidades;
 using System.ComponentModel;
@@ -1797,7 +1798,7 @@ public partial class FormMain : Form
 
     #region Scratch
     //-------------------------------------------------------------------------
-    private void CheckAbrirRally_CheckedChanged(object sender, EventArgs e)
+    private async void CheckAbrirRally_CheckedChanged(object sender, EventArgs e)
     {
         bool rallyAbierto = checkAbrirRally.Checked;
 
@@ -1811,6 +1812,18 @@ public partial class FormMain : Form
         groupBoxInscripcion.Enabled = !rallyAbierto;
 
         Controles_EnableAndDisable();
+
+        if (rallyAbierto)
+        {
+            await GestionDatos.PoblarCronosAsync(IdPruebaSeleccionada);
+
+            string rallySeleccionado = comboPruebas.Text;
+            MostrarMensajeEstado($"{rallySeleccionado} abierto: Las inscripciones estan bloqueadas ");
+        }
+        else
+        {
+            MostrarMensajeEstado("Rally cerrado: Se permite modificar la inscripción");
+        }   
     }
     //-------------------------------------------------------------------------
     #endregion
