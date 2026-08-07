@@ -1542,15 +1542,17 @@ public partial class FormMain : Form
         bool tieneCronos = await db.Cronos.AnyAsync(c => c.IdInscripcion == idInscripcionSelected);
 
         // 5. Preparar el mensaje de advertencia dinámico
-        string mensaje = $"Dorsal [{dorsalSelected}] - {pilotoSelected}\n ¿Seguro quieres BORRAR esta inscripción?";
+        string mensaje = $"Dorsal [{dorsalSelected}] - {pilotoSelected}\n\n ¿Seguro quieres BORRAR esta inscripción?";
         string titulo = "Confirmar Borrado";
         MessageBoxIcon icono = MessageBoxIcon.Question;
 
         if (tieneCronos)
         {
-            mensaje = $"¡ATENCIÓN! El Dorsal [{dorsalSelected}] - {pilotoSelected}\n ya tiene tiempos registrados.\n\n" +
-                      $"Si eliminas esta inscripción\n SE BORRARÁN TODOS SUS TIEMPOS de forma irreversible.\n\n" +
-                      $"¿Deseas continuar de todos modos?";
+            mensaje = $"¡ATENCIÓN! El Dorsal [{dorsalSelected}] - {pilotoSelected}\n " +
+                      $"ya tiene tiempos registrados en esta prueba.\n\n" +
+                      $"Si eliminas esta inscripción\n " +
+                      $"SE BORRARÁN SUS TIEMPOS EN ESTA PRUEBA de forma irreversible.\n\n" +
+                      $"¿Continuar con el BORRADO de todos modos?";
             titulo = "PELIGRO - Pérdida de Datos";
             icono = MessageBoxIcon.Warning;
         }
