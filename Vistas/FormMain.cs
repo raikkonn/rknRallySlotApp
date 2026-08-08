@@ -1880,11 +1880,10 @@ public partial class FormMain : Form
     private void DataGridMain_Init_Cronos()
     {
         // ==========================================
-        // Suscripción eventos DataGridMain para CRONOS = NINGUNO
+        // Suscripción eventos DataGridMain para CRONOS 
         // ==========================================
-        dataGridMain.CellMouseUp -= DataGridMain_CellMouseUp;
-        dataGridMain.CellDoubleClick -= DataGridMain_CellDoubleClick;
-        dataGridMain.DataBindingComplete -= Colorear_dataGridMain_DataBindingComplete;
+        dataGridMain.CellMouseUp -= DataGridMain_CellMouseUp;               // deshabilitar menú contextual
+        dataGridMain.CellDoubleClick -= DataGridMain_CellDoubleClick;       // deshabilitar doble clic
 
         int idPruebaActual = IdPruebaSeleccionada ?? 0;
 
@@ -1915,13 +1914,21 @@ public partial class FormMain : Form
             .ThenBy(x => x.TiempoTotalRally)
             .ToList();
 
+        // ==========================================
         // 4. Construimos el DataTable dinámico
         DataTable dt = new();
 
+        // 4.1 Crear Columnas
         // Columnas base
-        dt.Columns.Add("Pos", typeof(int));
-        dt.Columns.Add("Dor", typeof(int));
+        dt.Columns.Add("ColorFila", typeof(string));
+        dt.Columns.Add("Pos", typeof(string));
         dt.Columns.Add("Alias", typeof(string));
+
+        // Columnas calculadas 
+        dt.Columns.Add("tº Total", typeof(string));
+        dt.Columns.Add("Dif. 1º", typeof(string));
+        dt.Columns.Add("Dif. Ant.", typeof(string));
+
         dt.Columns.Add("Cat", typeof(string));
 
         // Generamos columnas dinámicas para Etapas y Tramos
@@ -1934,11 +1941,9 @@ public partial class FormMain : Form
             dt.Columns.Add($"Total E{E}", typeof(string));
         }
 
-        // Columnas calculadas finales
-        dt.Columns.Add("tº Total", typeof(string));
-        dt.Columns.Add("Dif. 1º", typeof(string));
-        dt.Columns.Add("Dif. Ant.", typeof(string));
+        dt.Columns.Add("Dor", typeof(int));
 
+        // ==========================================
         // Función local para formatear milisegundos a string (ssss.fff)
         static string FormatTime(int t_ms)
         {
@@ -1948,6 +1953,7 @@ public partial class FormMain : Form
             // ts.Milliseconds extrae el remanente de milisegundos (0-999)
             return $"{(int)ts.TotalSeconds:00}.{ts.Milliseconds:000}";
         }
+        // ==========================================
 
         // 5. Rellenamos las filas y calculamos los Gaps en memoria (100% seguro)
         int tiempoLider = clasificacionGeneral.FirstOrDefault(x => x.TiempoTotalRally > 0)?.TiempoTotalRally ?? 0;
@@ -1959,8 +1965,12 @@ public partial class FormMain : Form
             DataRow row = dt.NewRow();
             var inscripcion = item.Inscripcion;
 
+            row["ColorFila"] = string.IsNullOrWhiteSpace(inscripcion.Categoria?.ColorHex)
+                                    ? "#FFFFFF"
+                                    : inscripcion.Categoria.ColorHex;
+
             row["Dor"] = inscripcion.Dorsal;
-            row["Alias"] = inscripcion.AliasPiloto; // Se resuelve gracias al [NotMapped]
+            row["Alias"] = inscripcion.AliasPiloto; 
             row["Cat"] = inscripcion.Categoria?.Nombre ?? "";
 
             bool tieneTiempos = item.TiempoTotalRally > 0;
@@ -1968,7 +1978,7 @@ public partial class FormMain : Form
             // Lógica de cálculo de Gaps
             if (tieneTiempos)
             {
-                row["Pos"] = posicion;
+                row["Pos"] = $"{posicion}º";
 
                 if (posicion == 1)
                 {
@@ -1986,34 +1996,34 @@ public partial class FormMain : Form
             }
             else
             {
-                row["Pos"] = DBNull.Value;
-                row["Dif. 1º"] = "";
-                row["Dif. Ant."] = "";
+                row["Pos"] = "sin tº";
+                row["Dif. 1º"] = "sin tº";
+                row["Dif. Ant."] = "sin tº";
             }
 
             // Tiempos individuales y por etapa
-            for (int etapa = 1; etapa <= pruebaActual.NumEtapas; etapa++)
+            for (int E = 1; E <= pruebaActual.NumEtapas; E++)
             {
                 int totalEtapaMS = 0;
-                for (int tramo = 1; tramo <= pruebaActual.TramosPorEtapa; tramo++)
+                for (int T = 1; T <= pruebaActual.TramosPorEtapa; T++)
                 {
                     // Buscamos el crono específico con el nuevo modelo Crono
-                    var crono = inscripcion.Cronos.FirstOrDefault(c => c.Etapa == etapa && c.Tramo == tramo);
+                    var crono = inscripcion.Cronos.FirstOrDefault(c => c.Etapa == E && c.Tramo == T);
 
                     if (crono != null && crono.CronoMS > 0)
                     {
-                        row[$"E{etapa} T{tramo}"] = FormatTime(crono.CronoMS);
+                        row[$"E{E} T{T}"] = FormatTime(crono.CronoMS);
                         totalEtapaMS += crono.CronoMS;
                     }
                     else
                     {
-                        row[$"E{etapa} T{tramo}"] = "00:00.000";
+                        row[$"E{E} T{T}"] = "00.000";
                     }
                 }
-                row[$"Total E{etapa}"] = totalEtapaMS > 0 ? FormatTime(totalEtapaMS) : "00:00.000";
+                row[$"Total E{E}"] = totalEtapaMS > 0 ? FormatTime(totalEtapaMS) : "00.000";
             }
 
-            row["tº Total"] = tieneTiempos ? FormatTime(item.TiempoTotalRally) : "00:00.000";
+            row["tº Total"] = tieneTiempos ? FormatTime(item.TiempoTotalRally) : "00.000";
 
             dt.Rows.Add(row);
         }
@@ -2022,6 +2032,12 @@ public partial class FormMain : Form
         // Renderizado visual en DataGridView
         // ==========================================
         dataGridMain.DataSource = dt;
+
+        // Ocultar la columna del color
+        if (dataGridMain.Columns.Contains("ColorFila"))
+        {
+            dataGridMain.Columns["ColorFila"]?.Visible = false;
+        }
 
         // Ajuste de anchos y visuales
         dataGridMain.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
@@ -2033,7 +2049,7 @@ public partial class FormMain : Form
         dataGridMain.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
         dataGridMain.RowHeadersWidth = 20;
 
-        // Alineaciones para columnas estáticas
+        // Alineaciones para columnas estáticas (centro)
         string[] columnasCentradas = { "Pos", "Dor", "Alias", "Cat" };
         foreach (var colName in columnasCentradas)
         {
