@@ -4,6 +4,7 @@ using rknRallySlotApp.Logica;
 using rknRallySlotApp.Modelos;
 using rknRallySlotApp.Utilidades;
 using System.ComponentModel;
+using System.Data;
 
 namespace rknRallySlotApp.Vistas;
 
@@ -1362,7 +1363,7 @@ public partial class FormMain : Form
 
     #region DataGridView
     //-------------------------------------------------------------------------
-    
+
     private void DataGridMain_Init_Inscripcion()
     {
         // ==========================================
@@ -1370,7 +1371,9 @@ public partial class FormMain : Form
         dataGridMain.CellMouseUp -= DataGridMain_CellMouseUp;           // Evitamos suscripciones duplicadas
         dataGridMain.CellMouseUp += DataGridMain_CellMouseUp;           // Suscribimos al evento para mostrar el menú contextual al hacer clic derecho
         dataGridMain.CellDoubleClick -= DataGridMain_CellDoubleClick;   // Evitamos suscripciones duplicadas
-        dataGridMain.CellDoubleClick += DataGridMain_CellDoubleClick;   // Suscribimos al evento para manejar el doble clic para VERIFICADO
+        dataGridMain.CellDoubleClick += DataGridMain_CellDoubleClick;   // Suscribimos al evento para manejar el doble clic 
+        dataGridMain.DataBindingComplete -= Colorear_dataGridMain_DataBindingComplete; // Evitamos suscripciones duplicadas
+        dataGridMain.DataBindingComplete += Colorear_dataGridMain_DataBindingComplete; // Suscribimos al evento para colorear filas según la categoría
 
         // ==========================================
         // Inicializa DataGridMain para INSCRIPCIONES
@@ -1447,7 +1450,7 @@ public partial class FormMain : Form
         Controles_EnableAndDisable();
     }
 
-    private void Colorear_dataGridMain_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+    private void Colorear_dataGridMain_DataBindingComplete(object? sender, DataGridViewBindingCompleteEventArgs e)
     {
         // Iteramos por todas las filas creadas en el DataGrid
         foreach (DataGridViewRow fila in dataGridMain.Rows)
@@ -1830,10 +1833,9 @@ public partial class FormMain : Form
                 MostrarMensajeEstado($"{rallySeleccionado} Rally Abierto: Las inscripciones estan bloqueadas", 10000);
 
                 // ==========================================
-                // Tratamiento rally abierto
-
-
-
+                // Tratamiento rally ABIERTO
+                DataGridMain_Init_Cronos();
+                // ==========================================
             }
             else    // no se pudo inicializar Cronos, - Cerrar el Rally -
             {
@@ -1857,13 +1859,205 @@ public partial class FormMain : Form
 
                 // VOLVEMOS A SUSCRIBIR EL EVENTO
                 checkAbrirRally.CheckedChanged += CheckAbrirRally_CheckedChanged;
+
+                // ==========================================
+                // Tratamiento rally CERRADO
+                DataGridMain_Init_Inscripcion();
+                // ==========================================
             }
         }
         else
         {
             MostrarMensajeEstado("Rally Cerrado: Se permite modificar la inscripción");
+
+            // ==========================================
+            // Tratamiento rally CERRADO
+            DataGridMain_Init_Inscripcion();
+            // ==========================================
         }
     }
+
+    private void DataGridMain_Init_Cronos()
+    {
+        // ==========================================
+        // Suscripción eventos DataGridMain para CRONOS = NINGUNO
+        // ==========================================
+        dataGridMain.CellMouseUp -= DataGridMain_CellMouseUp;
+        dataGridMain.CellDoubleClick -= DataGridMain_CellDoubleClick;
+        dataGridMain.DataBindingComplete -= Colorear_dataGridMain_DataBindingComplete;
+
+        int idPruebaActual = IdPruebaSeleccionada ?? 0;
+
+        using var db = new AppDbContext();
+
+        // 1. Obtenemos la metadata de la prueba para saber la estructura jerárquica
+        var pruebaActual = db.Pruebas.FirstOrDefault(p => p.Id == idPruebaActual);
+        if (pruebaActual == null) return;
+
+        // 2. FASE SQL (EF Core): Extraemos inscripciones y sus cronos
+        var inscripcionesDb = db.Inscripciones
+            .Include(i => i.Piloto)
+            .Include(i => i.Categoria)
+            .Include(i => i.Cronos) 
+            .Where(i => i.IdPrueba == idPruebaActual)
+            .ToList();
+
+        // 3. FASE C# (Memoria): Calculamos tiempo total del rally (Cronos + Penalizaciones) y ordenamos
+        var clasificacionGeneral = inscripcionesDb
+            .Select(i => new
+                {
+                    Inscripcion = i,
+                    // Sumamos los milisegundos de cada tramo y añadimos los segundos de penalización convertidos a milisegundos
+                    TiempoTotalRally = i.Cronos.Sum(c => c.CronoMS) + (i.PenalizacionSEG * 1000)
+                })
+            // Ordenamos: primero los que no tienen tiempo (al final) y luego por tiempo ascendente
+            .OrderBy(x => x.TiempoTotalRally == 0)
+            .ThenBy(x => x.TiempoTotalRally)
+            .ToList();
+
+        // 4. Construimos el DataTable dinámico
+        DataTable dt = new();
+
+        // Columnas base
+        dt.Columns.Add("Pos", typeof(int));
+        dt.Columns.Add("Dor", typeof(int));
+        dt.Columns.Add("Alias", typeof(string));
+        dt.Columns.Add("Cat", typeof(string));
+
+        // Generamos columnas dinámicas para Etapas y Tramos
+        for (int E = 1; E <= pruebaActual.NumEtapas; E++)
+        {
+            for (int T = 1; T <= pruebaActual.TramosPorEtapa; T++)
+            {
+                dt.Columns.Add($"E{E} T{T}", typeof(string));
+            }
+            dt.Columns.Add($"Total E{E}", typeof(string));
+        }
+
+        // Columnas calculadas finales
+        dt.Columns.Add("tº Total", typeof(string));
+        dt.Columns.Add("Dif. 1º", typeof(string));
+        dt.Columns.Add("Dif. Ant.", typeof(string));
+
+        // Función local para formatear milisegundos a string (ssss.fff)
+        static string FormatTime(int t_ms)
+        {
+            TimeSpan ts = TimeSpan.FromMilliseconds(t_ms);
+
+            // (int)ts.TotalSeconds extrae todos los segundos acumulados sin importar los minutos
+            // ts.Milliseconds extrae el remanente de milisegundos (0-999)
+            return $"{(int)ts.TotalSeconds:00}.{ts.Milliseconds:000}";
+        }
+
+        // 5. Rellenamos las filas y calculamos los Gaps en memoria (100% seguro)
+        int tiempoLider = clasificacionGeneral.FirstOrDefault(x => x.TiempoTotalRally > 0)?.TiempoTotalRally ?? 0;
+        int tiempoAnterior = 0;
+        int posicion = 1;
+
+        foreach (var item in clasificacionGeneral)
+        {
+            DataRow row = dt.NewRow();
+            var inscripcion = item.Inscripcion;
+
+            row["Dor"] = inscripcion.Dorsal;
+            row["Alias"] = inscripcion.AliasPiloto; // Se resuelve gracias al [NotMapped]
+            row["Cat"] = inscripcion.Categoria?.Nombre ?? "";
+
+            bool tieneTiempos = item.TiempoTotalRally > 0;
+
+            // Lógica de cálculo de Gaps
+            if (tieneTiempos)
+            {
+                row["Pos"] = posicion;
+
+                if (posicion == 1)
+                {
+                    row["Dif. 1º"] = "---";
+                    row["Dif. Ant."] = "---";
+                }
+                else
+                {
+                    row["Dif. 1º"] = "+" + FormatTime(item.TiempoTotalRally - tiempoLider);
+                    row["Dif. Ant."] = "+" + FormatTime(item.TiempoTotalRally - tiempoAnterior);
+                }
+
+                tiempoAnterior = item.TiempoTotalRally;
+                posicion++;
+            }
+            else
+            {
+                row["Pos"] = DBNull.Value;
+                row["Dif. 1º"] = "";
+                row["Dif. Ant."] = "";
+            }
+
+            // Tiempos individuales y por etapa
+            for (int etapa = 1; etapa <= pruebaActual.NumEtapas; etapa++)
+            {
+                int totalEtapaMS = 0;
+                for (int tramo = 1; tramo <= pruebaActual.TramosPorEtapa; tramo++)
+                {
+                    // Buscamos el crono específico con el nuevo modelo Crono
+                    var crono = inscripcion.Cronos.FirstOrDefault(c => c.Etapa == etapa && c.Tramo == tramo);
+
+                    if (crono != null && crono.CronoMS > 0)
+                    {
+                        row[$"E{etapa} T{tramo}"] = FormatTime(crono.CronoMS);
+                        totalEtapaMS += crono.CronoMS;
+                    }
+                    else
+                    {
+                        row[$"E{etapa} T{tramo}"] = "00:00.000";
+                    }
+                }
+                row[$"Total E{etapa}"] = totalEtapaMS > 0 ? FormatTime(totalEtapaMS) : "00:00.000";
+            }
+
+            row["tº Total"] = tieneTiempos ? FormatTime(item.TiempoTotalRally) : "00:00.000";
+
+            dt.Rows.Add(row);
+        }
+
+        // ==========================================
+        // Renderizado visual en DataGridView
+        // ==========================================
+        dataGridMain.DataSource = dt;
+
+        // Ajuste de anchos y visuales
+        dataGridMain.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+        // Ajustes visuales de cabeceras de columnas y filas
+        dataGridMain.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridMain.ColumnHeadersDefaultCellStyle.BackColor;
+        dataGridMain.ColumnHeadersDefaultCellStyle.SelectionForeColor = dataGridMain.ColumnHeadersDefaultCellStyle.ForeColor;
+        dataGridMain.RowHeadersVisible = true;
+        dataGridMain.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        dataGridMain.RowHeadersWidth = 20;
+
+        // Alineaciones para columnas estáticas
+        string[] columnasCentradas = { "Pos", "Dor", "Alias", "Cat" };
+        foreach (var colName in columnasCentradas)
+        {
+            if (dataGridMain.Columns[colName] != null)
+            {
+                dataGridMain.Columns[colName]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dataGridMain.Columns[colName]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+        }
+
+        // Alineaciones para columnas de tiempos (derecha)
+        foreach (DataGridViewColumn col in dataGridMain.Columns)
+        {
+            if (col.Name.Contains('E') || col.Name.Contains("Total") || col.Name.Contains("Dif."))
+            {
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
+        }
+
+        // Revisar habilitacion controles
+        Controles_EnableAndDisable();
+    }
+
     //-------------------------------------------------------------------------
     #endregion
 }
