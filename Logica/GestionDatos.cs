@@ -45,9 +45,9 @@ public static class GestionDatos
         if (cronosObsoletos.Count > 0)
         {
             DialogResult resultado = MessageBox.Show(
-                $"El nº de Etapas o el nº de Tramos Cronometrados de la prueba ha cambiado\n" +
-                $"Se eliminarán los registros de cronometraje inecesarios\n" +
-                $"Esta operacion NO se puede revertir\n\n" +
+                $"El nº de Etapas o el nº de Tramos de la prueba ha cambiado.\n" +
+                $"Se eliminarán los registros de cronometraje inecesarios.\n" +
+                $"Esta operacion es irreversible.\n\n" +
                 $"¿Desea continuar?",
                 "Advertencia de Borrado de Registros",
                 MessageBoxButtons.YesNo,

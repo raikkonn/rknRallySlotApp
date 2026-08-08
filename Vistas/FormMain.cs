@@ -1805,11 +1805,12 @@ public partial class FormMain : Form
         // rally abierto si checkbox está marcado
         bool rallyAbierto = checkAbrirRally.Checked;
 
-        // Bloqueados la Inscripcion si el rally está abierto
+        // Habilitar Inscripcion SÓLO si el Rally está cerrado
         groupBoxCampeonato.Enabled = !rallyAbierto;
         groupBoxPiloto.Enabled = !rallyAbierto;
         groupBoxCategoria.Enabled = !rallyAbierto;
         groupBoxInscripcion.Enabled = !rallyAbierto;
+        Controles_EnableAndDisable();
 
         if (rallyAbierto)
         {
@@ -1824,9 +1825,9 @@ public partial class FormMain : Form
                 comboCategorias.SelectedIndex = -1;
                 Controles_EnableAndDisable();
 
-                // mensaje de estado Rally abierto
-                string rallySeleccionado = $"| {comboCampeonatos.Text} | {comboPruebas.Text} |";
-                MostrarMensajeEstado($"{rallySeleccionado} Rally abierto: Las inscripciones estan bloqueadas", 10000);
+                // mensaje de estado Rally Abierto
+                string rallySeleccionado = $"| {comboPruebas.Text} ({comboCampeonatos.Text}) |";
+                MostrarMensajeEstado($"{rallySeleccionado} Rally Abierto: Las inscripciones estan bloqueadas", 10000);
 
                 // ==========================================
                 // Tratamiento rally abierto
@@ -1834,13 +1835,25 @@ public partial class FormMain : Form
 
 
             }
-            else    // no se pudo inicializar Cronos, desmarcamos el checkbox
+            else    // no se pudo inicializar Cronos, - Cerrar el Rally -
             {
+                rallyAbierto = false;   // rally cerrado
+
                 // DESUSCRIBIMOS EL EVENTO temporalmente para evitar el bucle/anidamiento
                 checkAbrirRally.CheckedChanged -= CheckAbrirRally_CheckedChanged;
 
                 checkAbrirRally.Checked = false;
                 checkAbrirRally.Invalidate();
+
+                Controles_EnableAndDisable();
+
+                // Desbloquear Inscripcion cuando el Rally está Cerrado
+                groupBoxCampeonato.Enabled = true;
+                groupBoxPiloto.Enabled = true;
+                groupBoxCategoria.Enabled = true;
+                groupBoxInscripcion.Enabled = true;
+
+                MostrarMensajeEstado("Operacion Cancelada: No se pudo inicializar Cronos");
 
                 // VOLVEMOS A SUSCRIBIR EL EVENTO
                 checkAbrirRally.CheckedChanged += CheckAbrirRally_CheckedChanged;
@@ -1848,8 +1861,8 @@ public partial class FormMain : Form
         }
         else
         {
-            MostrarMensajeEstado("Rally cerrado: Se permite modificar la inscripción");
-        }   
+            MostrarMensajeEstado("Rally Cerrado: Se permite modificar la inscripción");
+        }
     }
     //-------------------------------------------------------------------------
     #endregion
