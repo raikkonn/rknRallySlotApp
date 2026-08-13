@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace rknRallySlotApp.Utilidades;
+namespace rknRallySlotApp.Logica;
 
 public class GeneradorAlias
 {
