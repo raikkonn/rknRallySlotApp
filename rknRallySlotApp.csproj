@@ -36,16 +36,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Update="Vistas\FormCoche.cs">
+    <Compile Update="Vistas\FormCocheParts\FormCoche.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\FormCategoria.cs">
+    <Compile Update="Vistas\FormCategoriaParts\FormCategoria.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\FormPiloto.cs">
+    <Compile Update="Vistas\FormPilotoParts\FormPiloto.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\FormPrueba.cs">
+    <Compile Update="Vistas\FormPruebaParts\FormPrueba.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

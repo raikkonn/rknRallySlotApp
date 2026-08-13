@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using rknRallySlotApp.Datos;
+using rknRallySlotApp.Logica;
 using rknRallySlotApp.Modelos;
 using rknRallySlotApp.Utilidades;
 
