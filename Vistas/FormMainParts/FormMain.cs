@@ -20,11 +20,11 @@ public partial class FormMain : Form
     private readonly ToolStripMenuItem opcion_ctxMenu_BorrarInscripcion = new("Borrar esta Inscripción");
     private readonly ToolStripMenuItem opcion_ctxMenu_Penalizar = new("Penalizar este Piloto");
 
-    public int? IdCampeonatoSeleccionado = null;    // ID del campeonato seleccionado (null con selección vacía)
-    public int? IdPruebaSeleccionada = null;        // ID de la prueba seleccionada (null con selección vacía)
-    public int? IdPilotoSeleccionado = null;        // ID del piloto seleccionado (null con selección vacía)
-    public int? IdCocheSeleccionado = null;         // ID del coche seleccionado (null con selección vacía)
-    public int? IdCategoriaSeleccionada = null;     // ID de la categoría seleccionada (null con selección vacía)
+    public int? IdCampeonatoSeleccionado { get; private set; } = null;    // ID del campeonato seleccionado (null con selección vacía)
+    public int? IdPruebaSeleccionada { get; private set; } = null;        // ID de la prueba seleccionada (null con selección vacía)
+    public int? IdPilotoSeleccionado { get; private set; } = null;        // ID del piloto seleccionado (null con selección vacía)
+    public int? IdCocheSeleccionado { get; private set; } = null;         // ID del coche seleccionado (null con selección vacía)
+    public int? IdCategoriaSeleccionada { get; private set; } = null;     // ID de la categoría seleccionada (null con selección vacía)
 
     public FormMain()
     {
@@ -1282,14 +1282,14 @@ public partial class FormMain : Form
     private CancellationTokenSource? _ctsMensaje;
     public async void MostrarMensajeEstado(string msg, int ms = 6000)
     {
-        // Cancela la espera del mensaje anterior si aún estaba corriendo
-        _ctsMensaje?.Cancel();
-        _ctsMensaje = new CancellationTokenSource();
-
-        labelStatus.Text = msg;
-
         try
         {
+            // Cancela la espera del mensaje anterior si aún estaba corriendo
+            _ctsMensaje?.Cancel();
+            _ctsMensaje = new CancellationTokenSource();
+
+            labelStatus.Text = msg;
+
             // Pasa el Token de cancelación a Task.Delay
             await Task.Delay(ms, _ctsMensaje.Token);
             labelStatus.Text = string.Empty; // Limpia al terminar el tiempo
@@ -1297,6 +1297,11 @@ public partial class FormMain : Form
         catch (TaskCanceledException)
         {
             // Ocurre cuando un nuevo mensaje interrumpe la espera actual
+        }
+        catch (Exception ex)
+        {
+            // Capturar cualquier otro posible error
+            System.Diagnostics.Debug.WriteLine($"Error en mensaje de estado: {ex.Message}");
         }
     }
 
@@ -1308,8 +1313,8 @@ public partial class FormMain : Form
     private void ComboCategorias_DrawItem(object sender, DrawItemEventArgs e)
     {
         // Si no hay elementos en el combo, salimos
-        if (e.Index < 0) return;
         if (sender is not ComboBox combo) return;
+        if (e.Index < 0) return;
 
         // 1. Obtener de forma segura el texto del elemento
         string texto = combo.GetItemText(combo.Items[e.Index]) ?? string.Empty;
