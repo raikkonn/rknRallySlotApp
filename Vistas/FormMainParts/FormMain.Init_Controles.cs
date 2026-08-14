@@ -27,7 +27,7 @@ public partial class FormMain : Form
         botonBorraCategoria.CfgBotonIcono(Properties.Resources.del_r);
     }
 
-    private void ToolTips_Cfg()
+    private void ToolTips_Init()
     {
         toolTip.SetToolTip(botonNuevoCampeonato, "Nuevo Campeonato");
         toolTip.SetToolTip(botonEditaCampeonato, "Modificar Campeonato");
@@ -97,6 +97,10 @@ public partial class FormMain : Form
         dataGridMain.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         dataGridMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
         dataGridMain.AllowUserToResizeColumns = true;
+
+        typeof(DataGridView)
+            .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?
+            .SetValue(dataGridMain, true, null);
     }
 }
 

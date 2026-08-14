@@ -35,7 +35,7 @@ public partial class FormMain : Form
         // ==========================================
         // Inicialiación Controles
         Botones_Init();
-        ToolTips_Cfg();
+        ToolTips_Init();
         MenuAndStatus_Init();
         ContextMenu_Init();
         DataGridMain_Init();
@@ -47,6 +47,12 @@ public partial class FormMain : Form
         ComboPilotos_Init();
         ComboCoches_Init();
         ComboCategorias_Init();
+    }
+
+    protected override void OnFormClosing(FormClosingEventArgs e)
+    {
+        _ctsMensaje?.Dispose();
+        base.OnFormClosing(e);
     }
     //-------------------------------------------------------------------------
     #endregion
