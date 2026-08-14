@@ -1,42 +1,36 @@
 ﻿using rknRallySlotApp.Datos;
+using rknRallySlotApp.Logica.Servicios;
+using rknRallySlotApp.Utilidades;
 
 namespace rknRallySlotApp.Vistas;
 
 public partial class FormMain : Form
 {
-    private void ComboCampeonatos_Init()
-    {
-        // Desconectamos el evento para evitar que se dispare durante la inicialización
-        comboCampeonatos.SelectedIndexChanged -= ComboCampeonatos_SelectedIndexChanged;
+    private readonly ServicioConsulta consultaDb = new();
 
+    private async Task ComboCampeonatos_Init()
+    {
         try
         {
-            using var db = new AppDbContext();
+            // 1. Obtenemos los datos desde el servicio
+            var listaCampeonatos = await consultaDb.LeerCampeonatosParaCombo_Async();
 
-            // Obtenemos la lista de campeonatos desde la base de datos
-            var listaCampeonatos = db.Campeonatos
-                .Select(c => new { c.Id, c.Nombre })
-                .OrderBy(c => c.Nombre)
-                .ToList();
+            // 2. Encadenamos el método de extensión para agregar "- Añadir nuevo -"
+            listaCampeonatos.AgregarOpcionNuevo();
 
-            // Agregamos un elemento "comodín" al final de la lista
-            listaCampeonatos.Add(new { Id = -5, Nombre = "- Añadir nuevo -" });
-
-            // Asignamos la lista al ComboBox
-            comboCampeonatos.DataSource = listaCampeonatos;
-            comboCampeonatos.DisplayMember = "Nombre";
-            comboCampeonatos.ValueMember = "Id";
+            // 3. Cargamos el combo de forma segura en una sola línea
+            comboCampeonatos.CargarDatosSafely(listaCampeonatos, ComboCampeonatos_SelectedIndexChanged);
         }
-        finally
+        catch (Exception ex)
         {
-            // Reconectamos el evento después de la inicialización
-            comboCampeonatos.SelectedIndexChanged += ComboCampeonatos_SelectedIndexChanged;
-            // Dejar Selección Vacia
-            comboCampeonatos.SelectedIndex = -1;
+            MessageBox.Show($"Error al cargar campeonatos: {ex.Message}",
+                            "Error de carga",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
         }
     }
 
-    private void ComboPruebas_Init()
+    private async Task ComboPruebas_Init()
     {
         if (comboCampeonatos.SelectedValue is not int idCto || idCto <= 0)    //SIN Campeonato válido salir
         {
@@ -45,34 +39,23 @@ public partial class FormMain : Form
             return;
         }
 
-        // Desconectamos el evento para evitar que se dispare durante la inicialización
-        comboPruebas.SelectedIndexChanged -= ComboPruebas_SelectedIndexChanged;
-
         try
         {
-            using var db = new AppDbContext();
+            // 1. Obtenemos los datos desde el servicio
+            var listaPruebas = await consultaDb.LeerPruebasParaCombo_Async(idCto);
 
-            // Obtenemos la lista de pruebas desde DB filtrando por el campeonato seleccionado
-            var listaPruebas = db.Pruebas
-                .Where(p => p.IdCampeonato == idCto)
-                .Select(p => new { p.Id, p.Nombre })
-                .OrderBy(p => p.Nombre)
-                .ToList();
+            // 2. Encadenamos el método de extensión para agregar "- Añadir nuevo -"
+            listaPruebas.AgregarOpcionNuevo();
 
-            // Agregamos un elemento "comodín" al final de la lista
-            listaPruebas.Add(new { Id = -5, Nombre = "- Añadir nuevo -" });
-
-            // Asignamos la lista al ComboBox
-            comboPruebas.DataSource = listaPruebas;
-            comboPruebas.DisplayMember = "Nombre";
-            comboPruebas.ValueMember = "Id";
+            // 3. Cargamos el combo de forma segura en una sola línea
+            comboPruebas.CargarDatosSafely(listaPruebas, ComboPruebas_SelectedIndexChanged);
         }
-        finally
+        catch (Exception ex)
         {
-            // Reconectamos el evento después de la inicialización
-            comboPruebas.SelectedIndexChanged += ComboPruebas_SelectedIndexChanged;
-            // Dejar Selección Vacia
-            comboPruebas.SelectedIndex = -1;
+            MessageBox.Show($"Error al cargar pruebas: {ex.Message}",
+                            "Error de carga",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
         }
     }
 
@@ -92,7 +75,7 @@ public partial class FormMain : Form
                 .ToList();
 
             // Agregamos un elemento "comodín" al final de la lista
-            listaPilotos.Add(new { Id = -5, Nombre = "- Añadir nuevo -" });
+            listaPilotos.Add(new { Id = ComboBoxExtensions.ID_ANADIR_NUEVO, Nombre = ComboBoxExtensions.TEXTO_ANADIR_NUEVO });
 
             // Asignamos la lista al ComboBox
             comboPilotos.DataSource = listaPilotos;
@@ -126,7 +109,7 @@ public partial class FormMain : Form
                 .ToList();
 
             // Agregamos un elemento "comodín" al final de la lista
-            listaCoches.Add(new { Id = -5, DescripcionCompleta = "- Añadir nuevo -" });
+            listaCoches.Add(new { Id = ComboBoxExtensions.ID_ANADIR_NUEVO, DescripcionCompleta = ComboBoxExtensions.TEXTO_ANADIR_NUEVO });
 
             // Asignamos la lista al ComboBox
             comboCoches.DataSource = listaCoches;
@@ -158,7 +141,7 @@ public partial class FormMain : Form
                 .ToList();
 
             // Agregamos un elemento "comodín" al final de la lista
-            listaCategorias.Add(new { Id = -5, Nombre = "- Añadir nueva -" });
+            listaCategorias.Add(new { Id = ComboBoxExtensions.ID_ANADIR_NUEVO, Nombre = ComboBoxExtensions.TEXTO_ANADIR_NUEVO });
 
             // Asignamos la lista al ComboBox
             comboCategorias.DataSource = listaCategorias;

@@ -42,8 +42,8 @@ public partial class FormMain : Form
 
         // ==========================================
         // inicializamos los ComboBox
-        ComboCampeonatos_Init();
-        ComboPruebas_Init();
+        _ = ComboCampeonatos_Init();
+        _ = ComboPruebas_Init();
         ComboPilotos_Init();
         ComboCoches_Init();
         ComboCategorias_Init();
@@ -308,7 +308,7 @@ public partial class FormMain : Form
                 IdPruebaSeleccionada = null;            // Limpiar ID Prueba 
                 Limpia_DatosPrueba();                   // Limpiar TextBox datos Prueba
 
-                ComboPruebas_Init();                     // Init ComboBox Pruebas para Campeonato seleccionado
+                _ = ComboPruebas_Init();                     // Init ComboBox Pruebas para Campeonato seleccionado
             }
             else                                        // ID inválido, limpiar selecciones y TextBox
             {
@@ -450,7 +450,7 @@ public partial class FormMain : Form
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
-            ComboCampeonatos_Init();                                         // Si el usuario guardó con éxito, refrescamos combo
+            _ = ComboCampeonatos_Init();                                         // Si el usuario guardó con éxito, refrescamos combo
             comboCampeonatos.SelectedValue = formAlta.IdSelected ?? -1;     // seleccionamos el nuevo campeonato creado
             MostrarMensajeEstado("Campeonato creado OK");
         }
@@ -477,7 +477,7 @@ public partial class FormMain : Form
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
-            ComboPruebas_Init();                                         // Si el usuario guardó con éxito, refrescamos combo
+            _ = ComboPruebas_Init();                                         // Si el usuario guardó con éxito, refrescamos combo
             comboPruebas.SelectedValue = formAlta.IdSelected ?? -1;     // seleccionamos la nueva prueba creada
             MostrarMensajeEstado("Prueba creada OK");
         }
@@ -660,7 +660,7 @@ public partial class FormMain : Form
         {
             var valorPruebaPorsi = (comboPruebas.SelectedValue is int idPrueba && idPrueba > 0) ? idPrueba : -1;
 
-            ComboCampeonatos_Init();                                         // Si el usuario guardó con éxito, refrescamos este combo
+            _ = ComboCampeonatos_Init();                                         // Si el usuario guardó con éxito, refrescamos este combo
             comboCampeonatos.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos el campeonato editado o ninguno si es null
             comboPruebas.SelectedValue = valorPruebaPorsi;                  // Restauramos la selección de prueba anterior
             MostrarMensajeEstado("Campeonato modificado OK");
@@ -676,7 +676,7 @@ public partial class FormMain : Form
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
-            ComboPruebas_Init();                                         // Si el usuario guardó con éxito, refrescamos este combo
+            _ = ComboPruebas_Init();                                         // Si el usuario guardó con éxito, refrescamos este combo
             comboPruebas.SelectedValue = formEdicion.IdSelected ?? -1;  // seleccionamos la prueba editada o ninguna si es null
             MostrarMensajeEstado("Prueba modificada OK");
         }
@@ -764,10 +764,10 @@ public partial class FormMain : Form
                     db.SaveChanges();                           // SQLite, guardar cambios 
 
                     Limpia_DatosCampeonato();                   // Limpiar TextBox 
-                    ComboCampeonatos_Init();                     // Actualizar interfaz
+                    _ = ComboCampeonatos_Init();                     // Actualizar interfaz
 
                     Limpia_DatosPrueba();                       // Limpiar TextBox 
-                    ComboPruebas_Init();                         // Actualizar interfaz
+                    _ = ComboPruebas_Init();                         // Actualizar interfaz
 
                     MostrarMensajeEstado("Campeonato borrado OK");
                 }
@@ -821,7 +821,7 @@ public partial class FormMain : Form
                     db.SaveChanges();                           // SQLite, guardar cambios 
 
                     Limpia_DatosPrueba();                       // Limpiar TextBox 
-                    ComboPruebas_Init();                         // Actualizar interfaz
+                    _ = ComboPruebas_Init();                         // Actualizar interfaz
 
                     MostrarMensajeEstado("Prueba borrada OK");
                 }
