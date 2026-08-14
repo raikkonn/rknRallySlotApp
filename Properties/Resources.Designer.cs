@@ -133,6 +133,16 @@ namespace rknRallySlotApp.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap new_w {
+            get {
+                object obj = ResourceManager.GetObject("new_w", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pencil_b {
             get {
                 object obj = ResourceManager.GetObject("pencil_b", resourceCulture);
@@ -173,6 +183,16 @@ namespace rknRallySlotApp.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap pencil_w {
+            get {
+                object obj = ResourceManager.GetObject("pencil_w", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap rkn {
             get {
                 object obj = ResourceManager.GetObject("rkn", resourceCulture);
@@ -186,6 +206,16 @@ namespace rknRallySlotApp.Properties {
         internal static System.Drawing.Bitmap save_b {
             get {
                 object obj = ResourceManager.GetObject("save_b", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap save_w {
+            get {
+                object obj = ResourceManager.GetObject("save_w", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

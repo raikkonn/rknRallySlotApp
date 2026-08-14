@@ -10,7 +10,7 @@ public static class ImgTools
     // transformas esta función en un MÉTODO DE EXTENSIÓN.
     public static Image Zoom(this Image imgOriginal, int anchoDestino, int altoDestino)
     {
-        Bitmap bmp = new Bitmap(anchoDestino, altoDestino);
+        Bitmap bmp = new(anchoDestino, altoDestino);
         using (Graphics g = Graphics.FromImage(bmp))
         {
             // Alta calidad de escalado
@@ -28,5 +28,11 @@ public static class ImgTools
             g.DrawImage(imgOriginal, x, y, nuevoAncho, nuevoAlto);
         }
         return bmp;
+    }
+
+    public static void CfgBotonIcono(this Button boton, Image imagen)
+    {
+        boton.Image = imagen.Zoom(boton.Width - 5, boton.Height - 5);
+        boton.ImageAlign = ContentAlignment.MiddleCenter;
     }
 }

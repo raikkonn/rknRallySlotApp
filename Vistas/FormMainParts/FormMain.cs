@@ -14,7 +14,7 @@ public partial class FormMain : Form
     #region Miembros Privados, Publicos y Constructor
     //-------------------------------------------------------------------------
     // DECLARACIONES A NIVEL DE CLASE (Ámbito global dentro del formulario)
-    private readonly ToolTip _toolTip = new();
+    private readonly ToolTip toolTip = new();
 
     private readonly ContextMenuStrip ctxMenu_dataGridMain_Inscripcion = new();
     private readonly ToolStripMenuItem opcion_ctxMenu_BorrarInscripcion = new("Borrar esta Inscripción");
@@ -26,34 +26,19 @@ public partial class FormMain : Form
     public int? IdCocheSeleccionado { get; private set; } = null;         // ID del coche seleccionado (null con selección vacía)
     public int? IdCategoriaSeleccionada { get; private set; } = null;     // ID de la categoría seleccionada (null con selección vacía)
 
+    //-------------------------------------------------------------------------
+    // Constructor del formulario principal
     public FormMain()
     {
         InitializeComponent();
 
         // ==========================================
-        // inicializar menu y status bar
-        // ==========================================
-        // Define colores
-        Color fondoPrincipal = Color.FromArgb(28, 28, 28);      // Gris muy oscuro 
-        Color fondoHover = Color.FromArgb(80, 80, 85);          // Un poco más claro para el ratón
-        Color bordeColor = Color.FromArgb(80, 80, 85);          // Un poco más claro para el borde
-
-        var colorTable = new MyColorTable(fondoPrincipal, fondoHover, bordeColor);
-
-        // Aplicar al MenuStrip
-        menuMain.Renderer = new ToolStripProfessionalRenderer(colorTable);
-        menuMain.BackColor = fondoPrincipal;
-        menuMain.ForeColor = Color.White;
-
-        // Aplicar al StatusStrip
-        statusStripMain.Renderer = new ToolStripProfessionalRenderer(colorTable);
-        statusStripMain.BackColor = fondoPrincipal;
-        statusStripMain.ForeColor = Color.White;
-
-        // ==========================================
-        // inicializamos los botones y tooltips
-        BotonesInit();
-        ConfigurarToolTips();
+        // Inicialiación Controles
+        Botones_Init();
+        ToolTips_Cfg();
+        MenuAndStatus_Init();
+        ContextMenu_Init();
+        DataGridMain_Init();
 
         // ==========================================
         // inicializamos los ComboBox
@@ -62,267 +47,7 @@ public partial class FormMain : Form
         ComboPilotos_Init();
         ComboCoches_Init();
         ComboCategorias_Init();
-
-        // ==========================================
-        // Menú Contextual
-        // Suscribir opciones a sus eventos Click 
-        opcion_ctxMenu_BorrarInscripcion.Click += Opcion_ctxMenu_BorrarInscripcion_Click;
-        opcion_ctxMenu_Penalizar.Click += Opcion_ctxMenu_Penalizar_Click;
-
-        // Añadir opciones al menú contextual
-        ctxMenu_dataGridMain_Inscripcion.Items.Add(opcion_ctxMenu_Penalizar);
-        ctxMenu_dataGridMain_Inscripcion.Items.Add(opcion_ctxMenu_BorrarInscripcion);
-
-        // ==========================================
-        // inicializamos el DataGridView
-        dataGridMain.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        dataGridMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-        dataGridMain.AllowUserToResizeColumns = true;
     }
-    //-------------------------------------------------------------------------
-    #endregion
-
-    #region Init Botones y Tooltips
-    //-------------------------------------------------------------------------
-    private void BotonesInit()
-    {
-        botonNuevoCampeonato.Image = Properties.Resources.new_b.Zoom(botonNuevoCampeonato.Width - 5, botonNuevoCampeonato.Height - 5);
-        botonNuevoCampeonato.ImageAlign = ContentAlignment.MiddleCenter;
-        botonEditaCampeonato.Image = Properties.Resources.pencil_b.Zoom(botonEditaCampeonato.Width - 5, botonEditaCampeonato.Height - 5);
-        botonEditaCampeonato.ImageAlign = ContentAlignment.MiddleCenter;
-        botonBorraCampeonato.Image = Properties.Resources.del_r.Zoom(botonBorraCampeonato.Width - 5, botonBorraCampeonato.Height - 5);
-        botonBorraCampeonato.ImageAlign = ContentAlignment.MiddleCenter;
-
-        botonNuevaPrueba.Image = Properties.Resources.new_b.Zoom(botonNuevaPrueba.Width - 5, botonNuevaPrueba.Height - 5);
-        botonNuevaPrueba.ImageAlign = ContentAlignment.MiddleCenter;
-        botonEditaPrueba.Image = Properties.Resources.pencil_b.Zoom(botonEditaPrueba.Width - 5, botonEditaPrueba.Height - 5);
-        botonEditaPrueba.ImageAlign = ContentAlignment.MiddleCenter;
-        botonBorraPrueba.Image = Properties.Resources.del_r.Zoom(botonBorraPrueba.Width - 5, botonBorraPrueba.Height - 5);
-        botonBorraPrueba.ImageAlign = ContentAlignment.MiddleCenter;
-
-        botonNuevoPiloto.Image = Properties.Resources.helmetN_v.Zoom(botonNuevoPiloto.Width - 5, botonNuevoPiloto.Height - 5);
-        botonNuevoPiloto.ImageAlign = ContentAlignment.MiddleCenter;
-        botonEditaPiloto.Image = Properties.Resources.pencil_v.Zoom(botonEditaPiloto.Width - 5, botonEditaPiloto.Height - 5);
-        botonEditaPiloto.ImageAlign = ContentAlignment.MiddleCenter;
-        botonBorraPiloto.Image = Properties.Resources.del_r.Zoom(botonBorraPiloto.Width - 5, botonBorraPiloto.Height - 5);
-        botonBorraPiloto.ImageAlign = ContentAlignment.MiddleCenter;
-
-        botonNuevoCoche.Image = Properties.Resources.carN_g.Zoom(botonNuevoCoche.Width - 5, botonNuevoCoche.Height - 5);
-        botonNuevoCoche.ImageAlign = ContentAlignment.MiddleCenter;
-        botonEditaCoche.Image = Properties.Resources.pencil_g.Zoom(botonEditaCoche.Width - 5, botonEditaCoche.Height - 5);
-        botonEditaCoche.ImageAlign = ContentAlignment.MiddleCenter;
-        botonBorraCoche.Image = Properties.Resources.del_r.Zoom(botonBorraCoche.Width - 5, botonBorraCoche.Height - 5);
-        botonBorraCoche.ImageAlign = ContentAlignment.MiddleCenter;
-
-        botonNuevaCategoria.Image = Properties.Resources.inglesaN_o.Zoom(botonNuevaCategoria.Width - 5, botonNuevaCategoria.Height - 5);
-        botonNuevaCategoria.ImageAlign = ContentAlignment.MiddleCenter;
-        botonEditaCategoria.Image = Properties.Resources.pencil_o.Zoom(botonEditaCategoria.Width - 5, botonEditaCategoria.Height - 5);
-        botonEditaCategoria.ImageAlign = ContentAlignment.MiddleCenter;
-        botonBorraCategoria.Image = Properties.Resources.del_r.Zoom(botonBorraCategoria.Width - 5, botonBorraCategoria.Height - 5);
-        botonBorraCategoria.ImageAlign = ContentAlignment.MiddleCenter;
-    }
-
-    private void ConfigurarToolTips()
-    {
-        _toolTip.SetToolTip(botonNuevoCampeonato, "Nuevo Campeonato");
-        _toolTip.SetToolTip(botonEditaCampeonato, "Modificar Campeonato");
-        _toolTip.SetToolTip(botonBorraCampeonato, "Borrar Campeonato");
-
-        _toolTip.SetToolTip(botonNuevaPrueba, "Nueva Prueba");
-        _toolTip.SetToolTip(botonEditaPrueba, "Modificar Prueba");
-        _toolTip.SetToolTip(botonBorraPrueba, "Borrar Prueba");
-
-        _toolTip.SetToolTip(botonNuevoPiloto, "Nuevo Piloto");
-        _toolTip.SetToolTip(botonEditaPiloto, "Modificar Piloto");
-        _toolTip.SetToolTip(botonBorraPiloto, "Borrar Piloto");
-
-        _toolTip.SetToolTip(botonNuevoCoche, "Nuevo Coche");
-        _toolTip.SetToolTip(botonEditaCoche, "Modificar Coche");
-        _toolTip.SetToolTip(botonBorraCoche, "Borrar Coche");
-
-        _toolTip.SetToolTip(botonNuevaCategoria, "Nueva Categoría");
-        _toolTip.SetToolTip(botonEditaCategoria, "Modificar Categoría");
-        _toolTip.SetToolTip(botonBorraCategoria, "Borrar Categoría");
-
-        _toolTip.SetToolTip(botonNuevaInscripcion, "Inscribir Piloto");
-
-        _toolTip.SetToolTip(checkAbrirRally, "Abrir Cronometraje");
-    }
-    //-------------------------------------------------------------------------
-    #endregion
-
-    #region ComboBox Inits
-    //-------------------------------------------------------------------------
-    private void ComboCampeonatos_Init()
-    {
-        // Desconectamos el evento para evitar que se dispare durante la inicialización
-        comboCampeonatos.SelectedIndexChanged -= ComboCampeonatos_SelectedIndexChanged;
-
-        try
-        {
-            using var db = new AppDbContext();
-
-            // Obtenemos la lista de campeonatos desde la base de datos
-            var listaCampeonatos = db.Campeonatos
-                .Select(c => new { c.Id, c.Nombre })
-                .OrderBy(c => c.Nombre)
-                .ToList();
-
-            // Agregamos un elemento "comodín" al final de la lista
-            listaCampeonatos.Add(new { Id = -5, Nombre = "- Añadir nuevo -" });
-
-            // Asignamos la lista al ComboBox
-            comboCampeonatos.DataSource = listaCampeonatos;
-            comboCampeonatos.DisplayMember = "Nombre";
-            comboCampeonatos.ValueMember = "Id";
-        }
-        finally
-        {
-            // Reconectamos el evento después de la inicialización
-            comboCampeonatos.SelectedIndexChanged += ComboCampeonatos_SelectedIndexChanged;
-            // Dejar Selección Vacia
-            comboCampeonatos.SelectedIndex = -1;
-        }
-    }
-
-    private void ComboPruebas_Init()
-    {
-        if (comboCampeonatos.SelectedValue is not int idCto || idCto <= 0)    //SIN Campeonato válido salir
-        {
-            comboPruebas.DataSource = null;     // Limpiamos el ComboBox 
-            comboPruebas.SelectedIndex = -1;    // Dejar Selección Vacia
-            return;
-        }
-
-        // Desconectamos el evento para evitar que se dispare durante la inicialización
-        comboPruebas.SelectedIndexChanged -= ComboPruebas_SelectedIndexChanged;
-
-        try
-        {
-            using var db = new AppDbContext();
-
-            // Obtenemos la lista de pruebas desde DB filtrando por el campeonato seleccionado
-            var listaPruebas = db.Pruebas
-                .Where(p => p.IdCampeonato == idCto)
-                .Select(p => new { p.Id, p.Nombre })
-                .OrderBy(p => p.Nombre)
-                .ToList();
-
-            // Agregamos un elemento "comodín" al final de la lista
-            listaPruebas.Add(new { Id = -5, Nombre = "- Añadir nuevo -" });
-
-            // Asignamos la lista al ComboBox
-            comboPruebas.DataSource = listaPruebas;
-            comboPruebas.DisplayMember = "Nombre";
-            comboPruebas.ValueMember = "Id";
-        }
-        finally
-        {
-            // Reconectamos el evento después de la inicialización
-            comboPruebas.SelectedIndexChanged += ComboPruebas_SelectedIndexChanged;
-            // Dejar Selección Vacia
-            comboPruebas.SelectedIndex = -1;
-        }
-    }
-
-    private void ComboPilotos_Init()
-    {
-        // Desconectamos el evento para evitar que se dispare durante la inicialización
-        comboPilotos.SelectedIndexChanged -= ComboPilotos_SelectedIndexChanged;
-
-        try
-        {
-            using var db = new AppDbContext();
-
-            // Obtenemos la lista de pilotos desde DB
-            var listaPilotos = db.Pilotos
-                .Select(p => new { p.Id, p.Nombre })
-                .OrderBy(p => p.Nombre)
-                .ToList();
-
-            // Agregamos un elemento "comodín" al final de la lista
-            listaPilotos.Add(new { Id = -5, Nombre = "- Añadir nuevo -" });
-
-            // Asignamos la lista al ComboBox
-            comboPilotos.DataSource = listaPilotos;
-            comboPilotos.DisplayMember = "Nombre";
-            comboPilotos.ValueMember = "Id";
-        }
-        finally
-        {
-            // Reconectamos el evento después de la inicialización
-            comboPilotos.SelectedIndexChanged += ComboPilotos_SelectedIndexChanged;
-            // Dejar Selección Vacia
-            comboPilotos.SelectedIndex = -1;
-        }
-    }
-
-    private void ComboCoches_Init()
-    {
-        // Desconectamos el evento para evitar que se dispare durante la inicialización
-        comboCoches.SelectedIndexChanged -= ComboCoches_SelectedIndexChanged;
-
-        try
-        {
-            using var db = new AppDbContext();
-
-            // Obtenemos la lista de coches desde DB
-            var listaCoches = db.Coches
-                .OrderBy(c => c.Modelo)
-                .ThenBy(c => c.Marca)
-                .AsEnumerable()             // Pasamos a memoria para poder usar propiedades [NotMapped] si es necesario
-                .Select(c => new { c.Id, c.DescripcionCompleta })
-                .ToList();
-
-            // Agregamos un elemento "comodín" al final de la lista
-            listaCoches.Add(new { Id = -5, DescripcionCompleta = "- Añadir nuevo -" });
-
-            // Asignamos la lista al ComboBox
-            comboCoches.DataSource = listaCoches;
-            comboCoches.DisplayMember = "DescripcionCompleta";
-            comboCoches.ValueMember = "Id";
-        }
-        finally
-        {
-            // Reconectamos el evento después de la inicialización
-            comboCoches.SelectedIndexChanged += ComboCoches_SelectedIndexChanged;
-            // Dejar Selección Vacia
-            comboCoches.SelectedIndex = -1;
-        }
-    }
-
-    private void ComboCategorias_Init()
-    {
-        // Desconectamos el evento para evitar que se dispare durante la inicialización
-        comboCategorias.SelectedIndexChanged -= ComboCategorias_SelectedIndexChanged;
-
-        try
-        {
-            using var db = new AppDbContext();
-
-            // Obtenemos la lista de coches desde DB
-            var listaCategorias = db.Categorias
-                .Select(c => new { c.Id, c.Nombre })
-                .OrderBy(c => c.Nombre)
-                .ToList();
-
-            // Agregamos un elemento "comodín" al final de la lista
-            listaCategorias.Add(new { Id = -5, Nombre = "- Añadir nueva -" });
-
-            // Asignamos la lista al ComboBox
-            comboCategorias.DataSource = listaCategorias;
-            comboCategorias.DisplayMember = "Nombre";
-            comboCategorias.ValueMember = "Id";
-        }
-        finally
-        {
-            // Reconectamos el evento después de la inicialización
-            comboCategorias.SelectedIndexChanged += ComboCategorias_SelectedIndexChanged;
-            // Dejar Selección Vacia
-            comboCategorias.SelectedIndex = -1;
-        }
-    }
-
     //-------------------------------------------------------------------------
     #endregion
 
@@ -540,7 +265,7 @@ public partial class FormMain : Form
             if (checkAbrirRally.Checked)
             {
                 checkAbrirRally.Text = "STOP Rally";
-                _toolTip.SetToolTip(checkAbrirRally, "Detener Cronometraje");
+                toolTip.SetToolTip(checkAbrirRally, "Detener Cronometraje");
                 
                 checkAbrirRally.BackColor = Color.FromArgb(53, 53, 53); // fondo gris oscuro
                 checkAbrirRally.ForeColor = Color.FromArgb(255, 0, 0);  // frente rojo
@@ -548,7 +273,7 @@ public partial class FormMain : Form
             else
             {
                 checkAbrirRally.Text = "Abrir Rally";
-                _toolTip.SetToolTip(checkAbrirRally, "Abrir Cronometraje");
+                toolTip.SetToolTip(checkAbrirRally, "Abrir Cronometraje");
 
                 checkAbrirRally.BackColor = Color.FromArgb(53, 53, 53); // fondo gris oscuro
                 checkAbrirRally.ForeColor = Color.FromArgb(0, 255, 0);  // frente verde 
@@ -1402,13 +1127,13 @@ public partial class FormMain : Form
 
             .Select(i => new
             {
-                Id = i.Id,
-                Dorsal = i.Dorsal,
+                Id = i.Id!,
+                Dorsal = i.Dorsal!,
                 Alias = i.AliasPiloto,                              // Ahora sí tiene datos gracias al Include
                 Piloto = i.NombrePiloto,                            // Ahora sí tiene datos gracias al Include
                 Coche = i.DescripcionCoche,                         // Usamos propiedad [NotMapped] que ya formatea "Modelo [Marca]"
                 Categoria = i.Categoria?.Nombre ?? string.Empty,    // Extraemos el texto del nombre explícitamente, no el objeto
-                Verificado = i.Verificado,
+                Verificado = i.Verificado!,
                 Penalizacion_seg = i.PenalizacionSEG,
                 ColorFila = string.IsNullOrWhiteSpace(i.Categoria?.ColorHex) ? "#FFFFFF" : i.Categoria.ColorHex
             })
@@ -2055,7 +1780,7 @@ public partial class FormMain : Form
         dataGridMain.RowHeadersWidth = 20;
 
         // Alineaciones para columnas estáticas (centro)
-        string[] columnasCentradas = { "Pos", "Dor", "Alias", "Cat" };
+        string[] columnasCentradas = ["Pos", "Dor", "Alias", "Cat"];
         foreach (var colName in columnasCentradas)
         {
             if (dataGridMain.Columns[colName] != null)

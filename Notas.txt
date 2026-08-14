@@ -1,0 +1,2 @@
+Get-ChildItem -Recurse -Filter *.cs | Where-Object { $_.FullName -notmatch '\\(bin|obj|Migrations)\\' } | Resolve-Path -Relative > listado_archivos.txt
+
