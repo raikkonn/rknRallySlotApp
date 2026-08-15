@@ -1,6 +1,7 @@
 ﻿namespace rknRallySlotApp.Logica.DTOs;
 
-public class InscripcionGridDto
+// pendiente de revisar
+public class InscripcionGridDTO
 {
     public int IdInscripcion { get; set; }
     public int Dorsal { get; set; }

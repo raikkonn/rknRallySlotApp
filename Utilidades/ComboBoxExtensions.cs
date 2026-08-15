@@ -5,23 +5,23 @@ namespace rknRallySlotApp.Utilidades;
 public static class ComboBoxExtensions
 {
     // Constante global reutilizable en toda la app
-    public const int ID_ANADIR_NUEVO = -5;
-    public const string TEXTO_ANADIR_NUEVO = "- Añadir nuevo -";
+    public const int ANADIR_NUEVO_ID = -5;
+    public const string ANADIR_NUEVO_TEXTO = "- Añadir nuevo -";
 
     /// <summary>
     /// Agrega el elemento especial "- Añadir nuevo -" a una lista de ComboDto.
     /// </summary>
-    public static List<ComboDto> AgregarOpcionNuevo(
-        this List<ComboDto> lista,
-        string textoOpcion = TEXTO_ANADIR_NUEVO,
-        int id = ID_ANADIR_NUEVO)
+    public static List<ComboDTO> AgregarOpcionNuevo(
+        this List<ComboDTO> lista,
+        string textoOpcion = ANADIR_NUEVO_TEXTO,
+        int id = ANADIR_NUEVO_ID)
     {
         if (lista == null)
         {
-            lista = new List<ComboDto>();
+            lista = new List<ComboDTO>();
         }
 
-        lista.Add(new ComboDto
+        lista.Add(new ComboDTO
         {
             Id = id,
             Descripcion = textoOpcion
@@ -35,7 +35,7 @@ public static class ComboBoxExtensions
     /// </summary>
     public static void CargarDatosSafely(
         this ComboBox comboBox, 
-        List<ComboDto> datos, 
+        List<ComboDTO> datos, 
         EventHandler eventHandler)
     {
         // 1. Desconectamos temporalmente el evento para evitar disparos accidentales durante la carga
@@ -48,8 +48,8 @@ public static class ComboBoxExtensions
         {
             // 2. Asignamos la lista al origen de datos
             comboBox.DataSource = datos;
-            comboBox.DisplayMember = nameof(ComboDto.Descripcion);
-            comboBox.ValueMember = nameof(ComboDto.Id);
+            comboBox.DisplayMember = nameof(ComboDTO.Descripcion);
+            comboBox.ValueMember = nameof(ComboDTO.Id);
 
             // 3. Establecemos la selección por defecto
             comboBox.SelectedIndex = -1; // Dejar selección vacía

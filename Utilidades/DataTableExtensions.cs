@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace rknRallySlotApp.Utilidades;
 
-public static class ExtensionesDataTable
+public static class DataTableExtensions
 {
     // Convierte cualquier List o IEnumerable a un DataTable para que el DataGridView pueda ordenarlo
     public static DataTable ToDataTable<T>(this IEnumerable<T> items)

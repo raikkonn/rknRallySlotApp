@@ -1,0 +1,8 @@
+﻿namespace rknRallySlotApp.Logica.DTOs;
+
+public class CampeonatoDTO
+{
+    public int Id { get; set; }
+    public string Nombre { get; set; } = string.Empty;
+    public string? SistemaPuntuacion { get; set; }
+}

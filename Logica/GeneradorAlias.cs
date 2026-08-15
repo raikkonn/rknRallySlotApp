@@ -6,11 +6,11 @@ namespace rknRallySlotApp.Logica;
 
 public class GeneradorAlias
 {
-    private readonly AppDbContext _context;
+    private readonly AppDbContext db;
 
     public GeneradorAlias(AppDbContext context)
     {
-        _context = context;
+        db = context;
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public class GeneradorAlias
     /// </summary>
     private bool ExisteAliasEnBD(string alias)
     {
-        return _context.Pilotos.Any(p => p.Alias == alias);
+        return db.Pilotos.Any(p => p.Alias == alias);
     }
 
     /// <summary>

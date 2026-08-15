@@ -30,7 +30,7 @@ public static class ImgTools
         return bmp;
     }
 
-    public static void CfgBotonIcono(this Button boton, Image imagen)
+    public static void CfgIconoBoton(this Button boton, Image imagen)
     {
         boton.Image = imagen.Zoom(boton.Width - 5, boton.Height - 5);
         boton.ImageAlign = ContentAlignment.MiddleCenter;

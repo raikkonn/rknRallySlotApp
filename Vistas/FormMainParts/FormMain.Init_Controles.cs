@@ -6,25 +6,25 @@ public partial class FormMain : Form
 {
     private void Botones_Init()
     {
-        botonNuevoCampeonato.CfgBotonIcono(Properties.Resources.new_b);
-        botonEditaCampeonato.CfgBotonIcono(Properties.Resources.pencil_b);
-        botonBorraCampeonato.CfgBotonIcono(Properties.Resources.del_r);
+        botonNuevoCampeonato.CfgIconoBoton(Properties.Resources.new_b);
+        botonEditaCampeonato.CfgIconoBoton(Properties.Resources.pencil_b);
+        botonBorraCampeonato.CfgIconoBoton(Properties.Resources.del_r);
 
-        botonNuevaPrueba.CfgBotonIcono(Properties.Resources.new_b);
-        botonEditaPrueba.CfgBotonIcono(Properties.Resources.pencil_b);
-        botonBorraPrueba.CfgBotonIcono(Properties.Resources.del_r);
+        botonNuevaPrueba.CfgIconoBoton(Properties.Resources.new_b);
+        botonEditaPrueba.CfgIconoBoton(Properties.Resources.pencil_b);
+        botonBorraPrueba.CfgIconoBoton(Properties.Resources.del_r);
 
-        botonNuevoPiloto.CfgBotonIcono(Properties.Resources.helmetN_v);
-        botonEditaPiloto.CfgBotonIcono(Properties.Resources.pencil_v);
-        botonBorraPiloto.CfgBotonIcono(Properties.Resources.del_r);
+        botonNuevoPiloto.CfgIconoBoton(Properties.Resources.helmetN_v);
+        botonEditaPiloto.CfgIconoBoton(Properties.Resources.pencil_v);
+        botonBorraPiloto.CfgIconoBoton(Properties.Resources.del_r);
 
-        botonNuevoCoche.CfgBotonIcono(Properties.Resources.carN_g);
-        botonEditaCoche.CfgBotonIcono(Properties.Resources.pencil_g);
-        botonBorraCoche.CfgBotonIcono(Properties.Resources.del_r);
+        botonNuevoCoche.CfgIconoBoton(Properties.Resources.carN_g);
+        botonEditaCoche.CfgIconoBoton(Properties.Resources.pencil_g);
+        botonBorraCoche.CfgIconoBoton(Properties.Resources.del_r);
 
-        botonNuevaCategoria.CfgBotonIcono(Properties.Resources.inglesaN_o);
-        botonEditaCategoria.CfgBotonIcono(Properties.Resources.pencil_o);
-        botonBorraCategoria.CfgBotonIcono(Properties.Resources.del_r);
+        botonNuevaCategoria.CfgIconoBoton(Properties.Resources.inglesaN_o);
+        botonEditaCategoria.CfgIconoBoton(Properties.Resources.pencil_o);
+        botonBorraCategoria.CfgIconoBoton(Properties.Resources.del_r);
     }
 
     private void ToolTips_Init()
@@ -82,25 +82,137 @@ public partial class FormMain : Form
         // ==========================================
         // Menú Contextual del DGV Inscripciones
         // Suscribir opciones a sus eventos Click 
-        opcion_ctxMenu_BorrarInscripcion.Click += Opcion_ctxMenu_BorrarInscripcion_Click;
-        opcion_ctxMenu_Penalizar.Click += Opcion_ctxMenu_Penalizar_Click;
+        opcion_BorrarInscripcion.Click += Opcion_BorrarInscripcion_Click;
+        opcion_Penalizar.Click += Opcion_Penalizar_Click;
 
         // Añadir opciones al menú contextual
-        ctxMenu_dataGridMain_Inscripcion.Items.Add(opcion_ctxMenu_Penalizar);
-        ctxMenu_dataGridMain_Inscripcion.Items.Add(opcion_ctxMenu_BorrarInscripcion);
+        menuCtx_dgv_Inscripcion.Items.Add(opcion_Penalizar);
+        menuCtx_dgv_Inscripcion.Items.Add(opcion_BorrarInscripcion);
     }
 
-    private void DataGridMain_Init()
+    private void Dgv_Inscripcion_Init()
     {
         // ==========================================
-        // inicialar DataGridView
-        dataGridMain.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        dataGridMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-        dataGridMain.AllowUserToResizeColumns = true;
+        // inicialar DataGridView Inscripciones
+        dgv_Inscripcion.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        dgv_Inscripcion.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        dgv_Inscripcion.AllowUserToResizeColumns = true;
 
         typeof(DataGridView)
             .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?
-            .SetValue(dataGridMain, true, null);
+            .SetValue(dgv_Inscripcion, true, null);
     }
+
+    private void Controles_EnableAndDisable()
+    {
+        // Evaluamos el estado de cada ComboBox
+        bool hayCampeonato = comboCampeonatos.SelectedValue is int idCto && idCto > 0;
+        bool hayPrueba = comboPruebas.SelectedValue is int idPrueba && idPrueba > 0;
+        bool hayPiloto = comboPilotos.SelectedValue is int idPiloto && idPiloto > 0;
+        bool hayCoche = comboCoches.SelectedValue is int idCoche && idCoche > 0;
+        bool hayCategoria = comboCategorias.SelectedValue is int idCategoria && idCategoria > 0;
+        bool hayDatosDeInscripcion = dgv_Inscripcion.RowCount > 0;
+
+        // limpiar textbox de datos si no hay selección válida
+        if (!hayCampeonato)
+        {
+            comboCampeonatos.SelectedIndex = -1;
+            Limpia_DatosCampeonato();
+        }
+        if (!hayPrueba)
+        {
+            comboPruebas.SelectedIndex = -1;
+            Limpia_DatosPrueba();
+        }
+        if (!hayPiloto)
+        {
+            comboPilotos.SelectedIndex = -1;
+            Limpia_DatosPiloto();
+        }
+        if (!hayCoche)
+        {
+            comboCoches.SelectedIndex = -1;
+            Limpia_DatosCoche();
+        }
+        if (!hayCategoria)
+        {
+            comboCategorias.SelectedIndex = -1;
+            Limpiar_Color_Categoria();
+        }
+
+        // Estados comboBox
+        comboCampeonatos.Enabled = true;            // Siempre habilitado
+        comboPruebas.Enabled = hayCampeonato;       // Habilitado solo si hay campeonato seleccionado
+        comboPilotos.Enabled = true;                // Siempre habilitado
+        comboCoches.Enabled = true;                 // Siempre habilitado
+        comboCategorias.Enabled = true;             // Siempre habilitado
+
+        // Asignamos los estados a los botones
+        // Campeonato
+        botonNuevoCampeonato.Enabled = true;
+        botonEditaCampeonato.Enabled = hayCampeonato;
+        botonBorraCampeonato.Enabled = hayCampeonato;
+
+        // Prueba (Nueva Prueba depende de Campeonato, Edición y Borrado dependen de Prueba)
+        botonNuevaPrueba.Enabled = hayCampeonato;
+        botonEditaPrueba.Enabled = hayPrueba;
+        botonBorraPrueba.Enabled = hayPrueba;
+
+        // Piloto
+        botonNuevoPiloto.Enabled = true;
+        botonEditaPiloto.Enabled = hayPiloto;
+        botonBorraPiloto.Enabled = hayPiloto;
+
+        // Coche
+        botonNuevoCoche.Enabled = true;
+        botonEditaCoche.Enabled = hayCoche;
+        botonBorraCoche.Enabled = hayCoche;
+
+        // Categoría
+        botonNuevaCategoria.Enabled = true;
+        botonEditaCategoria.Enabled = hayCategoria;
+        botonBorraCategoria.Enabled = hayCategoria;
+
+        // Inscripción
+        botonNuevaInscripcion.Enabled = hayPrueba && hayPiloto && hayCoche && hayCategoria;
+        botonNuevaInscripcion.BackColor = botonNuevaInscripcion.Enabled ? Color.FromArgb(53, 53, 53) : Color.FromArgb(40, 40, 40);
+        botonNuevaInscripcion.ForeColor = botonNuevaInscripcion.Enabled ? Color.FromArgb(0, 255, 0) : Color.FromArgb(18, 18, 24);
+
+        checkVerificado.Enabled = botonNuevaInscripcion.Enabled;
+
+        if (!checkVerificado.Enabled)
+        {
+            checkVerificado.Checked = false;        // Desmarcar si DISABLED
+        }
+
+        // check Abrir Rally
+        checkAbrirRally.Enabled = hayDatosDeInscripcion;
+
+        if (checkAbrirRally.Enabled)
+        {
+            if (checkAbrirRally.Checked)
+            {
+                checkAbrirRally.Text = "STOP Rally";
+                toolTip.SetToolTip(checkAbrirRally, "Detener Cronometraje");
+
+                checkAbrirRally.BackColor = Color.FromArgb(53, 53, 53); // fondo gris oscuro
+                checkAbrirRally.ForeColor = Color.FromArgb(255, 0, 0);  // frente rojo
+            }
+            else
+            {
+                checkAbrirRally.Text = "Abrir Rally";
+                toolTip.SetToolTip(checkAbrirRally, "Abrir Cronometraje");
+
+                checkAbrirRally.BackColor = Color.FromArgb(53, 53, 53); // fondo gris oscuro
+                checkAbrirRally.ForeColor = Color.FromArgb(0, 255, 0);  // frente verde 
+            }
+        }
+        else
+        {
+            checkAbrirRally.BackColor = Color.FromArgb(40, 40, 40);     // fondo gris más oscuro
+            checkAbrirRally.ForeColor = Color.FromArgb(18, 18, 24);     // frente gris más oscuro
+        }
+    }
+
 }
 

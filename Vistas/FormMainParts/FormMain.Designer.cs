@@ -35,7 +35,7 @@ namespace rknRallySlotApp.Vistas
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            dataGridMain = new DataGridView();
+            dgv_Inscripcion = new DataGridView();
             menuMain = new MenuStrip();
             archivoToolStripMenuItem = new ToolStripMenuItem();
             salirToolStripMenuItem = new ToolStripMenuItem();
@@ -93,7 +93,7 @@ namespace rknRallySlotApp.Vistas
             panel3 = new Panel();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)dataGridMain).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_Inscripcion).BeginInit();
             menuMain.SuspendLayout();
             statusStripMain.SuspendLayout();
             panel1.SuspendLayout();
@@ -106,17 +106,17 @@ namespace rknRallySlotApp.Vistas
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
-            // dataGridMain
+            // dgv_Inscripcion
             // 
-            dataGridMain.AccessibleRole = AccessibleRole.None;
-            dataGridMain.AllowUserToAddRows = false;
-            dataGridMain.AllowUserToDeleteRows = false;
-            dataGridMain.AllowUserToOrderColumns = true;
-            dataGridMain.AllowUserToResizeRows = false;
-            dataGridMain.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridMain.BackgroundColor = Color.FromArgb(40, 40, 40);
-            dataGridMain.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-            dataGridMain.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dgv_Inscripcion.AccessibleRole = AccessibleRole.None;
+            dgv_Inscripcion.AllowUserToAddRows = false;
+            dgv_Inscripcion.AllowUserToDeleteRows = false;
+            dgv_Inscripcion.AllowUserToOrderColumns = true;
+            dgv_Inscripcion.AllowUserToResizeRows = false;
+            dgv_Inscripcion.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgv_Inscripcion.BackgroundColor = Color.FromArgb(40, 40, 40);
+            dgv_Inscripcion.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            dgv_Inscripcion.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = Color.FromArgb(53, 53, 53);
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F);
@@ -124,8 +124,8 @@ namespace rknRallySlotApp.Vistas
             dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(53, 53, 53);
             dataGridViewCellStyle1.SelectionForeColor = Color.White;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridMain.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_Inscripcion.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgv_Inscripcion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(53, 53, 53);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
@@ -133,37 +133,37 @@ namespace rknRallySlotApp.Vistas
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dataGridMain.DefaultCellStyle = dataGridViewCellStyle2;
-            dataGridMain.Dock = DockStyle.Fill;
-            dataGridMain.EditMode = DataGridViewEditMode.EditOnF2;
-            dataGridMain.EnableHeadersVisualStyles = false;
-            dataGridMain.GridColor = Color.White;
-            dataGridMain.Location = new Point(0, 275);
-            dataGridMain.MultiSelect = false;
-            dataGridMain.Name = "dataGridMain";
-            dataGridMain.ReadOnly = true;
-            dataGridMain.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dgv_Inscripcion.DefaultCellStyle = dataGridViewCellStyle2;
+            dgv_Inscripcion.Dock = DockStyle.Fill;
+            dgv_Inscripcion.EditMode = DataGridViewEditMode.EditOnF2;
+            dgv_Inscripcion.EnableHeadersVisualStyles = false;
+            dgv_Inscripcion.GridColor = Color.White;
+            dgv_Inscripcion.Location = new Point(0, 275);
+            dgv_Inscripcion.MultiSelect = false;
+            dgv_Inscripcion.Name = "dgv_Inscripcion";
+            dgv_Inscripcion.ReadOnly = true;
+            dgv_Inscripcion.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.FromArgb(53, 53, 53);
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F);
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dataGridMain.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dataGridMain.RowHeadersWidth = 15;
+            dgv_Inscripcion.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dgv_Inscripcion.RowHeadersWidth = 15;
             dataGridViewCellStyle4.BackColor = Color.FromArgb(53, 53, 53);
             dataGridViewCellStyle4.ForeColor = Color.White;
-            dataGridMain.RowsDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridMain.ShowCellErrors = false;
-            dataGridMain.ShowCellToolTips = false;
-            dataGridMain.ShowEditingIcon = false;
-            dataGridMain.ShowRowErrors = false;
-            dataGridMain.Size = new Size(1401, 431);
-            dataGridMain.TabIndex = 0;
-            dataGridMain.TabStop = false;
-            dataGridMain.CellDoubleClick += DataGridMain_CellDoubleClick;
-            dataGridMain.DataBindingComplete += Colorear_dataGridMain_DataBindingComplete;
-            dataGridMain.RowPostPaint += Resaltar_dataGridMain_RowPostPaint;
-            dataGridMain.SelectionChanged += Seleccion_dataGridMain_SelectionChanged;
-            dataGridMain.Sorted += Ordenar_dataGridMain_Sorted;
+            dgv_Inscripcion.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dgv_Inscripcion.ShowCellErrors = false;
+            dgv_Inscripcion.ShowCellToolTips = false;
+            dgv_Inscripcion.ShowEditingIcon = false;
+            dgv_Inscripcion.ShowRowErrors = false;
+            dgv_Inscripcion.Size = new Size(1401, 431);
+            dgv_Inscripcion.TabIndex = 0;
+            dgv_Inscripcion.TabStop = false;
+            dgv_Inscripcion.CellDoubleClick += DataGridMain_CellDoubleClick;
+            dgv_Inscripcion.DataBindingComplete += Colorear_dataGridMain_DataBindingComplete;
+            dgv_Inscripcion.RowPostPaint += Resaltar_dataGridMain_RowPostPaint;
+            dgv_Inscripcion.SelectionChanged += Seleccion_dataGridMain_SelectionChanged;
+            dgv_Inscripcion.Sorted += Ordenar_dataGridMain_Sorted;
             // 
             // menuMain
             // 
@@ -235,7 +235,7 @@ namespace rknRallySlotApp.Vistas
             // checkAbrirRally
             // 
             checkAbrirRally.Appearance = Appearance.Button;
-            checkAbrirRally.BackColor = Color.FromArgb(53, 53, 53);
+            checkAbrirRally.BackColor = Color.FromArgb(60, 60, 65);
             checkAbrirRally.CheckAlign = ContentAlignment.MiddleCenter;
             checkAbrirRally.Cursor = Cursors.Hand;
             checkAbrirRally.Enabled = false;
@@ -267,7 +267,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevaInscripcion
             // 
-            botonNuevaInscripcion.BackColor = Color.FromArgb(53, 53, 53);
+            botonNuevaInscripcion.BackColor = Color.FromArgb(60, 60, 65);
             botonNuevaInscripcion.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevaInscripcion.Cursor = Cursors.Hand;
             botonNuevaInscripcion.Enabled = false;
@@ -317,7 +317,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonBorraCategoria
             // 
-            botonBorraCategoria.BackColor = Color.FromArgb(53, 53, 53);
+            botonBorraCategoria.BackColor = Color.FromArgb(60, 60, 65);
             botonBorraCategoria.BackgroundImageLayout = ImageLayout.Zoom;
             botonBorraCategoria.Cursor = Cursors.Hand;
             botonBorraCategoria.Enabled = false;
@@ -344,7 +344,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonEditaCategoria
             // 
-            botonEditaCategoria.BackColor = Color.FromArgb(53, 53, 53);
+            botonEditaCategoria.BackColor = Color.FromArgb(60, 60, 65);
             botonEditaCategoria.BackgroundImageLayout = ImageLayout.None;
             botonEditaCategoria.Cursor = Cursors.Hand;
             botonEditaCategoria.Enabled = false;
@@ -376,7 +376,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevaCategoria
             // 
-            botonNuevaCategoria.BackColor = Color.FromArgb(53, 53, 53);
+            botonNuevaCategoria.BackColor = Color.FromArgb(60, 60, 65);
             botonNuevaCategoria.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevaCategoria.Cursor = Cursors.Hand;
             botonNuevaCategoria.Enabled = false;
@@ -488,7 +488,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonBorraCoche
             // 
-            botonBorraCoche.BackColor = Color.FromArgb(53, 53, 53);
+            botonBorraCoche.BackColor = Color.FromArgb(60, 60, 65);
             botonBorraCoche.BackgroundImageLayout = ImageLayout.Zoom;
             botonBorraCoche.Cursor = Cursors.Hand;
             botonBorraCoche.Enabled = false;
@@ -504,7 +504,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonBorraPiloto
             // 
-            botonBorraPiloto.BackColor = Color.FromArgb(53, 53, 53);
+            botonBorraPiloto.BackColor = Color.FromArgb(60, 60, 65);
             botonBorraPiloto.BackgroundImageLayout = ImageLayout.Zoom;
             botonBorraPiloto.Cursor = Cursors.Hand;
             botonBorraPiloto.Enabled = false;
@@ -520,7 +520,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonEditaCoche
             // 
-            botonEditaCoche.BackColor = Color.FromArgb(53, 53, 53);
+            botonEditaCoche.BackColor = Color.FromArgb(60, 60, 65);
             botonEditaCoche.BackgroundImageLayout = ImageLayout.Zoom;
             botonEditaCoche.Cursor = Cursors.Hand;
             botonEditaCoche.Enabled = false;
@@ -536,7 +536,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonEditaPiloto
             // 
-            botonEditaPiloto.BackColor = Color.FromArgb(53, 53, 53);
+            botonEditaPiloto.BackColor = Color.FromArgb(60, 60, 65);
             botonEditaPiloto.BackgroundImageLayout = ImageLayout.None;
             botonEditaPiloto.Cursor = Cursors.Hand;
             botonEditaPiloto.Enabled = false;
@@ -552,7 +552,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevoCoche
             // 
-            botonNuevoCoche.BackColor = Color.FromArgb(53, 53, 53);
+            botonNuevoCoche.BackColor = Color.FromArgb(60, 60, 65);
             botonNuevoCoche.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevoCoche.Cursor = Cursors.Hand;
             botonNuevoCoche.Enabled = false;
@@ -568,7 +568,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevoPiloto
             // 
-            botonNuevoPiloto.BackColor = Color.FromArgb(53, 53, 53);
+            botonNuevoPiloto.BackColor = Color.FromArgb(60, 60, 65);
             botonNuevoPiloto.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevoPiloto.Cursor = Cursors.Hand;
             botonNuevoPiloto.Enabled = false;
@@ -784,7 +784,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonBorraPrueba
             // 
-            botonBorraPrueba.BackColor = Color.FromArgb(53, 53, 53);
+            botonBorraPrueba.BackColor = Color.FromArgb(60, 60, 65);
             botonBorraPrueba.BackgroundImageLayout = ImageLayout.Zoom;
             botonBorraPrueba.Cursor = Cursors.Hand;
             botonBorraPrueba.Enabled = false;
@@ -800,7 +800,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonBorraCampeonato
             // 
-            botonBorraCampeonato.BackColor = Color.FromArgb(53, 53, 53);
+            botonBorraCampeonato.BackColor = Color.FromArgb(60, 60, 65);
             botonBorraCampeonato.BackgroundImageLayout = ImageLayout.Zoom;
             botonBorraCampeonato.Cursor = Cursors.Hand;
             botonBorraCampeonato.Enabled = false;
@@ -816,7 +816,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonEditaPrueba
             // 
-            botonEditaPrueba.BackColor = Color.FromArgb(53, 53, 53);
+            botonEditaPrueba.BackColor = Color.FromArgb(60, 60, 65);
             botonEditaPrueba.BackgroundImageLayout = ImageLayout.Zoom;
             botonEditaPrueba.Cursor = Cursors.Hand;
             botonEditaPrueba.Enabled = false;
@@ -832,7 +832,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonEditaCampeonato
             // 
-            botonEditaCampeonato.BackColor = Color.FromArgb(53, 53, 53);
+            botonEditaCampeonato.BackColor = Color.FromArgb(60, 60, 65);
             botonEditaCampeonato.BackgroundImageLayout = ImageLayout.None;
             botonEditaCampeonato.Cursor = Cursors.Hand;
             botonEditaCampeonato.Enabled = false;
@@ -848,7 +848,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevaPrueba
             // 
-            botonNuevaPrueba.BackColor = Color.FromArgb(53, 53, 53);
+            botonNuevaPrueba.BackColor = Color.FromArgb(60, 60, 65);
             botonNuevaPrueba.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevaPrueba.Cursor = Cursors.Hand;
             botonNuevaPrueba.Enabled = false;
@@ -864,7 +864,7 @@ namespace rknRallySlotApp.Vistas
             // 
             // botonNuevoCampeonato
             // 
-            botonNuevoCampeonato.BackColor = Color.FromArgb(53, 53, 53);
+            botonNuevoCampeonato.BackColor = Color.FromArgb(60, 60, 65);
             botonNuevoCampeonato.BackgroundImageLayout = ImageLayout.Zoom;
             botonNuevoCampeonato.Cursor = Cursors.Hand;
             botonNuevoCampeonato.Enabled = false;
@@ -971,7 +971,7 @@ namespace rknRallySlotApp.Vistas
             BackColor = Color.FromArgb(28, 28, 28);
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(1401, 728);
-            Controls.Add(dataGridMain);
+            Controls.Add(dgv_Inscripcion);
             Controls.Add(panel1);
             Controls.Add(menuMain);
             Controls.Add(statusStripMain);
@@ -981,7 +981,7 @@ namespace rknRallySlotApp.Vistas
             Name = "FormMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "rkN RallySlot";
-            ((System.ComponentModel.ISupportInitialize)dataGridMain).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv_Inscripcion).EndInit();
             menuMain.ResumeLayout(false);
             menuMain.PerformLayout();
             statusStripMain.ResumeLayout(false);
@@ -1003,7 +1003,7 @@ namespace rknRallySlotApp.Vistas
         }
 
         #endregion
-        private DataGridView dataGridMain;
+        private DataGridView dgv_Inscripcion;
         private MenuStrip menuMain;
         private ToolStripMenuItem archivoToolStripMenuItem;
         private StatusStrip statusStripMain;

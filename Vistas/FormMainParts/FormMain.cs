@@ -11,14 +11,13 @@ namespace rknRallySlotApp.Vistas;
 public partial class FormMain : Form
 {
 
-    #region Miembros Privados, Publicos y Constructor
     //-------------------------------------------------------------------------
     // DECLARACIONES A NIVEL DE CLASE (Ámbito global dentro del formulario)
     private readonly ToolTip toolTip = new();
-
-    private readonly ContextMenuStrip ctxMenu_dataGridMain_Inscripcion = new();
-    private readonly ToolStripMenuItem opcion_ctxMenu_BorrarInscripcion = new("Borrar esta Inscripción");
-    private readonly ToolStripMenuItem opcion_ctxMenu_Penalizar = new("Penalizar este Piloto");
+  
+    private readonly ContextMenuStrip menuCtx_dgv_Inscripcion = new();
+    private readonly ToolStripMenuItem opcion_BorrarInscripcion = new("Borrar esta Inscripción");
+    private readonly ToolStripMenuItem opcion_Penalizar = new("Penalizar este Piloto");
 
     public int? IdCampeonatoSeleccionado { get; private set; } = null;    // ID del campeonato seleccionado (null con selección vacía)
     public int? IdPruebaSeleccionada { get; private set; } = null;        // ID de la prueba seleccionada (null con selección vacía)
@@ -38,260 +37,26 @@ public partial class FormMain : Form
         ToolTips_Init();
         MenuAndStatus_Init();
         ContextMenu_Init();
-        DataGridMain_Init();
+        Dgv_Inscripcion_Init();
 
         // ==========================================
         // inicializamos los ComboBox
         _ = ComboCampeonatos_Init();
         _ = ComboPruebas_Init();
-        ComboPilotos_Init();
-        ComboCoches_Init();
-        ComboCategorias_Init();
+        _ = ComboPilotos_Init();
+        _ = ComboCoches_Init();
+        _ = ComboCategorias_Init();
     }
 
+    //-------------------------------------------------------------------------
+    // Evento Cierre del formulario principal
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
-        _ctsMensaje?.Dispose();
-        base.OnFormClosing(e);
+        _ctsMensaje?.Dispose();     // Liberar recursos del CancellationTokenSource si se está utilizando
+        base.OnFormClosing(e);      // Llamar al método base para asegurar el comportamiento predeterminado del cierre del formulario
     }
     //-------------------------------------------------------------------------
-    #endregion
 
-    #region Rellenar y Limpiar TextBox
-    //-------------------------------------------------------------------------
-    private void Rellena_DatosCampeonato()
-    {
-        using var db = new AppDbContext();
-
-        var puntos = db.Campeonatos
-                     .Where(c => c.Id == IdCampeonatoSeleccionado)
-                     .Select(c => c.SistemaPuntuacion)
-                     .FirstOrDefault();
-
-        tboxPuntuaciones.Text = string.IsNullOrEmpty(puntos) ? "NO definido" : puntos;
-    }
-
-    private void Rellena_DatosPrueba()
-    {
-        using var db = new AppDbContext();
-
-        var prueba = db.Pruebas
-                            .Where(p => p.Id == IdPruebaSeleccionada)
-                            .Select(p => new
-                            {
-                                p.NumEtapas,
-                                p.TramosPorEtapa,
-                                p.TiempoMaximo,
-                                p.PowerStage
-                            })
-                            .FirstOrDefault();
-
-        if (prueba != null)
-        {
-            tboxEtapas.Text = prueba.NumEtapas.ToString() ?? "NO def.";
-            tboxTramos.Text = prueba.TramosPorEtapa.ToString() ?? "NO def.";
-            tboxTmax.Text = prueba.TiempoMaximo.ToString() ?? "NO def.";
-            tboxPwrStg.Text = prueba.PowerStage ?? string.Empty;
-        }
-        else
-        {
-            Limpia_DatosPrueba();
-        }
-    }
-
-    private void Rellena_DatosPiloto()
-    {
-        using var db = new AppDbContext();
-
-        var piloto = db.Pilotos
-                            .Where(p => p.Id == IdPilotoSeleccionado)
-                            .Select(p => new
-                            {
-                                p.Alias,
-                                p.Escuderia,
-                            })
-                            .FirstOrDefault();
-
-        if (piloto != null)
-        {
-            tboxAlias.Text = piloto.Alias ?? String.Empty;
-            tboxEscuderia.Text = piloto.Escuderia ?? String.Empty;
-        }
-        else
-        {
-            Limpia_DatosPiloto();
-        }
-    }
-
-    private void Rellena_DatosCoche()
-    {
-        using var db = new AppDbContext();
-
-        var marca = db.Coches
-                    .Where(c => c.Id == IdCocheSeleccionado)
-                    .Select(c => c.Marca)
-                    .FirstOrDefault();
-
-        tboxMarca.Text = marca ?? String.Empty;
-    }
-
-    private void Colorear_Categoria()
-    {
-        using var db = new AppDbContext();
-
-        var colorFondo = db.Categorias
-                        .Where(c => c.Id == IdCategoriaSeleccionada)
-                        .Select(c => c.ColorHex)
-                        .FirstOrDefault();
-
-        comboCategorias.BackColor = ColorTranslator.FromHtml(colorFondo ?? "#FFFFFF");
-        comboCategorias.ForeColor = ColorTools.GetBestContrast(comboCategorias.BackColor);
-    }
-
-    private void Limpia_DatosCampeonato()
-    {
-        tboxPuntuaciones.Clear();
-    }
-
-    private void Limpia_DatosPrueba()
-    {
-        tboxEtapas.Clear();
-        tboxTramos.Clear();
-        tboxTmax.Clear();
-        tboxPwrStg.Clear();
-    }
-
-    private void Limpia_DatosPiloto()
-    {
-        tboxAlias.Clear();
-        tboxEscuderia.Clear();
-    }
-
-    private void Limpia_DatosCoche()
-    {
-        tboxMarca.Clear();
-    }
-
-    private void Limpiar_Color_Categoria()
-    {
-        comboCategorias.BackColor = SystemColors.Window;
-        comboCategorias.ForeColor = SystemColors.WindowText;
-    }
-    //-------------------------------------------------------------------------
-    #endregion
-
-    #region Enable/Disable Controles
-    //-------------------------------------------------------------------------
-    private void Controles_EnableAndDisable()
-    {
-        // Evaluamos el estado de cada ComboBox
-        bool hayCampeonato = comboCampeonatos.SelectedValue is int idCto && idCto > 0;
-        bool hayPrueba = comboPruebas.SelectedValue is int idPrueba && idPrueba > 0;
-        bool hayPiloto = comboPilotos.SelectedValue is int idPiloto && idPiloto > 0;
-        bool hayCoche = comboCoches.SelectedValue is int idCoche && idCoche > 0;
-        bool hayCategoria = comboCategorias.SelectedValue is int idCategoria && idCategoria > 0;
-        bool hayDatosDeInscripcion = dataGridMain.RowCount > 0;
-
-        // limpiar textbox de datos si no hay selección válida
-        if (!hayCampeonato)
-        {
-            comboCampeonatos.SelectedIndex = -1;
-            Limpia_DatosCampeonato();
-        }
-        if (!hayPrueba)
-        {
-            comboPruebas.SelectedIndex = -1;
-            Limpia_DatosPrueba();
-        }
-        if (!hayPiloto)
-        {
-            comboPilotos.SelectedIndex = -1;
-            Limpia_DatosPiloto();
-        }
-        if (!hayCoche)
-        {
-            comboCoches.SelectedIndex = -1;
-            Limpia_DatosCoche();
-        }
-        if (!hayCategoria)
-        {
-            comboCategorias.SelectedIndex = -1;
-            Limpiar_Color_Categoria();
-        }
-
-        // Estados comboBox
-        comboCampeonatos.Enabled = true;            // Siempre habilitado
-        comboPruebas.Enabled = hayCampeonato;       // Habilitado solo si hay campeonato seleccionado
-        comboPilotos.Enabled = true;                // Siempre habilitado
-        comboCoches.Enabled = true;                 // Siempre habilitado
-        comboCategorias.Enabled = true;             // Siempre habilitado
-
-        // Asignamos los estados a los botones
-        // Campeonato
-        botonNuevoCampeonato.Enabled = true;
-        botonEditaCampeonato.Enabled = hayCampeonato;
-        botonBorraCampeonato.Enabled = hayCampeonato;
-
-        // Prueba (Nueva Prueba depende de Campeonato, Edición y Borrado dependen de Prueba)
-        botonNuevaPrueba.Enabled = hayCampeonato;
-        botonEditaPrueba.Enabled = hayPrueba;
-        botonBorraPrueba.Enabled = hayPrueba;
-
-        // Piloto
-        botonNuevoPiloto.Enabled = true;
-        botonEditaPiloto.Enabled = hayPiloto;
-        botonBorraPiloto.Enabled = hayPiloto;
-
-        // Coche
-        botonNuevoCoche.Enabled = true;
-        botonEditaCoche.Enabled = hayCoche;
-        botonBorraCoche.Enabled = hayCoche;
-
-        // Categoría
-        botonNuevaCategoria.Enabled = true;
-        botonEditaCategoria.Enabled = hayCategoria;
-        botonBorraCategoria.Enabled = hayCategoria;
-
-        // Inscripción
-        botonNuevaInscripcion.Enabled = hayPrueba && hayPiloto && hayCoche && hayCategoria;
-        botonNuevaInscripcion.BackColor = botonNuevaInscripcion.Enabled ? Color.FromArgb(53, 53, 53) : Color.FromArgb(40, 40, 40);
-        botonNuevaInscripcion.ForeColor = botonNuevaInscripcion.Enabled ? Color.FromArgb(0, 255, 0) : Color.FromArgb(18, 18, 24);
-
-        checkVerificado.Enabled = botonNuevaInscripcion.Enabled;
-
-        if (!checkVerificado.Enabled)
-        {
-            checkVerificado.Checked = false;        // Desmarcar si DISABLED
-        }
-
-        // check Abrir Rally
-        checkAbrirRally.Enabled = hayDatosDeInscripcion;
-
-        if (checkAbrirRally.Enabled) {
-            if (checkAbrirRally.Checked)
-            {
-                checkAbrirRally.Text = "STOP Rally";
-                toolTip.SetToolTip(checkAbrirRally, "Detener Cronometraje");
-                
-                checkAbrirRally.BackColor = Color.FromArgb(53, 53, 53); // fondo gris oscuro
-                checkAbrirRally.ForeColor = Color.FromArgb(255, 0, 0);  // frente rojo
-            }
-            else
-            {
-                checkAbrirRally.Text = "Abrir Rally";
-                toolTip.SetToolTip(checkAbrirRally, "Abrir Cronometraje");
-
-                checkAbrirRally.BackColor = Color.FromArgb(53, 53, 53); // fondo gris oscuro
-                checkAbrirRally.ForeColor = Color.FromArgb(0, 255, 0);  // frente verde 
-            }
-        } else
-        {
-            checkAbrirRally.BackColor = Color.FromArgb(40, 40, 40);     // fondo gris más oscuro
-            checkAbrirRally.ForeColor = Color.FromArgb(18, 18, 24);     // frente gris más oscuro
-        }
-    }
-    //-------------------------------------------------------------------------
-    #endregion
 
     #region SelectedIndexChanged Events    
     //-------------------------------------------------------------------------
@@ -503,7 +268,7 @@ public partial class FormMain : Form
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
-            ComboPilotos_Init();                                         // Si el usuario guardó con éxito, refrescamos combo
+            _ = ComboPilotos_Init();                                         // Si el usuario guardó con éxito, refrescamos combo
             comboPilotos.SelectedValue = formAlta.IdSelected ?? -1;     // seleccionamos el nuevo piloto creado
             MostrarMensajeEstado("Piloto creado OK");
         }
@@ -529,7 +294,7 @@ public partial class FormMain : Form
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
-            ComboCoches_Init();                                          // Si el usuario guardó con éxito, refrescamos combo
+            _ = ComboCoches_Init();                                          // Si el usuario guardó con éxito, refrescamos combo
             comboCoches.SelectedValue = formAlta.IdSelected ?? -1;      // seleccionamos el nuevo coche creado
             MostrarMensajeEstado("Coche creado OK");
         }
@@ -554,7 +319,7 @@ public partial class FormMain : Form
 
         if (formAlta.ShowDialog(this) == DialogResult.OK)
         {
-            ComboCategorias_Init();                                          // Si el usuario guardó con éxito, refrescamos combo
+            _ = ComboCategorias_Init();                                          // Si el usuario guardó con éxito, refrescamos combo
             comboCategorias.SelectedValue = formAlta.IdSelected ?? -1;      // seleccionamos la nueva categoria creada
             MostrarMensajeEstado("Categoria creada OK");
         }
@@ -691,7 +456,7 @@ public partial class FormMain : Form
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
-            ComboPilotos_Init();                                             // Si el usuario guardó con éxito, refrescamos este combo
+            _ = ComboPilotos_Init();                                             // Si el usuario guardó con éxito, refrescamos este combo
             comboPilotos.SelectedValue = formEdicion.IdSelected ?? -1;      // seleccionamos el piloto editado o ninguno si es null
             MostrarMensajeEstado("Piloto modificado OK");
             DataGridMain_Init_Inscripcion();
@@ -707,7 +472,7 @@ public partial class FormMain : Form
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
-            ComboCoches_Init();                                              // Si el usuario guardó con éxito, refrescamos este combo
+            _ = ComboCoches_Init();                                              // Si el usuario guardó con éxito, refrescamos este combo
             comboCoches.SelectedValue = formEdicion.IdSelected ?? -1;       // seleccionamos el coche editado o ninguno si es null
             MostrarMensajeEstado("Coche modificado OK");
             DataGridMain_Init_Inscripcion();
@@ -723,7 +488,7 @@ public partial class FormMain : Form
 
         if (formEdicion.ShowDialog(this) == DialogResult.OK)
         {
-            ComboCategorias_Init();                                             // Si el usuario guardó con éxito, refrescamos este combo
+            _ = ComboCategorias_Init();                                             // Si el usuario guardó con éxito, refrescamos este combo
             comboCategorias.SelectedValue = formEdicion.IdSelected ?? -1;      // seleccionamos la categoria editada o ninguna si es null
             MostrarMensajeEstado("Categoria modificada OK");
             DataGridMain_Init_Inscripcion();
@@ -875,7 +640,7 @@ public partial class FormMain : Form
                     db.SaveChanges();                               // SQLite, guardar cambios 
 
                     Limpia_DatosPiloto();                           // Limpiar TextBox 
-                    ComboPilotos_Init();                             // Actualizar interfaz
+                    _ = ComboPilotos_Init();                             // Actualizar interfaz
 
                     MostrarMensajeEstado("Piloto borrado OK");
                 }
@@ -929,7 +694,7 @@ public partial class FormMain : Form
                     db.SaveChanges();                           // SQLite, guardar cambios
                                                                 // 
                     Limpia_DatosCoche();                        // Limpiar TextBox 
-                    ComboCoches_Init();                          // Actualizar interfaz
+                    _ = ComboCoches_Init();                          // Actualizar interfaz
 
                     MostrarMensajeEstado("Coche borrado OK");
                 }
@@ -982,7 +747,7 @@ public partial class FormMain : Form
                     db.Categorias.Remove(categoriaParaBorrado);     // DB, marcar para borrado
                     db.SaveChanges();                               // SQLite, guardar cambios
 
-                    ComboCategorias_Init();                          // Actualizar interfaz
+                    _ = ComboCategorias_Init();                          // Actualizar interfaz
 
                     MostrarMensajeEstado("Categoria borrada OK");
                 }
@@ -1104,12 +869,12 @@ public partial class FormMain : Form
     {
         // ==========================================
         // Suscripcion eventos DataGridMain para INSCRIPCIONES
-        dataGridMain.CellMouseUp -= DataGridMain_CellMouseUp;           // Evitamos suscripciones duplicadas
-        dataGridMain.CellMouseUp += DataGridMain_CellMouseUp;           // Suscribimos al evento para mostrar el menú contextual al hacer clic derecho
-        dataGridMain.CellDoubleClick -= DataGridMain_CellDoubleClick;   // Evitamos suscripciones duplicadas
-        dataGridMain.CellDoubleClick += DataGridMain_CellDoubleClick;   // Suscribimos al evento para manejar el doble clic 
-        dataGridMain.DataBindingComplete -= Colorear_dataGridMain_DataBindingComplete; // Evitamos suscripciones duplicadas
-        dataGridMain.DataBindingComplete += Colorear_dataGridMain_DataBindingComplete; // Suscribimos al evento para colorear filas según la categoría
+        dgv_Inscripcion.CellMouseUp -= DataGridMain_CellMouseUp;           // Evitamos suscripciones duplicadas
+        dgv_Inscripcion.CellMouseUp += DataGridMain_CellMouseUp;           // Suscribimos al evento para mostrar el menú contextual al hacer clic derecho
+        dgv_Inscripcion.CellDoubleClick -= DataGridMain_CellDoubleClick;   // Evitamos suscripciones duplicadas
+        dgv_Inscripcion.CellDoubleClick += DataGridMain_CellDoubleClick;   // Suscribimos al evento para manejar el doble clic 
+        dgv_Inscripcion.DataBindingComplete -= Colorear_dataGridMain_DataBindingComplete; // Evitamos suscripciones duplicadas
+        dgv_Inscripcion.DataBindingComplete += Colorear_dataGridMain_DataBindingComplete; // Suscribimos al evento para colorear filas según la categoría
 
         // ==========================================
         // Inicializa DataGridMain para INSCRIPCIONES
@@ -1146,41 +911,41 @@ public partial class FormMain : Form
             .ToDataTable();
 
         // Vinculamos el resultado al DataGridView
-        dataGridMain.DataSource = listaGrid;
+        dgv_Inscripcion.DataSource = listaGrid;
 
         // Ocultamos columnas NO UTILES para el usuario
-        dataGridMain.Columns["Id"]!.Visible = false;
-        dataGridMain.Columns["ColorFila"]!.Visible = false;
+        dgv_Inscripcion.Columns["Id"]!.Visible = false;
+        dgv_Inscripcion.Columns["ColorFila"]!.Visible = false;
 
         // autoajustamos el tamaño de las columnas para que se vean todos los datos
-        dataGridMain.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+        dgv_Inscripcion.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
         // ancho manual para Penalizacion_seg
-        dataGridMain.Columns["Penalizacion_seg"]!.Width = 155;
+        dgv_Inscripcion.Columns["Penalizacion_seg"]!.Width = 155;
 
         // Igualar el color de "selección" de la cabecera con su color normal
-        dataGridMain.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridMain.ColumnHeadersDefaultCellStyle.BackColor;
-        dataGridMain.ColumnHeadersDefaultCellStyle.SelectionForeColor = dataGridMain.ColumnHeadersDefaultCellStyle.ForeColor;
+        dgv_Inscripcion.ColumnHeadersDefaultCellStyle.SelectionBackColor = dgv_Inscripcion.ColumnHeadersDefaultCellStyle.BackColor;
+        dgv_Inscripcion.ColumnHeadersDefaultCellStyle.SelectionForeColor = dgv_Inscripcion.ColumnHeadersDefaultCellStyle.ForeColor;
 
         // Visualizar encabezado de fila
-        dataGridMain.RowHeadersVisible = true;
+        dgv_Inscripcion.RowHeadersVisible = true;
 
         // Define ancho encabezado de fila
-        dataGridMain.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-        dataGridMain.RowHeadersWidth = 20;
+        dgv_Inscripcion.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        dgv_Inscripcion.RowHeadersWidth = 20;
 
         // Alinear columnas 
-        dataGridMain.Columns["Dorsal"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        dataGridMain.Columns["Alias"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        dataGridMain.Columns["Penalizacion_seg"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+        dgv_Inscripcion.Columns["Dorsal"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dgv_Inscripcion.Columns["Alias"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dgv_Inscripcion.Columns["Penalizacion_seg"]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
         // Alinear encabezados columna
-        dataGridMain.Columns["Dorsal"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        dataGridMain.Columns["Alias"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        dataGridMain.Columns["Penalizacion_seg"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dgv_Inscripcion.Columns["Dorsal"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dgv_Inscripcion.Columns["Alias"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        dgv_Inscripcion.Columns["Penalizacion_seg"]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
         // Ordenamiento inicial por DORSAL Ascendente
-        dataGridMain.Sort(dataGridMain.Columns["Dorsal"]!, ListSortDirection.Ascending);
+        dgv_Inscripcion.Sort(dgv_Inscripcion.Columns["Dorsal"]!, ListSortDirection.Ascending);
 
         // Revisar habilitacion controles 
         Controles_EnableAndDisable();
@@ -1189,7 +954,7 @@ public partial class FormMain : Form
     private void Colorear_dataGridMain_DataBindingComplete(object? sender, DataGridViewBindingCompleteEventArgs e)
     {
         // Iteramos por todas las filas creadas en el DataGrid
-        foreach (DataGridViewRow fila in dataGridMain.Rows)
+        foreach (DataGridViewRow fila in dgv_Inscripcion.Rows)
         {
             // Evitamos la fila de "nuevo registro" si está habilitada
             if (fila.IsNewRow) continue;
@@ -1217,29 +982,29 @@ public partial class FormMain : Form
                 }
             }
         }
-        dataGridMain.ClearSelection();   // Limpiamos selección por defecto 
+        dgv_Inscripcion.ClearSelection();   // Limpiamos selección por defecto 
     }
 
     private void Ordenar_dataGridMain_Sorted(object sender, EventArgs e)
     {
         // Elimina la selección automática impuesta al terminar de ordenar por columna
-        dataGridMain.CurrentCell = null; // Esto desactiva el foco y oculta el glifo del RowHeader
-        dataGridMain.ClearSelection();
+        dgv_Inscripcion.CurrentCell = null; // Esto desactiva el foco y oculta el glifo del RowHeader
+        dgv_Inscripcion.ClearSelection();
     }
 
     private void Resaltar_dataGridMain_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
     {
         // Verificamos si la fila actual está seleccionada
-        if (dataGridMain.Rows[e.RowIndex].Selected)
+        if (dgv_Inscripcion.Rows[e.RowIndex].Selected)
         {
             // Obtenemos el rectángulo de visualización de la fila completa 
             // (Este método de WinForms gestiona automáticamente el scroll horizontal y las columnas visibles)
-            Rectangle rowRect = dataGridMain.GetRowDisplayRectangle(e.RowIndex, true);
+            Rectangle rowRect = dgv_Inscripcion.GetRowDisplayRectangle(e.RowIndex, true);
 
             if (rowRect.Width > 0 && rowRect.Height > 0)
             {
                 // 1. Obtenemos el ancho total real que suman todas las columnas visibles juntas
-                int anchoColumnasVisibles = dataGridMain.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
+                int anchoColumnasVisibles = dgv_Inscripcion.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
 
                 // 2. Acotamos el ancho para que el rectángulo rojo mida exactamente 
                 // lo que ocupan las columnas (la fracción de la ventana), sin desbordarse al espacio vacío.
@@ -1258,21 +1023,21 @@ public partial class FormMain : Form
     {
         // Forzamos el redibujado completo del grid en cada cambio de selección.
         // Esto borra inmediatamente el borde rojo de la fila anterior y dibuja solo el nuevo.
-        dataGridMain.Invalidate();
+        dgv_Inscripcion.Invalidate();
     }
 
     // ==========================================
     // BORRAR INSCRIPCION
     // Evento Click opción menu contexto "Borrar esta Inscripción"
-    private async void Opcion_ctxMenu_BorrarInscripcion_Click(object? sender, EventArgs e)
+    private async void Opcion_BorrarInscripcion_Click(object? sender, EventArgs e)
     {
         // Validar que hay una y sólo una fila seleccionada 
-        if (dataGridMain.SelectedRows.Count != 1) return;
+        if (dgv_Inscripcion.SelectedRows.Count != 1) return;
 
         // Extraer el Id de la fila seleccionada
-        int idInscripcionSelected = Convert.ToInt32(dataGridMain.SelectedRows[0].Cells["Id"].Value);
-        string dorsalSelected = dataGridMain.SelectedRows[0].Cells["Dorsal"].Value?.ToString() ?? "N/A";
-        string pilotoSelected = dataGridMain.SelectedRows[0].Cells["Piloto"].Value?.ToString() ?? "Desconocido";
+        int idInscripcionSelected = Convert.ToInt32(dgv_Inscripcion.SelectedRows[0].Cells["Id"].Value);
+        string dorsalSelected = dgv_Inscripcion.SelectedRows[0].Cells["Dorsal"].Value?.ToString() ?? "N/A";
+        string pilotoSelected = dgv_Inscripcion.SelectedRows[0].Cells["Piloto"].Value?.ToString() ?? "Desconocido";
 
         // Trabajar de forma asíncrona con el DbContext
         using var db = new AppDbContext();
@@ -1338,25 +1103,25 @@ public partial class FormMain : Form
     // ==========================================
     // PENALIZAR PILOTO (menu contexto)
     // Evento Click para la opción del menú contextual "Penalizar este Piloto"
-    private void Opcion_ctxMenu_Penalizar_Click(object? sender, EventArgs e)
+    private void Opcion_Penalizar_Click(object? sender, EventArgs e)
     {
         // 1. Asegurarnos de que el dataGridView tiene una fila seleccionada actualmente
-        if (dataGridMain.SelectedRows.Count != 1)
+        if (dgv_Inscripcion.SelectedRows.Count != 1)
             return;
 
         // 2. Obtener la fila actual (usando la celda actual o la fila seleccionada)
-        int fila = dataGridMain.SelectedRows[0].Index;
-        int colu = dataGridMain.Columns["Penalizacion_seg"]?.Index ?? -1;
+        int fila = dgv_Inscripcion.SelectedRows[0].Index;
+        int colu = dgv_Inscripcion.Columns["Penalizacion_seg"]?.Index ?? -1;
 
         // Validar que los índices sean correctos
         if (fila < 0 || colu < 0)
             return;
 
         // 3. Obtener el ID de la inscripción de la fila seleccionada (igual que en el doble clic)
-        int idInscripcionActual = Convert.ToInt32(dataGridMain.Rows[fila].Cells["Id"].Value);
+        int idInscripcionActual = Convert.ToInt32(dgv_Inscripcion.Rows[fila].Cells["Id"].Value);
 
         // 4. Llamar al mismo método que ya usas para la edición flotante
-        Tto_Penalizacion(dataGridMain, fila, colu, idInscripcionActual);
+        Tto_Penalizacion(dgv_Inscripcion, fila, colu, idInscripcionActual);
     }
 
     // ==========================================
@@ -1367,11 +1132,11 @@ public partial class FormMain : Form
         if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
         {
             // Limpiar selecciones previas y seleccionar la fila actual bajo el ratón
-            dataGridMain.ClearSelection();
-            dataGridMain.Rows[e.RowIndex].Selected = true;
+            dgv_Inscripcion.ClearSelection();
+            dgv_Inscripcion.Rows[e.RowIndex].Selected = true;
 
             // Mostrar el menú contextual exactamente en la posición actual del cursor en la pantalla
-            ctxMenu_dataGridMain_Inscripcion.Show(Cursor.Position);
+            menuCtx_dgv_Inscripcion.Show(Cursor.Position);
         }
     }
 
@@ -1618,8 +1383,8 @@ public partial class FormMain : Form
         // ==========================================
         // Suscripción eventos DataGridMain para CRONOS 
         // ==========================================
-        dataGridMain.CellMouseUp -= DataGridMain_CellMouseUp;               // deshabilitar menú contextual
-        dataGridMain.CellDoubleClick -= DataGridMain_CellDoubleClick;       // deshabilitar doble clic
+        dgv_Inscripcion.CellMouseUp -= DataGridMain_CellMouseUp;               // deshabilitar menú contextual
+        dgv_Inscripcion.CellDoubleClick -= DataGridMain_CellDoubleClick;       // deshabilitar doble clic
 
         int idPruebaActual = IdPruebaSeleccionada ?? 0;
 
@@ -1767,37 +1532,37 @@ public partial class FormMain : Form
         // ==========================================
         // Renderizado visual en DataGridView
         // ==========================================
-        dataGridMain.DataSource = dt;
+        dgv_Inscripcion.DataSource = dt;
 
         // Ocultar la columna del color
-        if (dataGridMain.Columns.Contains("ColorFila"))
+        if (dgv_Inscripcion.Columns.Contains("ColorFila"))
         {
-            dataGridMain.Columns["ColorFila"]?.Visible = false;
+            dgv_Inscripcion.Columns["ColorFila"]?.Visible = false;
         }
 
         // Ajuste de anchos y visuales
-        dataGridMain.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+        dgv_Inscripcion.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
         // Ajustes visuales de cabeceras de columnas y filas
-        dataGridMain.ColumnHeadersDefaultCellStyle.SelectionBackColor = dataGridMain.ColumnHeadersDefaultCellStyle.BackColor;
-        dataGridMain.ColumnHeadersDefaultCellStyle.SelectionForeColor = dataGridMain.ColumnHeadersDefaultCellStyle.ForeColor;
-        dataGridMain.RowHeadersVisible = true;
-        dataGridMain.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-        dataGridMain.RowHeadersWidth = 20;
+        dgv_Inscripcion.ColumnHeadersDefaultCellStyle.SelectionBackColor = dgv_Inscripcion.ColumnHeadersDefaultCellStyle.BackColor;
+        dgv_Inscripcion.ColumnHeadersDefaultCellStyle.SelectionForeColor = dgv_Inscripcion.ColumnHeadersDefaultCellStyle.ForeColor;
+        dgv_Inscripcion.RowHeadersVisible = true;
+        dgv_Inscripcion.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        dgv_Inscripcion.RowHeadersWidth = 20;
 
         // Alineaciones para columnas estáticas (centro)
         string[] columnasCentradas = ["Pos", "Dor", "Alias", "Cat"];
         foreach (var colName in columnasCentradas)
         {
-            if (dataGridMain.Columns[colName] != null)
+            if (dgv_Inscripcion.Columns[colName] != null)
             {
-                dataGridMain.Columns[colName]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dataGridMain.Columns[colName]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgv_Inscripcion.Columns[colName]!.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgv_Inscripcion.Columns[colName]!.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
         }
 
         // Alineaciones para columnas de tiempos (derecha)
-        foreach (DataGridViewColumn col in dataGridMain.Columns)
+        foreach (DataGridViewColumn col in dgv_Inscripcion.Columns)
         {
             if (col.Name.Contains('E') || col.Name.Contains("Total") || col.Name.Contains("Dif."))
             {
